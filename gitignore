@@ -1,0 +1,18 @@
+# Visual Studio 관련 파일 제외
+.vs/
+*.suo
+*.user
+*.cache
+
+# 빌드 파일 제외
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# 사용자 설정 파일 제외
+*.csproj.user
+
+# 패키지 관련 (NuGet)
+packages/
