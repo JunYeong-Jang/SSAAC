@@ -27,14 +27,22 @@ namespace Project_SSAAC // 네임스페이스 확인!
         public Form1()
         {
             InitializeComponent();
+            LoadControl(new HomeControl(this));
             this.DoubleBuffered = true; // 필수
             InitializeGame();
             InitializeTimer();
         }
 
+        public void LoadControl(UserControl control)
+        {
+            panelMain.Controls.Clear();
+            control.Dock = DockStyle.Fill;
+            panelMain.Controls.Add(control);
+        }
+
         private void InitializeGame()
         {
-            this.ClientSize = new Size(800, 600);
+            //this.ClientSize = new Size(800, 600);
             this.Text = "Project SSAAC"; // 폼 제목 변경
 
             player = new Player(new PointF(this.ClientSize.Width / 2f - 16f, this.ClientSize.Height / 2f - 16f));
@@ -219,6 +227,11 @@ namespace Project_SSAAC // 네임스페이스 확인!
             float length = (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
             if (length > 0) return new PointF((vec.X / length) * magnitude, (vec.Y / length) * magnitude);
             return PointF.Empty;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
