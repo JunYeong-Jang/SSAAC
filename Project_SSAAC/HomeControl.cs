@@ -26,7 +26,8 @@ namespace Project_SSAAC
 
         private void btnCm_Click(object sender, EventArgs e)
         {
-            _main.LoadControl(new Control_CharacterCustom(_main));
+            _main.LoadControl(new CustomizingControl(_main));
+            //_main.LoadControl(new Control_CharacterCustom(_main));
         }
 
         private void btnExit_Click(object sender, EventArgs e)
