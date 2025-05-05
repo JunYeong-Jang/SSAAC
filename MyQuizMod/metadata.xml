@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <name>MyQuizMod</name>
+  <description>퀴즈 방 &amp; 좀비 회피 방 모드</description>
+  <version>1.0</version>
+  <author>익명</author>
+
+  <!-- 폴더 이름과 정확히 일치 -->
+  <directory>MyQuizMod</directory>
+  <id>1000000001</id>
+
+  <!-- main.lua만 읽도록 지정 -->
+  <script>main.lua</script>
+
+  <!-- 더 이상 StageAPI 의존성으로 안만듬 -->
+  <dependencies/>
+</metadata>
