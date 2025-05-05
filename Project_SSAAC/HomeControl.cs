@@ -20,6 +20,7 @@ namespace Project_SSAAC
             InitializeComponent();
             _main = main;
             this.Resize += resize_Controls;
+            resize_Controls(null, null);
             
            
         }
