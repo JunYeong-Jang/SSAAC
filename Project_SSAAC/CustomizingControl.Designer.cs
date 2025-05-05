@@ -33,9 +33,9 @@
             // 
             // btnBackToHome
             // 
-            this.btnBackToHome.Location = new System.Drawing.Point(3, 537);
+            this.btnBackToHome.Location = new System.Drawing.Point(3, 560);
             this.btnBackToHome.Name = "btnBackToHome";
-            this.btnBackToHome.Size = new System.Drawing.Size(140, 60);
+            this.btnBackToHome.Size = new System.Drawing.Size(140, 37);
             this.btnBackToHome.TabIndex = 0;
             this.btnBackToHome.Text = "홈으로 돌아가기";
             this.btnBackToHome.UseVisualStyleBackColor = true;
