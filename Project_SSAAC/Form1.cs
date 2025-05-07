@@ -35,6 +35,7 @@ namespace Project_SSAAC // 네임스페이스 확인!
 
         public void LoadControl(UserControl control)
         {
+            //  유저 컨트롤을 로드함
             panelMain.Controls.Clear();
             control.Dock = DockStyle.Fill;
             panelMain.Controls.Add(control);

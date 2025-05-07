@@ -27,23 +27,29 @@ namespace Project_SSAAC
 
         private void btnCm_Click(object sender, EventArgs e)
         {
+            //  커스터마이징 버튼 클릭시
+
             _main.LoadControl(new CustomizingControl(_main));
             //_main.LoadControl(new Control_CharacterCustom(_main));
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
+            //  창 종료
+
             _main.Close();
         }
 
         private void resize_Controls(object sender, EventArgs e)
         {
+            //  창 리사이즈시 마다 버튼 컨트롤도 같이 리사이징
+
             int pw = pictureBox1.ClientSize.Width;
             int ph = pictureBox1.ClientSize.Height;
 
-            int btnWidth = (int)(pw * 0.3);
-            int btnHeight = (int)(ph * 0.1);
-            int spacing = (int)(ph * 0.02);
+            int btnWidth = (int)(pw * 0.293);     // 300 / 1024
+            int btnHeight = (int)(ph * 0.104);    // 60 / 576
+            int spacing = (int)(ph * 0.02);       // 약 11.5~20px (기존 유지)
 
             int totalHeight = btnHeight * 3 + spacing * 2;
             int startY = (ph - totalHeight) / 2 + (int)(ph * 0.1);

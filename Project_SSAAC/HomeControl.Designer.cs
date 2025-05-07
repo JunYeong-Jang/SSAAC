@@ -37,18 +37,18 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(280, 281);
+            this.btnStart.Location = new System.Drawing.Point(364, 262);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(240, 60);
+            this.btnStart.Size = new System.Drawing.Size(300, 60);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "게임 시작";
             this.btnStart.UseVisualStyleBackColor = true;
             // 
             // btnCm
             // 
-            this.btnCm.Location = new System.Drawing.Point(280, 360);
+            this.btnCm.Location = new System.Drawing.Point(364, 350);
             this.btnCm.Name = "btnCm";
-            this.btnCm.Size = new System.Drawing.Size(240, 60);
+            this.btnCm.Size = new System.Drawing.Size(300, 60);
             this.btnCm.TabIndex = 1;
             this.btnCm.Text = "커스터마이징";
             this.btnCm.UseVisualStyleBackColor = true;
@@ -56,9 +56,9 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(280, 437);
+            this.btnExit.Location = new System.Drawing.Point(364, 435);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(240, 60);
+            this.btnExit.Size = new System.Drawing.Size(300, 60);
             this.btnExit.TabIndex = 2;
             this.btnExit.Text = "게임 종료";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -70,7 +70,7 @@
             this.pictureBox1.Image = global::Project_SSAAC.Properties.Resources.resized_image_800x600;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(800, 600);
+            this.pictureBox1.Size = new System.Drawing.Size(1024, 576);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
@@ -84,7 +84,7 @@
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.pictureBox1);
             this.Name = "HomeControl";
-            this.Size = new System.Drawing.Size(800, 600);
+            this.Size = new System.Drawing.Size(1024, 576);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 

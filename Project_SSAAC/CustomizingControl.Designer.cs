@@ -33,7 +33,7 @@
             // 
             // btnBackToHome
             // 
-            this.btnBackToHome.Location = new System.Drawing.Point(3, 560);
+            this.btnBackToHome.Location = new System.Drawing.Point(3, 536);
             this.btnBackToHome.Name = "btnBackToHome";
             this.btnBackToHome.Size = new System.Drawing.Size(140, 37);
             this.btnBackToHome.TabIndex = 0;
@@ -47,7 +47,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnBackToHome);
             this.Name = "CustomizingControl";
-            this.Size = new System.Drawing.Size(800, 600);
+            this.Size = new System.Drawing.Size(1024, 576);
             this.ResumeLayout(false);
 
         }
