@@ -63,9 +63,69 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap background_customizing {
+            get {
+                object obj = ResourceManager.GetObject("background_customizing", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap c8fedd8f_7ccd_48ff_90a0_cb2caecfa635 {
             get {
                 object obj = ResourceManager.GetObject("c8fedd8f-7ccd-48ff-90a0-cb2caecfa635", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap panel_menu {
+            get {
+                object obj = ResourceManager.GetObject("panel_menu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap playerBlue {
+            get {
+                object obj = ResourceManager.GetObject("playerBlue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap playerGreen {
+            get {
+                object obj = ResourceManager.GetObject("playerGreen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap playerMasked {
+            get {
+                object obj = ResourceManager.GetObject("playerMasked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap playerPink {
+            get {
+                object obj = ResourceManager.GetObject("playerPink", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
