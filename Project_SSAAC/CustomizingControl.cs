@@ -37,14 +37,17 @@ namespace Project_SSAAC
             _main.LoadControl(new HomeControl(_main));
         }
 
-        public Player customizedPlayer { get; private set; } = new Player();
+        // 요청
+        public Player customizedPlayer { get; private set; } = new Player(new PointF(10,10)); // (PointF(10,10))임시 생성 --> Player() 기본생성자 필요
         private List<string> appearanceOptions = new List<string> { "blue", "green", "mask", "pink" };
         private int currentAppearanceIndex = 0;
         private void UpdateCharacterImage()
         {
             string appearance = appearanceOptions[currentAppearanceIndex];
             
-            customizedPlayer.SelectedAppearance = appearance;
+            // 요청
+            // Player 클래스에 유저가 선택한 외형을 저장할 public string 타입의 SelectedAppearance 변수 필요
+            // customizedPlayer.SelectedAppearance = appearance;
 
 
             switch (appearance)
