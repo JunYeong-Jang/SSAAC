@@ -115,11 +115,13 @@
             this.Controls.Add(this.btnBackToHome);
             this.Name = "CustomizingControl";
             this.Size = new System.Drawing.Size(1024, 576);
+
             this.Load += new System.EventHandler(this.CustomizingControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBoxCharacter)).EndInit();
             this.panel_menu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+
             this.ResumeLayout(false);
 
         }

@@ -14,6 +14,8 @@ namespace Project_SSAAC
 {
     public partial class CustomizingControl : UserControl
     {
+        //  테스트용 
+
         private Form1 _main;
 
         public CustomizingControl(Form1 main)
