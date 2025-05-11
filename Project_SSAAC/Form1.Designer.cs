@@ -47,7 +47,10 @@
             this.Controls.Add(this.panelMain);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.ResumeLayout(false);
+
+            this.ResumeLayout(false); // from character // 문제 있을 시 확인 // 이 파일을 건든적은 없지만 생겨났음
+
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
 
         }
 
