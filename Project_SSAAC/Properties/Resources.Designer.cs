@@ -73,9 +73,59 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap button_grey_next_focused {
+            get {
+                object obj = ResourceManager.GetObject("button_grey_next_focused", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap button_grey_next_idle {
+            get {
+                object obj = ResourceManager.GetObject("button_grey_next_idle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap button_grey_prev_focused {
+            get {
+                object obj = ResourceManager.GetObject("button_grey_prev_focused", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap button_grey_prev_idle {
+            get {
+                object obj = ResourceManager.GetObject("button_grey_prev_idle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap c8fedd8f_7ccd_48ff_90a0_cb2caecfa635 {
             get {
                 object obj = ResourceManager.GetObject("c8fedd8f-7ccd-48ff-90a0-cb2caecfa635", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap frame_grey {
+            get {
+                object obj = ResourceManager.GetObject("frame_grey", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +186,46 @@ namespace Project_SSAAC.Properties {
         internal static System.Drawing.Bitmap resized_image_800x600 {
             get {
                 object obj = ResourceManager.GetObject("resized_image_800x600", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_1 {
+            get {
+                object obj = ResourceManager.GetObject("text_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_2 {
+            get {
+                object obj = ResourceManager.GetObject("text_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_3 {
+            get {
+                object obj = ResourceManager.GetObject("text_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_4 {
+            get {
+                object obj = ResourceManager.GetObject("text_4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

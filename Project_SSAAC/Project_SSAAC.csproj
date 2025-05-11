@@ -127,5 +127,32 @@
   <ItemGroup>
     <None Include="Resources\resized_image_800x600.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\button_grey_next_focused.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\button_grey_next_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\button_grey_prev_focused.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\button_grey_prev_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\frame_grey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\text_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\text_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\text_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\text_4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

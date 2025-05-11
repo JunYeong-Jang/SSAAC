@@ -29,15 +29,18 @@
         private void InitializeComponent()
         {
             this.btnBackToHome = new System.Windows.Forms.Button();
-            this.btnBodyPrev = new System.Windows.Forms.Button();
-            this.btnBodyNext = new System.Windows.Forms.Button();
-            this.lblBody = new System.Windows.Forms.Label();
             this.picBoxCharacter = new System.Windows.Forms.PictureBox();
             this.panel_menu = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel_selectMenu = new System.Windows.Forms.Panel();
+            this.picBox_btnPrev = new System.Windows.Forms.PictureBox();
+            this.picBox_btnNext = new System.Windows.Forms.PictureBox();
+            this.picBox_index = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxCharacter)).BeginInit();
             this.panel_menu.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panel_selectMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnPrev)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnNext)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_index)).BeginInit();
             this.SuspendLayout();
             // 
             // btnBackToHome
@@ -50,36 +53,6 @@
             this.btnBackToHome.UseVisualStyleBackColor = true;
             this.btnBackToHome.Click += new System.EventHandler(this.btnBackToHome_Click);
             // 
-            // btnBodyPrev
-            // 
-            this.btnBodyPrev.BackColor = System.Drawing.Color.Transparent;
-            this.btnBodyPrev.Location = new System.Drawing.Point(16, 59);
-            this.btnBodyPrev.Name = "btnBodyPrev";
-            this.btnBodyPrev.Size = new System.Drawing.Size(75, 23);
-            this.btnBodyPrev.TabIndex = 2;
-            this.btnBodyPrev.Text = "Prev";
-            this.btnBodyPrev.UseVisualStyleBackColor = false;
-            this.btnBodyPrev.Click += new System.EventHandler(this.btnBodyPrev_Click);
-            // 
-            // btnBodyNext
-            // 
-            this.btnBodyNext.Location = new System.Drawing.Point(216, 59);
-            this.btnBodyNext.Name = "btnBodyNext";
-            this.btnBodyNext.Size = new System.Drawing.Size(75, 23);
-            this.btnBodyNext.TabIndex = 1;
-            this.btnBodyNext.Text = "Next";
-            this.btnBodyNext.UseVisualStyleBackColor = true;
-            this.btnBodyNext.Click += new System.EventHandler(this.btnBodyNext_Click);
-            // 
-            // lblBody
-            // 
-            this.lblBody.AutoSize = true;
-            this.lblBody.Location = new System.Drawing.Point(151, 63);
-            this.lblBody.Name = "lblBody";
-            this.lblBody.Size = new System.Drawing.Size(15, 15);
-            this.lblBody.TabIndex = 0;
-            this.lblBody.Text = "1";
-            // 
             // picBoxCharacter
             // 
             this.picBoxCharacter.Location = new System.Drawing.Point(115, 158);
@@ -90,22 +63,52 @@
             // 
             // panel_menu
             // 
-            this.panel_menu.Controls.Add(this.panel1);
+            this.panel_menu.Controls.Add(this.panel_selectMenu);
             this.panel_menu.Controls.Add(this.picBoxCharacter);
             this.panel_menu.Location = new System.Drawing.Point(147, 108);
             this.panel_menu.Name = "panel_menu";
             this.panel_menu.Size = new System.Drawing.Size(705, 360);
             this.panel_menu.TabIndex = 5;
             // 
-            // panel1
+            // panel_selectMenu
             // 
-            this.panel1.Controls.Add(this.btnBodyPrev);
-            this.panel1.Controls.Add(this.btnBodyNext);
-            this.panel1.Controls.Add(this.lblBody);
-            this.panel1.Location = new System.Drawing.Point(302, 122);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(310, 137);
-            this.panel1.TabIndex = 5;
+            this.panel_selectMenu.Controls.Add(this.picBox_index);
+            this.panel_selectMenu.Controls.Add(this.picBox_btnNext);
+            this.panel_selectMenu.Controls.Add(this.picBox_btnPrev);
+            this.panel_selectMenu.Location = new System.Drawing.Point(327, 143);
+            this.panel_selectMenu.Name = "panel_selectMenu";
+            this.panel_selectMenu.Size = new System.Drawing.Size(216, 88);
+            this.panel_selectMenu.TabIndex = 5;
+            // 
+            // picBox_btnPrev
+            // 
+            this.picBox_btnPrev.Location = new System.Drawing.Point(27, 37);
+            this.picBox_btnPrev.Name = "picBox_btnPrev";
+            this.picBox_btnPrev.Size = new System.Drawing.Size(28, 28);
+            this.picBox_btnPrev.TabIndex = 0;
+            this.picBox_btnPrev.TabStop = false;
+            this.picBox_btnPrev.Click += new System.EventHandler(this.picBox_btnPrev_Click);
+            this.picBox_btnPrev.MouseEnter += new System.EventHandler(this.picBox_btnPrev_MouseEnter);
+            this.picBox_btnPrev.MouseLeave += new System.EventHandler(this.picBox_btnPrev_MouseLeave);
+            // 
+            // picBox_btnNext
+            // 
+            this.picBox_btnNext.Location = new System.Drawing.Point(163, 37);
+            this.picBox_btnNext.Name = "picBox_btnNext";
+            this.picBox_btnNext.Size = new System.Drawing.Size(28, 28);
+            this.picBox_btnNext.TabIndex = 1;
+            this.picBox_btnNext.TabStop = false;
+            this.picBox_btnNext.Click += new System.EventHandler(this.picBox_btnNext_Click);
+            this.picBox_btnNext.MouseEnter += new System.EventHandler(this.picBox_btnNext_MouseEnter);
+            this.picBox_btnNext.MouseLeave += new System.EventHandler(this.picBox_btnNext_MouseLeave);
+            // 
+            // picBox_index
+            // 
+            this.picBox_index.Location = new System.Drawing.Point(97, 37);
+            this.picBox_index.Name = "picBox_index";
+            this.picBox_index.Size = new System.Drawing.Size(30, 30);
+            this.picBox_index.TabIndex = 2;
+            this.picBox_index.TabStop = false;
             // 
             // CustomizingControl
             // 
@@ -115,13 +118,13 @@
             this.Controls.Add(this.btnBackToHome);
             this.Name = "CustomizingControl";
             this.Size = new System.Drawing.Size(1024, 576);
-
             this.Load += new System.EventHandler(this.CustomizingControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBoxCharacter)).EndInit();
             this.panel_menu.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-
+            this.panel_selectMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnPrev)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnNext)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_index)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -129,11 +132,11 @@
         #endregion
 
         private System.Windows.Forms.Button btnBackToHome;
-        private System.Windows.Forms.Button btnBodyPrev;
-        private System.Windows.Forms.Button btnBodyNext;
-        private System.Windows.Forms.Label lblBody;
         private System.Windows.Forms.PictureBox picBoxCharacter;
         private System.Windows.Forms.Panel panel_menu;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel_selectMenu;
+        private System.Windows.Forms.PictureBox picBox_btnPrev;
+        private System.Windows.Forms.PictureBox picBox_index;
+        private System.Windows.Forms.PictureBox picBox_btnNext;
     }
 }

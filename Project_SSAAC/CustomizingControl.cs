@@ -23,14 +23,28 @@ namespace Project_SSAAC
             InitializeComponent();
             _main = main;
 
+            // 유저컨트롤 배경 이미지
             this.BackgroundImage = Properties.Resources.background_customizing;
+            // 캐릭터 외형 이미지
             picBoxCharacter.BackColor = Color.Transparent;
             picBoxCharacter.Size = new Size(50, 50);
             picBoxCharacter.SizeMode = PictureBoxSizeMode.StretchImage;
+            // 외형선택 메뉴 전체 패널
             panel_menu.BackgroundImage = Properties.Resources.panel_menu;
             panel_menu.BackColor = Color.Transparent;
-            
             panel_menu.Size = new Size(600, 350);
+            // 외형선택 메뉴 안쪽 패널
+            panel_selectMenu.BackgroundImage = Properties.Resources.frame_grey;
+            panel_selectMenu.Size = new Size(216, 88);
+            // 선택버튼 이미지
+            picBox_btnPrev.Image = Properties.Resources.button_grey_prev_idle;
+            picBox_btnPrev.Size = new Size(28, 28);
+            picBox_btnNext.Image = Properties.Resources.button_grey_next_idle;
+            picBox_btnNext.Size = new Size(28, 28);
+            // 인덱스 이미지
+            picBox_index.Image = Properties.Resources.text_1;
+            picBox_index.Size = new Size(30, 30);
+
             UpdateCharacterImage();
         }
 
@@ -61,45 +75,65 @@ namespace Project_SSAAC
             {
                 case "blue":
                     picBoxCharacter.Image = Properties.Resources.playerBlue;
+                    picBox_index.Image = Properties.Resources.text_1;
                     break;
                 case "green":
                     picBoxCharacter.Image = Properties.Resources.playerGreen;
+                    picBox_index.Image= Properties.Resources.text_2;
                     break;
                 case "mask":
                     picBoxCharacter.Image = Properties.Resources.playerMasked;
+                    picBox_index.Image = Properties.Resources.text_3;
                     break;
                 case "pink":
                     picBoxCharacter.Image = Properties.Resources.playerPink;
+                    picBox_index.Image = Properties.Resources.text_4;
                     break;
             }
             
         }
 
-        private void btnBodyNext_Click(object sender, EventArgs e)
+
+        private void CustomizingControl_Load(object sender, EventArgs e)
         {
-            currentAppearanceIndex = (currentAppearanceIndex + 1) % appearanceOptions.Count;
-            lblBody.Text = (currentAppearanceIndex + 1).ToString();
-            UpdateCharacterImage();
+            panel_menu.Location = new Point(_main.Width / 2 - panel_menu.Width / 2, this.Height / 2 - panel_menu.Height/2);
         }
 
-        private void btnBodyPrev_Click(object sender, EventArgs e)
+        private void picBox_btnPrev_MouseEnter(object sender, EventArgs e)
         {
-            if(currentAppearanceIndex == 0)
+            picBox_btnPrev.Image = Properties.Resources.button_grey_prev_focused;
+        }
+
+        private void picBox_btnPrev_MouseLeave(object sender, EventArgs e)
+        {
+            picBox_btnPrev.Image = Properties.Resources.button_grey_prev_idle;
+        }
+        private void picBox_btnNext_MouseEnter(object sender, EventArgs e)
+        {
+            picBox_btnNext.Image = Properties.Resources.button_grey_next_focused;
+        }
+        private void picBox_btnNext_MouseLeave(object sender, EventArgs e)
+        {
+            picBox_btnNext.Image = Properties.Resources.button_grey_next_idle;
+        }
+
+        private void picBox_btnPrev_Click(object sender, EventArgs e)
+        {
+            if (currentAppearanceIndex == 0)
             {
-                currentAppearanceIndex = appearanceOptions.Count-1;
-                lblBody.Text = (currentAppearanceIndex + 1).ToString();
+                currentAppearanceIndex = appearanceOptions.Count - 1;
                 UpdateCharacterImage();
                 return;
             }
 
             currentAppearanceIndex = (currentAppearanceIndex - 1);
-            lblBody.Text = (currentAppearanceIndex + 1).ToString();
             UpdateCharacterImage();
         }
 
-        private void CustomizingControl_Load(object sender, EventArgs e)
+        private void picBox_btnNext_Click(object sender, EventArgs e)
         {
-            panel_menu.Location = new Point(_main.Width / 2 - panel_menu.Width / 2, this.Height / 2 - panel_menu.Height/2);
+            currentAppearanceIndex = (currentAppearanceIndex + 1) % appearanceOptions.Count;
+            UpdateCharacterImage();
         }
     }
 }
