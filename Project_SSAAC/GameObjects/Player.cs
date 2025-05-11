@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Project_SSAAC.GameObjects // 네임스페이스 확인!
 {
@@ -13,8 +14,10 @@ namespace Project_SSAAC.GameObjects // 네임스페이스 확인!
         public int MaxHealth { get; private set; } = 6;
         public int CurrentHealth { get; private set; }
 
+        public PictureBox MainCharacter { get; set; }
+
         public Player(PointF startPos)
-            : base(startPos, new SizeF(32, 32))
+            : base(startPos, new SizeF(100, 100))
         {
             CurrentHealth = MaxHealth;
             Console.WriteLine("Player created.");
@@ -58,5 +61,7 @@ namespace Project_SSAAC.GameObjects // 네임스페이스 확인!
             if (length > 0) return new PointF((vec.X / length) * magnitude, (vec.Y / length) * magnitude);
             return PointF.Empty;
         }
+
+        
     }
 }

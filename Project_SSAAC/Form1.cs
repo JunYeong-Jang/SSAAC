@@ -234,5 +234,33 @@ namespace Project_SSAAC // 네임스페이스 확인!
         {
             this.Close();
         }
+
+        public void RegisterCharacter(PictureBox pic)
+        {
+            player.MainCharacter = pic;
+        }
+
+        public void LoadCharacterTo(UserControl targetUC)
+        {
+            if (player.MainCharacter == null) return;
+
+            // 기존 부모에서 제거
+            if (player.MainCharacter.Parent != null)
+                player.MainCharacter.Parent.Controls.Remove(player.MainCharacter);
+
+            player.MainCharacter.SizeMode = PictureBoxSizeMode.Zoom;    //  사이즈 모드 설정
+
+            //  메인캐릭터 나타낼 화면 위치 
+            int width = (int)player.Size.Width;    //  픽쳐박스 폭
+            int height = (int)player.Size.Height;   //  픽쳐박스 높이 
+
+            player.MainCharacter.SetBounds(this.Width / 2 - width / 2, this.Height / 2 - height / 2, width, height);
+
+            // 새로운 유저컨트롤에 추가
+            targetUC.Controls.Add(player.MainCharacter);
+            player.MainCharacter.BringToFront();
+
+            
+        }
     }
 }
