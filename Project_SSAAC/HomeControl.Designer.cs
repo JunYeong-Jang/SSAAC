@@ -43,6 +43,7 @@
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "게임 시작";
             this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnCm
             // 

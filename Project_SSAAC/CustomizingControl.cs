@@ -36,6 +36,11 @@ namespace Project_SSAAC
 
         private void btnBackToHome_Click(object sender, EventArgs e)
         {
+            //  홈으로 돌아가기 버튼을 누르면 선택된 픽쳐박스 데이터 저장됨
+            PictureBox pic = new PictureBox();
+            pic.Image = picBoxCharacter.Image;
+
+            _main.RegisterCharacter(pic);
             _main.LoadControl(new HomeControl(_main));
         }
 
@@ -79,7 +84,15 @@ namespace Project_SSAAC
 
         private void btnBodyPrev_Click(object sender, EventArgs e)
         {
-            currentAppearanceIndex = (currentAppearanceIndex -1) % appearanceOptions.Count;
+            if(currentAppearanceIndex == 0)
+            {
+                currentAppearanceIndex = appearanceOptions.Count-1;
+                lblBody.Text = (currentAppearanceIndex + 1).ToString();
+                UpdateCharacterImage();
+                return;
+            }
+
+            currentAppearanceIndex = (currentAppearanceIndex - 1);
             lblBody.Text = (currentAppearanceIndex + 1).ToString();
             UpdateCharacterImage();
         }

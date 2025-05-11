@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 using System.Diagnostics;
 
 namespace Project_SSAAC.GameObjects
@@ -44,17 +45,27 @@ namespace Project_SSAAC.GameObjects
         /// </summary>
         public int CurrentHealth { get; private set; }
 
+
+        // from customizing support // 플레이어의 외형을 저장할 pictureBox 멤버
+        public PictureBox MainCharacter { get; set; }
+        // from customizing/support // 캐릭터의 기본 사이즈 32 -> 50
+        public Player(PointF startPos)
+            : base(startPos, new SizeF(50, 50))
+
         /// <summary>
         /// 플레이어의 기본 크기입니다.
         /// </summary>
-        private static readonly SizeF PlayerDefaultSize = new SizeF(32, 32);
+        // 기존 master의 내용 (25.05.11)
+        // private static readonly SizeF PlayerDefaultSize = new SizeF(32, 32);
 
         /// <summary>
         /// Player 객체를 초기화합니다.
         /// </summary>
         /// <param name="startPos">플레이어의 시작 위치입니다.</param>
-        public Player(PointF startPos)
-            : base(startPos, PlayerDefaultSize)
+        // 기존 master의 내용 (25.05.11)
+        // public Player(PointF startPos)
+        //     : base(startPos, PlayerDefaultSize)
+
         {
             CurrentHealth = MaxHealth;
             Debug.WriteLine($"[Player] Created at {startPos}. Health: {CurrentHealth}/{MaxHealth}");
@@ -147,5 +158,7 @@ namespace Project_SSAAC.GameObjects
                 return new PointF((vector.X / length) * magnitude, (vector.Y / length) * magnitude);
             return PointF.Empty;
         }
+
+        
     }
 }
