@@ -36,16 +36,29 @@ namespace Project_SSAAC
         {
             Debug.WriteLine("[Form1] Constructor - Start");
             InitializeComponent();
+
+            LoadControl(new HomeControl(this)); // from character branch
+
             this.DoubleBuffered = true;
             Debug.WriteLine("[Form1] Constructor - DoubleBuffered set");
+
             InitializeGame();
             Debug.WriteLine("[Form1] Constructor - InitializeGame finished");
             InitializeTimer();
             Debug.WriteLine("[Form1] Constructor - InitializeTimer finished. Constructor End.");
         }
 
+        public void LoadControl(UserControl control)
+        {
+            //  유저 컨트롤을 로드함
+            panelMain.Controls.Clear();
+            control.Dock = DockStyle.Fill;
+            panelMain.Controls.Add(control);
+        }
+
         private void InitializeGame()
         {
+
             Debug.WriteLine("[Form1] InitializeGame - Start");
             this.ClientSize = new Size(1024, 576); // 화면 크기 1024x576 설정
             this.Text = "Project SSAAC (1024x576)";
@@ -56,6 +69,7 @@ namespace Project_SSAAC
                 Debug.WriteLine("[Form1] InitializeGame - LevelGenerator created with ClientSize: " + this.ClientSize);
                 currentLevel = levelGenerator.GenerateLevel(numberOfRooms: 7);
                 Debug.WriteLine($"[Form1] InitializeGame - Level generated. Rooms: {currentLevel?.Rooms?.Count}, CurrentRoom: {currentLevel?.CurrentRoom?.GridPosition}");
+
 
                 if (currentLevel == null || currentLevel.Rooms.Count == 0 || currentLevel.CurrentRoom == null)
                 {
@@ -728,6 +742,11 @@ namespace Project_SSAAC
             float length = (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
             if (length > 0) return new PointF((vec.X / length) * magnitude, (vec.Y / length) * magnitude);
             return PointF.Empty;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
