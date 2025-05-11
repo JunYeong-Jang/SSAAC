@@ -17,7 +17,7 @@ namespace Project_SSAAC.GameObjects // 네임스페이스 확인!
         public PictureBox MainCharacter { get; set; }
 
         public Player(PointF startPos)
-            : base(startPos, new SizeF(100, 100))
+            : base(startPos, new SizeF(50, 50))
         {
             CurrentHealth = MaxHealth;
             Console.WriteLine("Player created.");

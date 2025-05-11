@@ -86,7 +86,9 @@ namespace Project_SSAAC
         {
             if(currentAppearanceIndex == 0)
             {
-                currentAppearanceIndex = appearanceOptions.Count;
+                currentAppearanceIndex = appearanceOptions.Count-1;
+                lblBody.Text = (currentAppearanceIndex + 1).ToString();
+                UpdateCharacterImage();
                 return;
             }
 
