@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Project_SSAAC.GameObjects; // RoomType에서 GameObject 네임스페이스 참조 불필요, EnemyType 저장 시 필요
+using Project_SSAAC.GameObjects; // EnemyType 저장 시 필요
 using System.Diagnostics;
 
 namespace Project_SSAAC.World
