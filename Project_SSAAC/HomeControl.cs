@@ -64,5 +64,10 @@ namespace Project_SSAAC
             btnCm.BringToFront();
             btnExit.BringToFront();
         }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            _main.LoadControl(new testroom(_main));
+        }
     }
 }
