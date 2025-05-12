@@ -28,18 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.panelMain = new System.Windows.Forms.Panel();
+            this.SuspendLayout();
+            // 
+            // panelMain
+            // 
+            this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMain.Location = new System.Drawing.Point(0, 0);
+            this.panelMain.Name = "panelMain";
+            this.panelMain.Size = new System.Drawing.Size(1024, 576);
+            this.panelMain.TabIndex = 3;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450); // 기본값, Form1 생성자에서 변경됨
-            this.Text = "Form1"; // 기본값, Form1 생성자에서 변경됨
-            // Form1_Paint 이벤트 핸들러는 Form1.cs의 InitializeGame에서 연결되거나,
-            // 여기서 직접 this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint); 로 추가.
-            // 현재 제공된 코드에서는 Designer.cs에서 Paint 이벤트를 명시적으로 추가하고 있지 않으나,
-            // WinForms 디자이너 사용 시 자동으로 추가되는 경우가 많음.
-            // 명시적으로 추가하려면 아래 줄의 주석을 해제합니다.
+            this.ClientSize = new System.Drawing.Size(1024, 576);
+            this.Controls.Add(this.panelMain);
+            this.Name = "Form1";
+            this.Text = "Form1";
+
+            this.ResumeLayout(false); // from character // 문제 있을 시 확인 // 이 파일을 건든적은 없지만 생겨났음
+
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel panelMain;
     }
 }
