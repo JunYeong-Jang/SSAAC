@@ -154,5 +154,29 @@
   <ItemGroup>
     <None Include="Resources\Customizing\text_4.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\Character\blue_Idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\Character\blue_Run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\Character\green_Idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\Character\green_Run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\Character\masked_Idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\Character\masked_Run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\Character\pink_Idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Customizing\Character\pink_Run.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -32,15 +32,15 @@
             this.picBoxCharacter = new System.Windows.Forms.PictureBox();
             this.panel_menu = new System.Windows.Forms.Panel();
             this.panel_selectMenu = new System.Windows.Forms.Panel();
-            this.picBox_btnPrev = new System.Windows.Forms.PictureBox();
-            this.picBox_btnNext = new System.Windows.Forms.PictureBox();
             this.picBox_index = new System.Windows.Forms.PictureBox();
+            this.picBox_btnNext = new System.Windows.Forms.PictureBox();
+            this.picBox_btnPrev = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxCharacter)).BeginInit();
             this.panel_menu.SuspendLayout();
             this.panel_selectMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnPrev)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnNext)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_index)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnNext)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnPrev)).BeginInit();
             this.SuspendLayout();
             // 
             // btnBackToHome
@@ -80,16 +80,13 @@
             this.panel_selectMenu.Size = new System.Drawing.Size(216, 88);
             this.panel_selectMenu.TabIndex = 5;
             // 
-            // picBox_btnPrev
+            // picBox_index
             // 
-            this.picBox_btnPrev.Location = new System.Drawing.Point(27, 37);
-            this.picBox_btnPrev.Name = "picBox_btnPrev";
-            this.picBox_btnPrev.Size = new System.Drawing.Size(28, 28);
-            this.picBox_btnPrev.TabIndex = 0;
-            this.picBox_btnPrev.TabStop = false;
-            this.picBox_btnPrev.Click += new System.EventHandler(this.picBox_btnPrev_Click);
-            this.picBox_btnPrev.MouseEnter += new System.EventHandler(this.picBox_btnPrev_MouseEnter);
-            this.picBox_btnPrev.MouseLeave += new System.EventHandler(this.picBox_btnPrev_MouseLeave);
+            this.picBox_index.Location = new System.Drawing.Point(97, 37);
+            this.picBox_index.Name = "picBox_index";
+            this.picBox_index.Size = new System.Drawing.Size(30, 30);
+            this.picBox_index.TabIndex = 2;
+            this.picBox_index.TabStop = false;
             // 
             // picBox_btnNext
             // 
@@ -102,13 +99,16 @@
             this.picBox_btnNext.MouseEnter += new System.EventHandler(this.picBox_btnNext_MouseEnter);
             this.picBox_btnNext.MouseLeave += new System.EventHandler(this.picBox_btnNext_MouseLeave);
             // 
-            // picBox_index
+            // picBox_btnPrev
             // 
-            this.picBox_index.Location = new System.Drawing.Point(97, 37);
-            this.picBox_index.Name = "picBox_index";
-            this.picBox_index.Size = new System.Drawing.Size(30, 30);
-            this.picBox_index.TabIndex = 2;
-            this.picBox_index.TabStop = false;
+            this.picBox_btnPrev.Location = new System.Drawing.Point(27, 37);
+            this.picBox_btnPrev.Name = "picBox_btnPrev";
+            this.picBox_btnPrev.Size = new System.Drawing.Size(28, 28);
+            this.picBox_btnPrev.TabIndex = 0;
+            this.picBox_btnPrev.TabStop = false;
+            this.picBox_btnPrev.Click += new System.EventHandler(this.picBox_btnPrev_Click);
+            this.picBox_btnPrev.MouseEnter += new System.EventHandler(this.picBox_btnPrev_MouseEnter);
+            this.picBox_btnPrev.MouseLeave += new System.EventHandler(this.picBox_btnPrev_MouseLeave);
             // 
             // CustomizingControl
             // 
@@ -122,9 +122,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBoxCharacter)).EndInit();
             this.panel_menu.ResumeLayout(false);
             this.panel_selectMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnPrev)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnNext)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_index)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnNext)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btnPrev)).EndInit();
             this.ResumeLayout(false);
 
         }
