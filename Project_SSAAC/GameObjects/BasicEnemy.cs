@@ -20,6 +20,7 @@ namespace Project_SSAAC.GameObjects
         public BasicEnemy(PointF startPosition)
             : base(startPosition, ENEMY_SIZE, ENEMY_HEALTH, ENEMY_SPEED)
         {
+            // this.CollisionDamage = 1; // 필요 시 여기서 특정 적의 충돌 대미지 재정의 가능
             // Debug.WriteLine($"[BasicEnemy] Created at {startPosition}");
         }
 
