@@ -49,6 +49,10 @@ namespace Project_SSAAC.GameObjects
         /// </summary>
         private static readonly SizeF PlayerDefaultSize = new SizeF(32, 32);
 
+        public bool IsInvincible { get; private set; } = false; // 무적 상태 플래그
+        private float invincibilityTimer = 0f;                // 무적 시간 타이머
+        private const float INVINCIBILITY_DURATION = 0.75f;   // 무적 지속 시간 (예: 0.75초)
+
         /// <summary>
         /// Player 객체를 초기화합니다.
         /// </summary>
@@ -70,6 +74,18 @@ namespace Project_SSAAC.GameObjects
                 Position.X + Velocity.X * deltaTime,
                 Position.Y + Velocity.Y * deltaTime
             );
+
+            // 무적 시간 처리 로직 추가
+            if (IsInvincible)
+            {
+                invincibilityTimer -= deltaTime;
+                if (invincibilityTimer <= 0)
+                {
+                    IsInvincible = false;
+                    invincibilityTimer = 0f;
+                    // Debug.WriteLine("[Player] Invincibility ended.");
+                }
+            }
         }
 
         /// <summary>
@@ -78,7 +94,22 @@ namespace Project_SSAAC.GameObjects
         /// <param name="g">Graphics 객체입니다.</param>
         public override void Draw(Graphics g)
         {
-            g.FillRectangle(Brushes.Blue, Bounds); // 임시로 파란 사각형으로 표시
+            if (IsInvincible)
+            {
+                // 무적 상태일 때 깜빡이는 효과 또는 색상 변경
+                // 예시: 0.1초(또는 N프레임) 간격으로 색 변경 또는 보였다 안보였다 하기
+                // 간단하게는 invincibilityTimer 값을 기준으로 홀/짝 프레임에 따라 그리거나 색을 바꿈
+                // (int)(invincibilityTimer * 10) % 2 == 0  -> 100ms 마다 상태 변경 (깜빡임 속도 조절)
+                if ((int)((INVINCIBILITY_DURATION - invincibilityTimer) * 10) % 2 == 0) // 초당 5번 깜빡이는 효과 (INVINCIBILITY_DURATION에 따라 빈도 조절 필요)
+                {
+                    g.FillRectangle(Brushes.Cyan, Bounds); // 무적일 때 시안색으로 표시
+                }
+                // else { /* 안 그리면 깜빡이는 효과가 됨 */ }
+            }
+            else
+            {
+                g.FillRectangle(Brushes.Blue, Bounds); // 평소 파란 사각형으로 표시
+            }
         }
 
         /// <summary>
@@ -104,7 +135,7 @@ namespace Project_SSAAC.GameObjects
         /// <param name="amount">입은 대미지의 양입니다.</param>
         public void TakeDamage(int amount)
         {
-            if (CurrentHealth <= 0) return; // 이미 사망한 경우 추가 대미지 없음
+            if (CurrentHealth <= 0 || IsInvincible) return; // 이미 죽었거나 무적 상태면 데미지 안 받음
 
             CurrentHealth -= amount;
             Debug.WriteLine($"[Player] Took {amount} damage. Health: {CurrentHealth}/{MaxHealth}");
@@ -113,6 +144,12 @@ namespace Project_SSAAC.GameObjects
             {
                 CurrentHealth = 0; // 체력이 음수가 되지 않도록
                 Die();
+            }
+            else // 피해를 입었지만 아직 살아있다면 무적 상태로 전환
+            {
+                IsInvincible = true;
+                invincibilityTimer = INVINCIBILITY_DURATION; // 설정된 무적 시간으로 타이머 초기화
+                // Debug.WriteLine($"[Player] Became invincible for {INVINCIBILITY_DURATION} seconds.");
             }
         }
 
@@ -146,6 +183,19 @@ namespace Project_SSAAC.GameObjects
             if (length > 0)
                 return new PointF((vector.X / length) * magnitude, (vector.Y / length) * magnitude);
             return PointF.Empty;
+        }
+
+        /// <summary>
+        /// 플레이어를 즉시 사망 상태로 만듭니다.
+        /// </summary>
+        public void InstantKill()
+        {
+            if (CurrentHealth <= 0) return; // 이미 사망 상태면 아무것도 하지 않음
+
+            CurrentHealth = 0; // 체력을 즉시 0으로 설정
+            Die();             // 사망 처리 메소드 호출
+            System.Diagnostics.Debug.WriteLine($"[Player] Instantaneously killed by timeout or special event." +
+                $" Health: {CurrentHealth}/{MaxHealth}");
         }
     }
 }

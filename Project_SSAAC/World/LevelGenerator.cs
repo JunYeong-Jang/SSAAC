@@ -91,11 +91,13 @@ namespace Project_SSAAC.World
                         // 퍼즐방 또는 생존방 특정 설정
                         if (newRoom.Type == RoomType.Puzzle)
                         {
+                            // 실제 퍼즐 내용(질문, 정답) 및 제한 시간 설정
                             int num1 = _random.Next(1, 10); int num2 = _random.Next(1, 10);
-                            newRoom.PuzzleQuestion = $"Question: {num1} + {num2} = ?";
-                            newRoom.PuzzleAnswer = (num1 + num2).ToString();
-                            newRoom.PuzzleTimeLimit = (float)_random.Next(20, 41); // 20~40초
-                            // Debug.WriteLine($"[LevelGenerator] PuzzleRoom at {newRoom.GridPosition}. Q: {newRoom.PuzzleQuestion}, A: {newRoom.PuzzleAnswer}, Limit: {newRoom.PuzzleTimeLimit}s");
+                            newRoom.PuzzleQuestion = $"Question: {num1} + {num2} = ?";  // 질문 설정
+                            newRoom.PuzzleAnswer = (num1 + num2).ToString();            // 정답 설정
+                            newRoom.PuzzleTimeLimit = (float)_random.Next(20, 41);      // 제한 시간 설정 (20~40초)
+                            // Debug.WriteLine($"[LevelGenerator] PuzzleRoom at {newRoom.GridPosition}. Q: {newRoom.PuzzleQuestion},
+                            // A: {newRoom.PuzzleAnswer}, Limit: {newRoom.PuzzleTimeLimit}s");
                         }
                         else if (newRoom.Type == RoomType.Survival)
                         {
@@ -128,15 +130,15 @@ namespace Project_SSAAC.World
                 bool needsEnemies = room.Type == RoomType.Normal ||
                                     room.Type == RoomType.MiniBoss ||
                                     room.Type == RoomType.Boss ||
-                                   (room.Type == RoomType.Puzzle && !room.IsPuzzleSolved) ||
-                                   (room.Type == RoomType.Survival && !room.IsSurvivalCompleted);
+                                   (room.Type == RoomType.Puzzle && !room.IsPuzzleSolved) || // 퍼즐방은 해결 전이면 적 스폰 (선택적)
+                                   (room.Type == RoomType.Survival && !room.IsSurvivalCompleted); // 생존방은 완료 전이면 적 스폰
 
                 if (needsEnemies)
                 {
                     int enemyCount = 1; // 기본 1마리
                     if (room.Type == RoomType.Normal) enemyCount = _random.Next(1, 4); // 1~3
                     else if (room.Type == RoomType.MiniBoss) enemyCount = _random.Next(2, 4); // 2~3
-                    else if (room.Type == RoomType.Puzzle) enemyCount = _random.Next(1, 3); // 1~2
+                    else if (room.Type == RoomType.Puzzle) enemyCount = _random.Next(1, 3); // 1~2 (퍼즐 풀기 전 방해용)
                     else if (room.Type == RoomType.Survival) enemyCount = _random.Next(3, 6); // 3~5 (생존방은 더 많게)
                     else if (room.Type == RoomType.Boss) enemyCount = 1; // 보스는 보통 1마리 (강력한)
 
@@ -148,6 +150,7 @@ namespace Project_SSAAC.World
                         float spawnX = (float)(_random.NextDouble() * (_roomPixelSizeToUse.Width - 2 * spawnMarginX) + spawnMarginX);
                         float spawnY = (float)(_random.NextDouble() * (_roomPixelSizeToUse.Height - 2 * spawnMarginY) + spawnMarginY);
 
+                        // 현재는 BasicEnemy만 스폰하지만, 추후 다양한 적 타입을 스폰하도록 확장 가능
                         room.AddEnemySpawn(typeof(BasicEnemy), new PointF(spawnX, spawnY));
                     }
                     // Debug.WriteLine($"[LevelGenerator] Added {enemyCount} BasicEnemy to {room.Type} Room {room.GridPosition}");

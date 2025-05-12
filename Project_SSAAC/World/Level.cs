@@ -95,11 +95,11 @@ namespace Project_SSAAC.World
             bool requiresClearToExit = CurrentRoom.Type == RoomType.Normal ||
                                        CurrentRoom.Type == RoomType.Boss ||
                                        CurrentRoom.Type == RoomType.MiniBoss ||
-                                       CurrentRoom.Type == RoomType.Puzzle ||
-                                       CurrentRoom.Type == RoomType.Survival;
-            if (requiresClearToExit && !CurrentRoom.IsCleared)
+                                      (CurrentRoom.Type == RoomType.Puzzle && !CurrentRoom.IsPuzzleSolved) || // 퍼즐은 풀려야 나갈 수 있음
+                                      (CurrentRoom.Type == RoomType.Survival && !CurrentRoom.IsSurvivalCompleted); // 생존은 완료되어야 나갈 수 있음
+            if (requiresClearToExit && !CurrentRoom.IsCleared) // IsCleared는 퍼즐/생존 완료시 true가 됨
             {
-                Debug.WriteLine($"[Level] Cannot leave room {CurrentRoom.GridPosition}({CurrentRoom.Type}): Not cleared (IsCleared: {CurrentRoom.IsCleared})");
+                Debug.WriteLine($"[Level] Cannot leave room {CurrentRoom.GridPosition}({CurrentRoom.Type}): Not cleared (IsCleared: {CurrentRoom.IsCleared}, PuzzleSolved: {CurrentRoom.IsPuzzleSolved}, SurvivalCompleted: {CurrentRoom.IsSurvivalCompleted})");
                 return false;
             }
 
@@ -122,7 +122,7 @@ namespace Project_SSAAC.World
                     Debug.WriteLine($"[Level] Moved from {previousRoom.GridPosition}({previousRoom.Type}) to Room: {CurrentRoom.GridPosition}({CurrentRoom.Type}). Discovered: {CurrentRoom.IsDiscovered}");
 
                     // 플레이어 위치를 새 방의 문 반대편으로 설정
-                    float margin = player.Size.Width * 0.8f; // 문 통과 후 여백
+                    float margin = player.Size.Width * 1.5f; // 문 통과 후 여백 (벽에 끼지 않도록 약간 더 크게)
                     float halfPlayerWidth = player.Size.Width / 2f;
                     float halfPlayerHeight = player.Size.Height / 2f;
                     // _actualRoomPixelSize는 Level 생성 시 Form1.ClientSize로 설정된 값
