@@ -2,8 +2,6 @@
 local mod      = RegisterMod("MyQuizMod", 1)
 local gameInst = Game()
 
---
-
 -- 모드 활성화 플래그
 local quizModeActive, zombieModeActive = false, false
 -- 모드 진행 플래그
@@ -34,7 +32,6 @@ end)
 local firstSkip = false
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
   local room = gameInst:GetRoom()
-  local idx  = gameInst:GetLevel():GetCurrentRoomIndex()
   if not firstSkip then firstSkip = true return end
   if room:GetFrameCount() ~= 0 then return end
   if room:GetType() ~= RoomType.ROOM_DEFAULT then return end
@@ -46,7 +43,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
     quizQuestion  = "2 + 3 = ?"
     quizAnswer    = "5"
     quizInput     = ""
-    print("[MyQuizMod] Quiz started in room", idx)
+    print("[MyQuizMod] Quiz started")
   end
 
   -- 좀비 시작
@@ -54,7 +51,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function()
     zombieRunning = true
     zombieTimer   = 10
     noShoot       = true
-    print("[MyQuizMod] Zombie survival started in room", idx)
+    print("[MyQuizMod] Zombie survival started")
   end
 end)
 
@@ -65,7 +62,8 @@ end)
 
 -- 매 프레임 업데이트: 타이머, 입력 처리, 문 열림 감지
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
-  local room = gameInst:GetRoom()
+  local room   = gameInst:GetRoom()
+  local player = gameInst:GetPlayer(0)
 
   -- 퀴즈 진행
   if quizRunning then
@@ -78,12 +76,12 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
         quizInput = quizInput .. tostring(k - Keyboard.KEY_0)
       end
     end
-    -- 백스페이스 처리
+    -- 백스페이스
     if Input.IsButtonTriggered(Keyboard.KEY_BACKSPACE, 0) then
       quizInput = quizInput:sub(1, -2)
     end
 
-    -- 3) Enter 로 제출
+    -- 3) Enter 제출
     if Input.IsButtonTriggered(Keyboard.KEY_ENTER, 0) then
       if quizInput == quizAnswer then
         -- 정답 처리
@@ -91,6 +89,16 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
         for _, e in ipairs(Isaac.GetRoomEntities()) do
           if e:IsVulnerableEnemy() then e:Remove() end
         end
+
+        -- 레드 하트만 모두 채우기
+        local current = player:GetHearts()
+        local maximum = player:GetMaxHearts()
+        local toAdd   = maximum - current
+        if toAdd > 0 then
+          player:AddHearts(toAdd)
+        end
+
+        -- 문 열기
         local d = room:GetDoor(0)
         if d then d:Open(false) end
 
@@ -98,14 +106,19 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
         quizModeActive = false
 
       else
-        -- 오답 처리: 입력만 초기화, 계속 시도 가능
-        gameInst:GetHUD():ShowItemText("Wrong! Try again.", 2)
-        quizInput = ""
+        -- 오답 처리: 하트 1칸 감소
+        gameInst:GetHUD():ShowItemText("Wrong! You lose 1 heart.", 2)
+        player:TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
+        quizInput = ""  -- 입력만 초기화
+        -- quizRunning 유지 → 재도전 가능
       end
 
     -- 4) 시간초과 처리
     elseif quizTimer <= 0 then
-      gameInst:GetHUD():ShowItemText("Time up! Door stays closed", 2)
+      -- 즉사
+      gameInst:GetHUD():ShowItemText("Time's up! You died.", 2)
+      player:TakeDamage(player:GetHearts()*2, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
+
       quizRunning    = false
       quizModeActive = false
     end
@@ -130,8 +143,8 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
   -- 문 열림 감지 → 모드 완전 종료
   if quizRunning or zombieRunning then
     for slot = 0, 3 do
-      local d = room:GetDoor(slot)
-      if d and d:IsOpen() then
+      local dd = room:GetDoor(slot)
+      if dd and dd:IsOpen() then
         quizRunning      = false
         quizModeActive   = false
         zombieRunning    = false
@@ -146,31 +159,16 @@ end)
 -- 화면 렌더: 퀴즈 텍스트·입력·타이머·생존 타이머 표시
 mod:AddCallback(ModCallbacks.MC_POST_RENDER, function()
   if quizRunning then
-    Isaac.RenderText(
-      quizQuestion .. " (" .. math.ceil(quizTimer) .. "s)",
-      20,  20, 1,1,1,255
-    )
-    Isaac.RenderText(
-      "Answer: " .. quizInput,
-      20,  40, 1,1,1,255
-    )
+    Isaac.RenderText(quizQuestion.." ("..math.ceil(quizTimer).."s)",20,20,1,1,1,255)
+    Isaac.RenderText("Answer: "..quizInput,20,40,1,1,1,255)
 
   elseif zombieRunning then
-    Isaac.RenderText(
-      "Survive: " .. math.ceil(zombieTimer) .. "s",
-      20,  20, 1,1,1,255
-    )
+    Isaac.RenderText("Survive: "..math.ceil(zombieTimer).."s",20,20,1,1,1,255)
 
   elseif quizModeActive then
-    Isaac.RenderText(
-      "Quiz mode armed: enter normal room and type answer",
-      20,  20, 1,1,1,255
-    )
+    Isaac.RenderText("Quiz mode armed: enter room and type answer",20,20,1,1,1,255)
 
   elseif zombieModeActive then
-    Isaac.RenderText(
-      "Zombie mode armed: enter normal room to start timer",
-      20,  20, 1,1,1,255
-    )
+    Isaac.RenderText("Zombie mode armed: enter room to start timer",20,20,1,1,1,255)
   end
 end)
