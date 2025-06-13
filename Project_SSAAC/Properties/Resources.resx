@@ -118,79 +118,103 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="c8fedd8f-7ccd-48ff-90a0-cb2caecfa635" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\c8fedd8f-7ccd-48ff-90a0-cb2caecfa635.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="resized_image_800x600" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\resized_image_800x600.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\playerBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\playerGreen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerMasked" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\playerMasked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerPink" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\playerPink.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="background_customizing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\background_customizing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="panel_menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\panel_menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button_grey_next_focused" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\button_grey_next_focused.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button_grey_next_idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\button_grey_next_idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button_grey_prev_focused" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\button_grey_prev_focused.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button_grey_prev_idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\button_grey_prev_idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="frame_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\frame_grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="text_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\text_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="text_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\text_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="text_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\text_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="text_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\text_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="blue_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\blue_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="blue_Run" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\blue_Run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="green_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\green_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="green_Run" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\green_Run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="masked_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Customizing\Character\masked_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pink_Run" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\pink_Run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="masked_Run" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Customizing\Character\masked_Run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="playerMasked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\playerMasked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="resized_image_800x600" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\resized_image_800x600.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerPink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\playerPink.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\playerBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\text_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_grey_prev_focused" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\button_grey_prev_focused.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ChatGPT Image 2025년 6월 14일 오전 01_32_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ChatGPT Image 2025년 6월 14일 오전 01_32_04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_grey_next_focused" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\button_grey_next_focused.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blue_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\blue_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\text_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blue_Run" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\blue_Run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\frame_grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="home_icon_60x60" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\home_icon_60x60.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gear_icon_home_style_60x60" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gear_icon_home_style_60x60.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_grey_prev_idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\button_grey_prev_idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\text_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="c8fedd8f-7ccd-48ff-90a0-cb2caecfa635" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\c8fedd8f-7ccd-48ff-90a0-cb2caecfa635.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="panel_menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\panel_menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\text_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gear_icon_60x60" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gear_icon_60x60.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="pink_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Customizing\Character\pink_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pink_Run" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\Character\pink_Run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="button_grey_next_idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\button_grey_next_idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="green_Run" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\green_Run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="background_customizing" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\background_customizing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\playerGreen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="green_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Customizing\Character\green_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gameplay_background_1024x576" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gameplay_background_1024x576.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

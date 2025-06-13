@@ -49,8 +49,15 @@ namespace Project_SSAAC.GameObjects
         // from customizing support // 플레이어의 외형을 저장할 pictureBox 멤버
         public PictureBox MainCharacter { get; set; }
         // from customizing/support // 캐릭터의 기본 사이즈 32 -> 50
+
         public Player(PointF startPos)
             : base(startPos, new SizeF(50, 50))
+        {
+
+        }
+
+
+
 
         /// <summary>
         /// 플레이어의 기본 크기입니다.
@@ -70,10 +77,10 @@ namespace Project_SSAAC.GameObjects
         // public Player(PointF startPos)
         //     : base(startPos, PlayerDefaultSize)
 
-        {
+        /*{
             CurrentHealth = MaxHealth;
             Debug.WriteLine($"[Player] Created at {startPos}. Health: {CurrentHealth}/{MaxHealth}");
-        }
+        }*/
 
         /// <summary>
         /// 플레이어의 상태를 업데이트합니다. 주로 Velocity에 따라 위치를 이동시킵니다.
