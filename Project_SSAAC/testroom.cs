@@ -20,7 +20,8 @@ namespace Project_SSAAC
             InitializeComponent();
             _main = main;
 
-            _main.LoadCharacterTo(this);
+            // 임시 주석
+            //_main.LoadCharacterTo(this);
         }
     }
 }

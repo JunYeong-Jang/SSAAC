@@ -73,26 +73,6 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap blue_Idle {
-            get {
-                object obj = ResourceManager.GetObject("blue_Idle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap blue_Run {
-            get {
-                object obj = ResourceManager.GetObject("blue_Run", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
         internal static System.Drawing.Bitmap button_grey_next_focused {
             get {
                 object obj = ResourceManager.GetObject("button_grey_next_focused", resourceCulture);
@@ -143,49 +123,19 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap enemy_slime_idle {
+            get {
+                object obj = ResourceManager.GetObject("enemy_slime_idle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap frame_grey {
             get {
                 object obj = ResourceManager.GetObject("frame_grey", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap green_Idle {
-            get {
-                object obj = ResourceManager.GetObject("green_Idle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap green_Run {
-            get {
-                object obj = ResourceManager.GetObject("green_Run", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap masked_Idle {
-            get {
-                object obj = ResourceManager.GetObject("masked_Idle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static System.Drawing.Bitmap masked_Run {
-            get {
-                object obj = ResourceManager.GetObject("masked_Run", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +153,9 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap pink_Idle {
+        internal static System.Drawing.Bitmap player_blue_idle {
             get {
-                object obj = ResourceManager.GetObject("pink_Idle", resourceCulture);
+                object obj = ResourceManager.GetObject("player_blue_idle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +163,9 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap pink_Run {
+        internal static System.Drawing.Bitmap player_blue_invincible {
             get {
-                object obj = ResourceManager.GetObject("pink_Run", resourceCulture);
+                object obj = ResourceManager.GetObject("player_blue_invincible", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,9 +173,9 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap playerBlue {
+        internal static System.Drawing.Bitmap player_blue_run {
             get {
-                object obj = ResourceManager.GetObject("playerBlue", resourceCulture);
+                object obj = ResourceManager.GetObject("player_blue_run", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,9 +183,9 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap playerGreen {
+        internal static System.Drawing.Bitmap player_frog_idle {
             get {
-                object obj = ResourceManager.GetObject("playerGreen", resourceCulture);
+                object obj = ResourceManager.GetObject("player_frog_idle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,9 +193,9 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap playerMasked {
+        internal static System.Drawing.Bitmap player_frog_invincible {
             get {
-                object obj = ResourceManager.GetObject("playerMasked", resourceCulture);
+                object obj = ResourceManager.GetObject("player_frog_invincible", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -253,9 +203,69 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap playerPink {
+        internal static System.Drawing.Bitmap player_frog_run {
             get {
-                object obj = ResourceManager.GetObject("playerPink", resourceCulture);
+                object obj = ResourceManager.GetObject("player_frog_run", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_mask_idle {
+            get {
+                object obj = ResourceManager.GetObject("player_mask_idle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_mask_invincible {
+            get {
+                object obj = ResourceManager.GetObject("player_mask_invincible", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_mask_run {
+            get {
+                object obj = ResourceManager.GetObject("player_mask_run", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_pink_idle {
+            get {
+                object obj = ResourceManager.GetObject("player_pink_idle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_pink_invincible {
+            get {
+                object obj = ResourceManager.GetObject("player_pink_invincible", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_pink_run {
+            get {
+                object obj = ResourceManager.GetObject("player_pink_run", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
