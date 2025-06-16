@@ -143,9 +143,30 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+
         internal static System.Drawing.Bitmap panel_menu {
             get {
                 object obj = ResourceManager.GetObject("panel_menu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap ChatGPT_Image_2025년_6월_14일_오전_01_32_04 {
+            get {
+                object obj = ResourceManager.GetObject("ChatGPT Image 2025년 6월 14일 오전 01_32_04", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }         
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+
+        
+
+        internal static System.Drawing.Bitmap gameplay_background_1024x576 {
+            get {
+                object obj = ResourceManager.GetObject("gameplay_background_1024x576", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,6 +174,23 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap gear_icon_60x60 {
+            get {
+                object obj = ResourceManager.GetObject("gear_icon_60x60", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+       
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap gear_icon_home_style_60x60 {
+            get {
+                object obj = ResourceManager.GetObject("gear_icon_home_style_60x60", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }    
+        
         internal static System.Drawing.Bitmap player_blue_idle {
             get {
                 object obj = ResourceManager.GetObject("player_blue_idle", resourceCulture);
@@ -173,12 +211,20 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+
         internal static System.Drawing.Bitmap player_blue_run {
             get {
                 object obj = ResourceManager.GetObject("player_blue_run", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+
+        internal static System.Drawing.Bitmap home_icon_60x60 {
+            get {
+                object obj = ResourceManager.GetObject("home_icon_60x60", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }        
         
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
@@ -276,6 +322,36 @@ namespace Project_SSAAC.Properties {
         internal static System.Drawing.Bitmap resized_image_800x600 {
             get {
                 object obj = ResourceManager.GetObject("resized_image_800x600", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings {
+            get {
+                object obj = ResourceManager.GetObject("settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings2 {
+            get {
+                object obj = ResourceManager.GetObject("settings2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings3 {
+            get {
+                object obj = ResourceManager.GetObject("settings3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

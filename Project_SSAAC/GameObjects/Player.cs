@@ -71,6 +71,7 @@ namespace Project_SSAAC.GameObjects
         /// </summary>
         public int frameIndex { get; set; } = 0;
 
+
         /// <summary>
         /// 플레이어의 기본 크기입니다.
         /// </summary>
@@ -87,12 +88,14 @@ namespace Project_SSAAC.GameObjects
         /// Player 객체를 초기화합니다.
         /// </summary>
         /// <param name="startPos">플레이어의 시작 위치입니다.</param>
+
         public Player(PointF startPos)
             : base(startPos, PlayerDefaultSize)
         {
             CurrentHealth = MaxHealth;
             Debug.WriteLine($"[Player] Created at {startPos}. Health: {CurrentHealth}/{MaxHealth}");
         }
+
 
         public void SetAppearance(string appearance)
         {

@@ -10,6 +10,8 @@ using System.Linq;
 
 namespace Project_SSAAC
 {
+    public enum Direction { Up, Down, Left, Right }
+
     public partial class Form1 : Form
     {
         private Player player;
@@ -31,6 +33,18 @@ namespace Project_SSAAC
 
         private float currentSurvivalTimeLeft = 0f;
         private Room activeSurvivalRoom = null;
+
+        private Keys moveUpKey = Keys.W;
+        private Keys moveDownKey = Keys.S;
+        private Keys moveLeftKey = Keys.A;
+        private Keys moveRightKey = Keys.D;
+
+        private Keys shootUpKey = Keys.Up;
+        private Keys shootDownKey = Keys.Down;
+        private Keys shootLeftKey = Keys.Left;
+        private Keys shootRightKey = Keys.Right;
+
+       
 
         public Form1()
         {
@@ -331,10 +345,10 @@ namespace Project_SSAAC
 
             // 플레이어 이동 처리 (WASD)
             PointF moveDirection = PointF.Empty;
-            if (pressedKeys.Contains(Keys.W)) moveDirection.Y -= 1;
-            if (pressedKeys.Contains(Keys.S)) moveDirection.Y += 1;
-            if (pressedKeys.Contains(Keys.A)) moveDirection.X -= 1;
-            if (pressedKeys.Contains(Keys.D)) moveDirection.X += 1;
+            if (pressedKeys.Contains(moveUpKey)) moveDirection.Y -= 1;
+            if (pressedKeys.Contains(moveDownKey)) moveDirection.Y += 1;
+            if (pressedKeys.Contains(moveLeftKey)) moveDirection.X -= 1;
+            if (pressedKeys.Contains(moveRightKey)) moveDirection.X += 1;
 
             // Normalize된 속도 적용 또는 정지
             player.Velocity = !moveDirection.IsEmpty ? Normalize(moveDirection, player.Speed) : PointF.Empty;
@@ -352,10 +366,10 @@ namespace Project_SSAAC
             if (canAttack)
             {
                 PointF shootDirection = PointF.Empty;
-                if (pressedKeys.Contains(Keys.Up)) shootDirection.Y -= 1;
-                if (pressedKeys.Contains(Keys.Down)) shootDirection.Y += 1;
-                if (pressedKeys.Contains(Keys.Left)) shootDirection.X -= 1;
-                if (pressedKeys.Contains(Keys.Right)) shootDirection.X += 1;
+                if (pressedKeys.Contains(shootUpKey)) shootDirection.Y -= 1;
+                if (pressedKeys.Contains(shootDownKey)) shootDirection.Y += 1;
+                if (pressedKeys.Contains(shootLeftKey)) shootDirection.X -= 1;
+                if (pressedKeys.Contains(shootRightKey)) shootDirection.X += 1;
 
                 if (!shootDirection.IsEmpty && shootCooldownTimer <= 0f)
                 {
@@ -935,8 +949,31 @@ namespace Project_SSAAC
         //    // 새로운 유저컨트롤에 추가
         //    targetUC.Controls.Add(player.MainCharacter);
         //    player.MainCharacter.BringToFront();
-
+        
             
         //}
+
+        public void SetMoveKey(Direction dir, Keys key)
+        {
+            switch (dir)
+            {
+                case Direction.Up: moveUpKey = key; break;
+                case Direction.Down: moveDownKey = key; break;
+                case Direction.Left: moveLeftKey = key; break;
+                case Direction.Right: moveRightKey = key; break;
+            }
+        }
+
+        public void SetShootKey(Direction dir, Keys key)
+        {
+            switch (dir)
+            {
+                case Direction.Up: shootUpKey = key; break;
+                case Direction.Down: shootDownKey = key; break;
+                case Direction.Left: shootLeftKey = key; break;
+                case Direction.Right: shootRightKey = key; break;
+            }
+
+        }
     }
 }

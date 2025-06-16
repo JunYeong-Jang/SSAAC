@@ -75,6 +75,12 @@
     <Compile Include="Managers\ResuorceManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsControl.Designer.cs">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="testroom.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +92,12 @@
     <Compile Include="World\Level.cs" />
     <Compile Include="World\LevelGenerator.cs" />
     <Compile Include="World\Room.cs" />
+    <Compile Include="ZombieRoom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ZombieRoom.Designer.cs">
+      <DependentUpon>ZombieRoom.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="CustomizingControl.resx">
       <DependentUpon>CustomizingControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,8 +117,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SettingsControl.resx">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="testroom.resx">
       <DependentUpon>testroom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZombieRoom.resx">
+      <DependentUpon>ZombieRoom.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -179,6 +197,7 @@
     <None Include="Resources\Customizing\Character\pink_Run.png" />
   </ItemGroup>
   <ItemGroup>
+
     <None Include="Resources\Objects\enemy_slime_idle.png" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +235,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Objects\player_pink_run.png" />
+
+    <None Include="Resources\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gear_icon_60x60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\home_icon_60x60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gear_icon_home_style_60x60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChatGPT Image 2025년 6월 14일 오전 01_32_04.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gameplay_background_1024x576.png" />
+
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
