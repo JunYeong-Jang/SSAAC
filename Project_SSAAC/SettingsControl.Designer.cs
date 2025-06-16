@@ -29,25 +29,41 @@
         private void InitializeComponent()
         {
             this.btnToHome = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnToHome
             // 
             this.btnToHome.Image = global::Project_SSAAC.Properties.Resources.home_icon_60x60;
-            this.btnToHome.Location = new System.Drawing.Point(31, 470);
+            this.btnToHome.Location = new System.Drawing.Point(360, 188);
             this.btnToHome.Name = "btnToHome";
             this.btnToHome.Size = new System.Drawing.Size(60, 60);
             this.btnToHome.TabIndex = 0;
             this.btnToHome.UseVisualStyleBackColor = true;
             this.btnToHome.Click += new System.EventHandler(this.button1_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = global::Project_SSAAC.Properties.Resources.ChatGPT_Image_2025년_6월_14일_오전_01_32_04;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1024, 576);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // SettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnToHome);
             this.Name = "SettingsControl";
             this.Size = new System.Drawing.Size(1024, 576);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -55,5 +71,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnToHome;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

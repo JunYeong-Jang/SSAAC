@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Project_SSAAC
 {
@@ -16,10 +18,14 @@ namespace Project_SSAAC
         private Form1 _main;
 
         private Label lblMoveKey, lblAttackKey;
-        private Button btnMoveKey1, btnMoveKey2, btnMoveKey3, btnMoveKey4, btnAttackKey;
+        private Button btnMoveKey1, btnMoveKey2, btnMoveKey3, btnMoveKey4;
+        private Button btnAttackKey1, btnAttackKey2, btnAttackKey3, btnAttackKey4;
+
         private Label lblMusic, lblSFX;
         private TrackBar tbMusic, tbSFX;
         private CheckBox cbFullscreen, cbCRT;
+
+        private Button activeKeyButton = null;
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -38,8 +44,86 @@ namespace Project_SSAAC
             this.Resize += resize_Controls;
             resize_Controls(null, null);
 
+            var bindButtons = new[] { btnMoveKey1, btnMoveKey2, btnMoveKey3, btnMoveKey4, btnAttackKey1, btnAttackKey2, btnAttackKey3, btnAttackKey4 };
+          
+            foreach (var btn in bindButtons)
+            {
+                btn.Click += KeyBindButton_Click;
+            }
+
 
         }
+
+        private void KeyBindButton_Click(object sender, EventArgs e)
+        {
+            activeKeyButton = sender as Button;
+            activeKeyButton.Text = "대기중";
+
+            var form = this.FindForm();
+
+            if (form != null)
+            {
+                form.KeyPreview = true;
+                form.KeyDown -= Form_KeyDown_Handler; // 중복 방지
+                form.KeyDown += Form_KeyDown_Handler;
+            }
+        }
+
+        private void Form_KeyDown_Handler(object sender, KeyEventArgs e)
+        {
+            if (activeKeyButton == null) return;
+
+            string key = e.KeyCode.ToString();
+
+
+            if (activeKeyButton == btnMoveKey1)
+            {
+                _main.SetMoveKey(Direction.Up, e.KeyCode);
+            }
+            else if (activeKeyButton == btnMoveKey2)
+            {
+                _main.SetMoveKey(Direction.Left, e.KeyCode);
+            }
+            else if (activeKeyButton == btnMoveKey3)
+            {
+                _main.SetMoveKey(Direction.Down, e.KeyCode);
+            }
+            else if (activeKeyButton == btnMoveKey4)
+            {
+                _main.SetMoveKey(Direction.Right, e.KeyCode);
+            }
+            else if (activeKeyButton == btnAttackKey1)
+            {
+                _main.SetShootKey(Direction.Up, e.KeyCode);
+            }
+            else if (activeKeyButton == btnAttackKey2)
+            {
+                _main.SetShootKey(Direction.Left, e.KeyCode);
+            }
+            else if (activeKeyButton == btnAttackKey3)
+            {
+                _main.SetShootKey(Direction.Down, e.KeyCode);
+            }
+            else if (activeKeyButton == btnAttackKey4)
+            {
+                _main.SetShootKey(Direction.Right, e.KeyCode);
+            }
+
+
+
+
+            activeKeyButton.Text = key;
+            activeKeyButton = null;
+
+            var form = sender as Form;
+            
+            if (form != null)
+            {
+                form.KeyDown -= Form_KeyDown_Handler;
+            }
+        }
+
+        
 
         private void addButtons()
         {
@@ -51,7 +135,10 @@ namespace Project_SSAAC
             btnMoveKey4 = new Button { Text = "D", Location = new Point(260, 40), Size = new Size(60, 30), BackColor = Color.FromArgb(40, 40, 40), ForeColor = Color.White };
 
             lblAttackKey = new Label { Text = "공격 키:", ForeColor = Color.White, Location = new Point(100, 100), AutoSize = true };
-            btnAttackKey = new Button { Text = "↑", Location = new Point(200, 90), Size = new Size(60, 30), BackColor = Color.FromArgb(40, 40, 40), ForeColor = Color.White };
+            btnAttackKey1 = new Button { Text = "↑", Location = new Point(200, 90), Size = new Size(60, 30), BackColor = Color.FromArgb(40, 40, 40), ForeColor = Color.White };
+            btnAttackKey2 = new Button { Text = "←", Location = new Point(220, 90), Size = new Size(60, 30), BackColor = Color.FromArgb(40, 40, 40), ForeColor = Color.White };
+            btnAttackKey3 = new Button { Text = "↓", Location = new Point(240, 90), Size = new Size(60, 30), BackColor = Color.FromArgb(40, 40, 40), ForeColor = Color.White };
+            btnAttackKey4 = new Button { Text = "→", Location = new Point(260, 90), Size = new Size(60, 30), BackColor = Color.FromArgb(40, 40, 40), ForeColor = Color.White };
 
             // 사운드 설정
             lblMusic = new Label { Text = "배경음악:", ForeColor = Color.White, Location = new Point(100, 160), AutoSize = true };
@@ -71,7 +158,10 @@ namespace Project_SSAAC
             this.Controls.Add(btnMoveKey3);
             this.Controls.Add(btnMoveKey4);
             this.Controls.Add(lblAttackKey);
-            this.Controls.Add(btnAttackKey);
+            this.Controls.Add(btnAttackKey1);
+            this.Controls.Add(btnAttackKey2);
+            this.Controls.Add(btnAttackKey3);
+            this.Controls.Add(btnAttackKey4);
             this.Controls.Add(lblMusic);
             this.Controls.Add(tbMusic);
             this.Controls.Add(lblSFX);
@@ -79,7 +169,24 @@ namespace Project_SSAAC
             this.Controls.Add(cbFullscreen);
             this.Controls.Add(cbCRT);
 
+
+            //  컨트롤들을 맨앞으로 보이게 함
             lblMoveKey.BringToFront();
+            btnMoveKey1.BringToFront();
+            btnMoveKey2.BringToFront();
+            btnMoveKey3.BringToFront();
+            btnMoveKey4.BringToFront();
+            lblAttackKey.BringToFront();
+            btnAttackKey1.BringToFront();
+            btnAttackKey2.BringToFront();
+            btnAttackKey3.BringToFront();
+            btnAttackKey4.BringToFront();
+            lblMusic.BringToFront();
+            tbMusic.BringToFront();
+            lblSFX.BringToFront();
+            tbSFX.BringToFront();
+            cbFullscreen.BringToFront();
+            cbCRT.BringToFront();
 
 
             
@@ -109,7 +216,10 @@ namespace Project_SSAAC
 
             // 공격 키
             lblAttackKey.Location = new Point(marginX, currentY);
-            btnAttackKey.Location = new Point(marginX + labelWidth, currentY - 10);
+            btnAttackKey1.Location = new Point(marginX + labelWidth, currentY - 10);
+            btnAttackKey2.Location = new Point(btnAttackKey1.Right + 10, btnAttackKey1.Top);
+            btnAttackKey3.Location = new Point(btnAttackKey2.Right + 10, btnAttackKey1.Top);
+            btnAttackKey4.Location = new Point(btnAttackKey3.Right + 10, btnAttackKey1.Top);
             currentY += buttonHeight + spacingY;
 
             // 배경음악
@@ -164,5 +274,8 @@ namespace Project_SSAAC
                 _main.TopMost = false;
             }
         }
+
+       
+
     }
 }
