@@ -31,42 +31,58 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.btnCm = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnSettings = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
             // 
+            this.btnStart.BackColor = System.Drawing.SystemColors.Window;
             this.btnStart.Location = new System.Drawing.Point(364, 262);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(300, 60);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "게임 시작";
-            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnCm
             // 
+            this.btnCm.BackColor = System.Drawing.SystemColors.Window;
             this.btnCm.Location = new System.Drawing.Point(364, 350);
             this.btnCm.Name = "btnCm";
             this.btnCm.Size = new System.Drawing.Size(300, 60);
             this.btnCm.TabIndex = 1;
             this.btnCm.Text = "커스터마이징";
-            this.btnCm.UseVisualStyleBackColor = true;
+            this.btnCm.UseVisualStyleBackColor = false;
             this.btnCm.Click += new System.EventHandler(this.btnCm_Click);
             // 
             // btnExit
             // 
+            this.btnExit.BackColor = System.Drawing.SystemColors.Window;
             this.btnExit.Location = new System.Drawing.Point(364, 435);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(300, 60);
             this.btnExit.TabIndex = 2;
             this.btnExit.Text = "게임 종료";
-            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.BackColor = System.Drawing.SystemColors.Window;
+            this.btnSettings.Image = global::Project_SSAAC.Properties.Resources.gear_icon_home_style_60x60;
+            this.btnSettings.Location = new System.Drawing.Point(961, 513);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(60, 60);
+            this.btnSettings.TabIndex = 4;
+            this.btnSettings.UseVisualStyleBackColor = false;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = global::Project_SSAAC.Properties.Resources.resized_image_800x600;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
@@ -80,6 +96,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnCm);
             this.Controls.Add(this.btnStart);
@@ -97,5 +114,6 @@
         private System.Windows.Forms.Button btnCm;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnSettings;
     }
 }
