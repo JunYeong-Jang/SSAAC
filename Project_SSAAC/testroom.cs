@@ -14,6 +14,7 @@ using System.Windows.Forms;
 
 
 
+
 namespace Project_SSAAC
 {
     public partial class testroom : UserControl
@@ -633,7 +634,7 @@ namespace Project_SSAAC
         /// <summary>
         /// 게임의 사용자 인터페이스(UI) 요소들을 그립니다.
         /// </summary>
-        private void DrawUI(Graphics g)
+        private async void DrawUI(Graphics g)
         {
             Font uiFont = new Font("Arial", Math.Max(8f, ClientSize.Height / 50f), FontStyle.Bold); // 화면 크기 비례 폰트, 최소 8pt
 
@@ -753,6 +754,12 @@ namespace Project_SSAAC
                 // 그림자 효과
                 g.DrawString(gameOverText, gameOverFont, Brushes.Black, ClientSize.Width / 2f - gameOverSize.Width / 2f + 5, ClientSize.Height / 2f - gameOverSize.Height / 2f + 5);
                 g.DrawString(gameOverText, gameOverFont, Brushes.Firebrick, ClientSize.Width / 2f - gameOverSize.Width / 2f, ClientSize.Height / 2f - gameOverSize.Height / 2f); // 메인 텍스트
+
+
+                //  전체화면으로 게임플레이하면 창밖으로 못나가는 버그 수정
+                await Task.Delay(10000);
+
+                _main.Close();
             }
         }
 
