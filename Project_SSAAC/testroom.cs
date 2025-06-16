@@ -38,6 +38,7 @@ namespace Project_SSAAC
         private float currentSurvivalTimeLeft = 0f;
         private Room activeSurvivalRoom = null;
 
+
         private Form1 _main;
         public testroom(Form1 main)
         {
@@ -328,6 +329,12 @@ namespace Project_SSAAC
             pressedKeys.Remove(e.KeyCode);
         }
 
+        private void setKeys()
+            
+        {
+           
+        }
+
         private void HandleInput(float deltaTime)
         {
             if (player == null || player.CurrentHealth <= 0) // 플레이어가 없거나 죽었으면 입력 처리 안함
@@ -344,10 +351,10 @@ namespace Project_SSAAC
 
             // 플레이어 이동 처리 (WASD)
             PointF moveDirection = PointF.Empty;
-            if (pressedKeys.Contains(Keys.W)) moveDirection.Y -= 1;
-            if (pressedKeys.Contains(Keys.S)) moveDirection.Y += 1;
-            if (pressedKeys.Contains(Keys.A)) moveDirection.X -= 1;
-            if (pressedKeys.Contains(Keys.D)) moveDirection.X += 1;
+            if (pressedKeys.Contains(KeyBindingStorage.GetMoveKey(Direction.Up))) moveDirection.Y -= 1;
+            if (pressedKeys.Contains(KeyBindingStorage.GetMoveKey(Direction.Down))) moveDirection.Y += 1;
+            if (pressedKeys.Contains(KeyBindingStorage.GetMoveKey(Direction.Left))) moveDirection.X -= 1;
+            if (pressedKeys.Contains(KeyBindingStorage.GetMoveKey(Direction.Right))) moveDirection.X += 1;
 
             // Normalize된 속도 적용 또는 정지
             player.Velocity = !moveDirection.IsEmpty ? Normalize(moveDirection, player.Speed) : PointF.Empty;
@@ -365,10 +372,10 @@ namespace Project_SSAAC
             if (canAttack)
             {
                 PointF shootDirection = PointF.Empty;
-                if (pressedKeys.Contains(Keys.Up)) shootDirection.Y -= 1;
-                if (pressedKeys.Contains(Keys.Down)) shootDirection.Y += 1;
-                if (pressedKeys.Contains(Keys.Left)) shootDirection.X -= 1;
-                if (pressedKeys.Contains(Keys.Right)) shootDirection.X += 1;
+                if (pressedKeys.Contains(KeyBindingStorage.GetShootKey(Direction.Up))) shootDirection.Y -= 1;
+                if (pressedKeys.Contains(KeyBindingStorage.GetShootKey(Direction.Down))) shootDirection.Y += 1;
+                if (pressedKeys.Contains(KeyBindingStorage.GetShootKey(Direction.Left))) shootDirection.X -= 1;
+                if (pressedKeys.Contains(KeyBindingStorage.GetShootKey(Direction.Right))) shootDirection.X += 1;
 
                 if (!shootDirection.IsEmpty && shootCooldownTimer <= 0f)
                 {

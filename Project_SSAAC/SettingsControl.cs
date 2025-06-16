@@ -12,6 +12,24 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Project_SSAAC
 {
+    public enum Direction { Up, Down, Left, Right }
+
+
+    public static class KeyBindingStorage
+    {
+        private static readonly Dictionary<Direction, Keys> MoveKeys = new Dictionary<Direction, Keys>();
+        private static readonly Dictionary<Direction, Keys> ShootKeys = new Dictionary<Direction, Keys>();
+
+        public static void SetMoveKey(Direction dir, Keys key) => MoveKeys[dir] = key;
+        public static void SetShootKey(Direction dir, Keys key) => ShootKeys[dir] = key;
+
+        public static Keys GetMoveKey(Direction dir) =>
+            MoveKeys.TryGetValue(dir, out var k) ? k : Keys.None;
+
+        public static Keys GetShootKey(Direction dir) =>
+            ShootKeys.TryGetValue(dir, out var k) ? k : Keys.None;
+    }
+
     public partial class SettingsControl : UserControl
     {
 
@@ -75,42 +93,38 @@ namespace Project_SSAAC
 
             string key = e.KeyCode.ToString();
 
-
             if (activeKeyButton == btnMoveKey1)
             {
-                _main.SetMoveKey(Direction.Up, e.KeyCode);
+                KeyBindingStorage.SetMoveKey(Direction.Up, e.KeyCode);
             }
             else if (activeKeyButton == btnMoveKey2)
             {
-                _main.SetMoveKey(Direction.Left, e.KeyCode);
+                KeyBindingStorage.SetMoveKey(Direction.Left, e.KeyCode);
             }
             else if (activeKeyButton == btnMoveKey3)
             {
-                _main.SetMoveKey(Direction.Down, e.KeyCode);
+                KeyBindingStorage.SetMoveKey(Direction.Down, e.KeyCode);
             }
             else if (activeKeyButton == btnMoveKey4)
             {
-                _main.SetMoveKey(Direction.Right, e.KeyCode);
+                KeyBindingStorage.SetMoveKey(Direction.Right, e.KeyCode);
             }
             else if (activeKeyButton == btnAttackKey1)
             {
-                _main.SetShootKey(Direction.Up, e.KeyCode);
+                KeyBindingStorage.SetShootKey(Direction.Up, e.KeyCode);
             }
             else if (activeKeyButton == btnAttackKey2)
             {
-                _main.SetShootKey(Direction.Left, e.KeyCode);
+                KeyBindingStorage.SetShootKey(Direction.Left, e.KeyCode);
             }
             else if (activeKeyButton == btnAttackKey3)
             {
-                _main.SetShootKey(Direction.Down, e.KeyCode);
+                KeyBindingStorage.SetShootKey(Direction.Down, e.KeyCode);
             }
             else if (activeKeyButton == btnAttackKey4)
             {
-                _main.SetShootKey(Direction.Right, e.KeyCode);
+                KeyBindingStorage.SetShootKey(Direction.Right, e.KeyCode);
             }
-
-
-
 
             activeKeyButton.Text = key;
             activeKeyButton = null;

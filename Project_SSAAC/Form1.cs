@@ -10,7 +10,6 @@ using System.Linq;
 
 namespace Project_SSAAC
 {
-    public enum Direction { Up, Down, Left, Right }
 
     public partial class Form1 : Form
     {
@@ -34,15 +33,7 @@ namespace Project_SSAAC
         private float currentSurvivalTimeLeft = 0f;
         private Room activeSurvivalRoom = null;
 
-        private Keys moveUpKey = Keys.W;
-        private Keys moveDownKey = Keys.S;
-        private Keys moveLeftKey = Keys.A;
-        private Keys moveRightKey = Keys.D;
-
-        private Keys shootUpKey = Keys.Up;
-        private Keys shootDownKey = Keys.Down;
-        private Keys shootLeftKey = Keys.Left;
-        private Keys shootRightKey = Keys.Right;
+        
 
        
 
@@ -331,7 +322,7 @@ namespace Project_SSAAC
 
         private void HandleInput(float deltaTime)
         {
-            if (player == null || player.CurrentHealth <= 0) // 플레이어가 없거나 죽었으면 입력 처리 안함
+            /*if (player == null || player.CurrentHealth <= 0) // 플레이어가 없거나 죽었으면 입력 처리 안함
             {
                 if (player != null) player.Velocity = PointF.Empty; // 죽었으면 속도 0으로
                 return;
@@ -380,7 +371,7 @@ namespace Project_SSAAC
                         shootCooldownTimer = SHOOT_COOLDOWN; // 공격 쿨타임 초기화
                     }
                 }
-            }
+            }*/
         }
 
         private void UpdateGameObjects(float deltaTime)
@@ -953,27 +944,6 @@ namespace Project_SSAAC
             
         //}
 
-        public void SetMoveKey(Direction dir, Keys key)
-        {
-            switch (dir)
-            {
-                case Direction.Up: moveUpKey = key; break;
-                case Direction.Down: moveDownKey = key; break;
-                case Direction.Left: moveLeftKey = key; break;
-                case Direction.Right: moveRightKey = key; break;
-            }
-        }
-
-        public void SetShootKey(Direction dir, Keys key)
-        {
-            switch (dir)
-            {
-                case Direction.Up: shootUpKey = key; break;
-                case Direction.Down: shootDownKey = key; break;
-                case Direction.Left: shootLeftKey = key; break;
-                case Direction.Right: shootRightKey = key; break;
-            }
-
-        }
+     
     }
 }

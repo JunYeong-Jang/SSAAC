@@ -84,7 +84,7 @@ namespace Project_SSAAC
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            _main.LoadControl(new ZombieRoom(_main));
+            _main.LoadControl(new testroom(_main));
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
