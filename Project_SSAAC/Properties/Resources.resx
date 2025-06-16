@@ -123,6 +123,7 @@
   </data>
   <data name="background_customizing" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Customizing\background_customizing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="pink_Run" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Customizing\Character\pink_Run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -218,6 +219,7 @@
   </data>
   <data name="player_mask_idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Objects\player_mask_idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="pink_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Customizing\Character\pink_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -241,6 +243,7 @@
   </data>
   <data name="player_pink_run" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Objects\player_pink_run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="background_customizing" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Customizing\background_customizing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
