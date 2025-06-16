@@ -39,10 +39,10 @@ namespace Project_SSAAC
 
             // 임시 주석
             // HomeControl을 스킵하고 바로 게임화면으로
-            // LoadControl(new HomeControl(this)); // from character branch
+            LoadControl(new HomeControl(this)); // from character branch
 
             // 임시 코드
-            panelMain.Visible = false; // 패널 숨김
+            /*panelMain.Visible = false; // 패널 숨김*/
 
             this.DoubleBuffered = true;
 
