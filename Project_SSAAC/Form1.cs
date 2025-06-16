@@ -51,8 +51,12 @@ namespace Project_SSAAC
             Debug.WriteLine("[Form1] Constructor - Start");
             InitializeComponent();
 
-
+            // 임시 주석
+            // HomeControl을 스킵하고 바로 게임화면으로
             LoadControl(new HomeControl(this)); // from character branch
+
+            // 임시 코드
+            /*panelMain.Visible = false; // 패널 숨김*/
 
             this.DoubleBuffered = true;
 
@@ -202,6 +206,7 @@ namespace Project_SSAAC
             Debug.WriteLine($"[Form1] LoadCurrentRoomObjects - Finished. Enemies in room: {enemies.Count}. PuzzleInputMode: {isInPuzzleInputMode}. ActivePuzzleRoom: {activePuzzleRoom?.GridPosition}. ActiveSurvivalRoom: {activeSurvivalRoom?.GridPosition}");
         }
 
+        int animationTimerCounter = 0; // 애니메이션 타이머 카운터
 
         private void GameTimer_Tick(object sender, EventArgs e)
         {
@@ -215,6 +220,26 @@ namespace Project_SSAAC
                 deltaTime = Math.Min(deltaTime, 0.1f); // 최대 deltaTime을 0.1초로 제한
 
                 if (shootCooldownTimer > 0f) shootCooldownTimer -= deltaTime;
+
+                if (player.Velocity.X == 0 && player.Velocity.Y == 0)
+                {
+                    player.IsRun = false; // 이동하지 않으면 IsRun false
+                }
+                else
+                {
+                    player.IsRun = true; // 이동 중이면 IsRun true
+
+                    if (player.Velocity.X > 0) { player.facingRight = true; player.IsRun = true; } // 오른쪽 이동
+                    else if (player.Velocity.X < 0) { player.facingRight = false; player.IsRun = true; }// 왼쪽 이동
+                }
+
+                animationTimerCounter += 16;    // 16ms 간격으로 타이머 증가 (60FPS 기준)
+                if (animationTimerCounter >= 100)
+                {
+                    player.frameIndex = (player.frameIndex + 1) % 11;
+                    enemies.ForEach(enemy => enemy.frameIndex = (enemy.frameIndex + 1) % 10); // 모든 적 애니메이션 프레임 업데이트
+                    animationTimerCounter = 0;
+                }
 
                 HandleInput(deltaTime);         // 입력 처리
                 UpdateGameObjects(deltaTime);   // 게임 객체 상태 업데이트
@@ -899,33 +924,35 @@ namespace Project_SSAAC
             this.Close();
         }
 
-        public void RegisterCharacter(PictureBox pic)
-        {
-            player.MainCharacter = pic;
-        }
+        // 임시 주석
+        //public void RegisterCharacter(PictureBox pic)
+        //{
+        //    player.MainCharacter = pic;
+        //}
 
-        public void LoadCharacterTo(UserControl targetUC)
-        {
-            if (player.MainCharacter == null) return;
+        //public void LoadCharacterTo(UserControl targetUC)
+        //{
+        //    if (player.MainCharacter == null) return;
 
-            // 기존 부모에서 제거
-            if (player.MainCharacter.Parent != null)
-                player.MainCharacter.Parent.Controls.Remove(player.MainCharacter);
+        //    // 기존 부모에서 제거
+        //    if (player.MainCharacter.Parent != null)
+        //        player.MainCharacter.Parent.Controls.Remove(player.MainCharacter);
 
-            player.MainCharacter.SizeMode = PictureBoxSizeMode.Zoom;    //  사이즈 모드 설정
+        //    player.MainCharacter.SizeMode = PictureBoxSizeMode.Zoom;    //  사이즈 모드 설정
 
-            //  메인캐릭터 나타낼 화면 위치 
-            int width = (int)player.Size.Width;    //  픽쳐박스 폭
-            int height = (int)player.Size.Height;   //  픽쳐박스 높이 
+        //    //  메인캐릭터 나타낼 화면 위치 
+        //    int width = (int)player.Size.Width;    //  픽쳐박스 폭
+        //    int height = (int)player.Size.Height;   //  픽쳐박스 높이 
 
-            player.MainCharacter.SetBounds(this.Width / 2 - width / 2, this.Height / 2 - height / 2, width, height);
+        //    player.MainCharacter.SetBounds(this.Width / 2 - width / 2, this.Height / 2 - height / 2, width, height);
 
-            // 새로운 유저컨트롤에 추가
-            targetUC.Controls.Add(player.MainCharacter);
-            player.MainCharacter.BringToFront();
+        //    // 새로운 유저컨트롤에 추가
+        //    targetUC.Controls.Add(player.MainCharacter);
+        //    player.MainCharacter.BringToFront();
+        
+            
+        //}
 
-
-        }
         public void SetMoveKey(Direction dir, Keys key)
         {
             switch (dir)

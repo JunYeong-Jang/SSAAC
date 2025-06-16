@@ -22,10 +22,10 @@ namespace Project_SSAAC
         int currentFrame = 0;
 
         // 캐릭터 이미지 불러오기
-        Bitmap blueSheet = Properties.Resources.blue_Idle;
-        Bitmap greenSheet = Properties.Resources.green_Idle;
-        Bitmap pinkSheet = Properties.Resources.pink_Idle;
-        Bitmap maskedSheet = Properties.Resources.masked_Idle;
+        Bitmap blueSheet = Properties.Resources.player_blue_idle;
+        Bitmap greenSheet = Properties.Resources.player_frog_idle;
+        Bitmap pinkSheet = Properties.Resources.player_pink_idle;
+        Bitmap maskedSheet = Properties.Resources.player_mask_idle;
         // 유저가 고른 캐릭터의 이미지 sheet를 저장할 bitmap
         Bitmap currentSheet;
 
@@ -153,7 +153,8 @@ namespace Project_SSAAC
             PictureBox pic = new PictureBox();
             pic.Image = picBoxCharacter.Image;
 
-            _main.RegisterCharacter(pic);
+            // 임시 주석
+            //_main.RegisterCharacter(pic);
             _main.LoadControl(new HomeControl(_main));
         }
 

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Project_SSAAC.GameObjects
 {
@@ -45,42 +46,89 @@ namespace Project_SSAAC.GameObjects
         /// </summary>
         public int CurrentHealth { get; private set; }
 
-
-        // from customizing support // 플레이어의 외형을 저장할 pictureBox 멤버
-        public PictureBox MainCharacter { get; set; }
-        // from customizing/support // 캐릭터의 기본 사이즈 32 -> 50
-
-        public Player(PointF startPos)
-            : base(startPos, new SizeF(50, 50))
+        /// <summary>
+        /// 플레이어의 외형 시트를 상태별로 저장하는 Bitmap 딕셔너리입니다.
+        /// </summary>
+        private Dictionary<string, Bitmap> playerAppearances { get; set; } = new Dictionary<string, Bitmap>()
         {
+            { "idle", Properties.Resources.player_blue_idle },
+            { "run", Properties.Resources.player_blue_run },
+            { "invincible", Properties.Resources.player_blue_invincible }
+        };
 
-        }
+        /// <summary>
+        /// 플레이어가 바라보는 방향 (오른쪽이 기본)
+        public bool facingRight { get; set; } = true;
 
+        /// <summary>
+        /// 플레이어 시트를 자르는 크기
+        /// </summary>
+        private const int frameWidth = 32;
+        private const int frameHeight = 32;
 
+        /// <summary>
+        /// 플레이어 애니메이션 시트의 인덱스
+        /// </summary>
+        public int frameIndex { get; set; } = 0;
 
 
         /// <summary>
         /// 플레이어의 기본 크기입니다.
         /// </summary>
-        // 기존 master의 내용 (25.05.11)
-        // private static readonly SizeF PlayerDefaultSize = new SizeF(32, 32);
+        private static readonly SizeF PlayerDefaultSize = new SizeF(32, 32);
+
 
         public bool IsInvincible { get; private set; } = false; // 무적 상태 플래그
         private float invincibilityTimer = 0f;                // 무적 시간 타이머
         private const float INVINCIBILITY_DURATION = 0.75f;   // 무적 지속 시간 (예: 0.75초)
 
+        public bool IsRun { get; set; } = false;    // 플레이어가 현재 idle 상태인지 여부
+
         /// <summary>
         /// Player 객체를 초기화합니다.
         /// </summary>
         /// <param name="startPos">플레이어의 시작 위치입니다.</param>
-        // 기존 master의 내용 (25.05.11)
-        // public Player(PointF startPos)
-        //     : base(startPos, PlayerDefaultSize)
 
-        /*{
+        public Player(PointF startPos)
+            : base(startPos, PlayerDefaultSize)
+        {
             CurrentHealth = MaxHealth;
             Debug.WriteLine($"[Player] Created at {startPos}. Health: {CurrentHealth}/{MaxHealth}");
-        }*/
+        }
+
+
+        public void SetAppearance(string appearance)
+        {
+            if (appearance == "blue")
+            {
+                this.playerAppearances["idle"] = Properties.Resources.player_blue_idle;
+                this.playerAppearances["run"] = Properties.Resources.player_blue_run;
+                this.playerAppearances["invincible"] = Properties.Resources.player_blue_invincible;
+            }
+            else if (appearance == "pink")
+            {
+                this.playerAppearances["idle"] = Properties.Resources.player_pink_idle;
+                this.playerAppearances["run"] = Properties.Resources.player_pink_run;
+                this.playerAppearances["invincible"] = Properties.Resources.player_pink_invincible;
+            }
+            else if (appearance == "frog")
+            {
+                this.playerAppearances["idle"] = Properties.Resources.player_frog_idle;
+                this.playerAppearances["run"] = Properties.Resources.player_frog_run;
+                this.playerAppearances["invincible"] = Properties.Resources.player_frog_invincible;
+            }
+            else if (appearance == "mask")
+            {
+                this.playerAppearances["idle"] = Properties.Resources.player_mask_idle;
+                this.playerAppearances["run"] = Properties.Resources.player_mask_run;
+                this.playerAppearances["invincible"] = Properties.Resources.player_mask_invincible;
+            }
+            else
+            {
+                Debug.WriteLine($"[Player] Unknown appearance: {appearance}");
+                return;
+            }
+        }
 
         /// <summary>
         /// 플레이어의 상태를 업데이트합니다. 주로 Velocity에 따라 위치를 이동시킵니다.
@@ -114,19 +162,88 @@ namespace Project_SSAAC.GameObjects
         {
             if (IsInvincible)
             {
-                // 무적 상태일 때 깜빡이는 효과 또는 색상 변경
-                // 예시: 0.1초(또는 N프레임) 간격으로 색 변경 또는 보였다 안보였다 하기
-                // 간단하게는 invincibilityTimer 값을 기준으로 홀/짝 프레임에 따라 그리거나 색을 바꿈
-                // (int)(invincibilityTimer * 10) % 2 == 0  -> 100ms 마다 상태 변경 (깜빡임 속도 조절)
-                if ((int)((INVINCIBILITY_DURATION - invincibilityTimer) * 10) % 2 == 0) // 초당 5번 깜빡이는 효과 (INVINCIBILITY_DURATION에 따라 빈도 조절 필요)
+                //// 무적 상태일 때 깜빡이는 효과 또는 색상 변경
+                //// 예시: 0.1초(또는 N프레임) 간격으로 색 변경 또는 보였다 안보였다 하기
+                //// 간단하게는 invincibilityTimer 값을 기준으로 홀/짝 프레임에 따라 그리거나 색을 바꿈
+                //// (int)(invincibilityTimer * 10) % 2 == 0  -> 100ms 마다 상태 변경 (깜빡임 속도 조절)
+                //if ((int)((INVINCIBILITY_DURATION - invincibilityTimer) * 10) % 2 == 0) // 초당 5번 깜빡이는 효과 (INVINCIBILITY_DURATION에 따라 빈도 조절 필요)
+                //{
+                //    g.FillRectangle(Brushes.Cyan, Bounds); // 무적일 때 시안색으로 표시
+                //}
+                //// else { /* 안 그리면 깜빡이는 효과가 됨 */ }
+                RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
+
+                if (this.facingRight)
                 {
-                    g.FillRectangle(Brushes.Cyan, Bounds); // 무적일 때 시안색으로 표시
+                    RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 50, 50);
+                    g.DrawImage(playerAppearances["invincible"], destRect, srcRect, GraphicsUnit.Pixel);
                 }
-                // else { /* 안 그리면 깜빡이는 효과가 됨 */ }
+                else
+                {
+                    g.TranslateTransform(Position.X + 50, Position.Y);  // 기준점 오른쪽으로
+                    g.ScaleTransform(-1, 1);  // 좌우 반전
+                    RectangleF destRect = new RectangleF(0, 0, 50, 50);  // 좌표계 바뀌었음!
+                    g.DrawImage(playerAppearances["invincible"], destRect, srcRect, GraphicsUnit.Pixel);
+                    g.ResetTransform();  // 다른 요소에 영향 안 주게!
+                }
+
             }
             else
             {
-                g.FillRectangle(Brushes.Blue, Bounds); // 평소 파란 사각형으로 표시
+                if (IsRun)
+                {
+                    // 잘라올 위치 (가로 방향으로 index번째)
+                    RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
+
+                    if (this.facingRight)
+                    {
+
+                        // 도화지에 그릴 위치 (Position 위치에, 50*50 크기로 그림)
+                        RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 50, 50);
+
+
+                        //g.DrawImage(playerAppearance, destRect, srcRect, GraphicsUnit.Pixel);
+                        g.DrawImage(playerAppearances["run"], destRect, srcRect, GraphicsUnit.Pixel);
+                    }
+                    else
+                    {
+                        g.TranslateTransform(Position.X + 50, Position.Y);  // 기준점 오른쪽으로
+                        g.ScaleTransform(-1, 1);  // 좌우 반전
+
+                        RectangleF destRect = new RectangleF(0, 0, 50, 50);  // 좌표계 바뀌었음!
+                        g.DrawImage(playerAppearances["run"], destRect, srcRect, GraphicsUnit.Pixel);
+
+                        g.ResetTransform();  // 다른 요소에 영향 안 주게!
+                    }
+                }
+                else
+                {
+                    // 잘라올 위치 (가로 방향으로 index번째)
+                    RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
+
+                    if (this.facingRight)
+                    {
+
+                        // 도화지에 그릴 위치 (Position 위치에, 50*50 크기로 그림)
+                        RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 50, 50);
+
+
+                        //g.DrawImage(playerAppearance, destRect, srcRect, GraphicsUnit.Pixel);
+                        g.DrawImage(playerAppearances["idle"], destRect, srcRect, GraphicsUnit.Pixel);
+                    }
+                    else
+                    {
+                        g.TranslateTransform(Position.X + 50, Position.Y);  // 기준점 오른쪽으로
+                        g.ScaleTransform(-1, 1);  // 좌우 반전
+
+                        RectangleF destRect = new RectangleF(0, 0, 50, 50);  // 좌표계 바뀌었음!
+                        g.DrawImage(playerAppearances["idle"], destRect, srcRect, GraphicsUnit.Pixel);
+
+                        g.ResetTransform();  // 다른 요소에 영향 안 주게!
+                    }
+                }
+
+
             }
         }
 
@@ -168,6 +285,9 @@ namespace Project_SSAAC.GameObjects
                 IsInvincible = true;
                 invincibilityTimer = INVINCIBILITY_DURATION; // 설정된 무적 시간으로 타이머 초기화
                 // Debug.WriteLine($"[Player] Became invincible for {INVINCIBILITY_DURATION} seconds.");
+                // from character
+                // damege를 입었을때 애니메이션 시트 0으로 초기화
+                frameIndex = 0;
             }
         }
 
@@ -215,6 +335,5 @@ namespace Project_SSAAC.GameObjects
             System.Diagnostics.Debug.WriteLine($"[Player] Instantaneously killed by timeout or special event." +
                 $" Health: {CurrentHealth}/{MaxHealth}");
         }
-
     }
 }

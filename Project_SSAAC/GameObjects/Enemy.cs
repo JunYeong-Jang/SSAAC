@@ -35,6 +35,27 @@ namespace Project_SSAAC.GameObjects
         public bool IsAlive => CurrentHealth > 0;
 
         /// <summary>
+        /// enemy의 외형 sheet를 저장하는 Bitmap 객체입니다.
+        /// </summary>
+        public Bitmap enemyAppearance { get; set; } = Properties.Resources.enemy_slime_idle;
+
+        /// <summary>
+        /// 적이 바라보는 방향을 저장하는 bool 값 (왼쪽이 기본)
+        /// </summary>
+        public bool facingLeft { get; set; } = true;
+
+        /// <summary>
+        /// enemy 시트를 자르는 크기
+        /// </summary>
+        private const int frameWidth = 44;
+        private const int frameHeight = 30;
+
+        /// <summary>
+        /// enemy 애니메이션 시트의 인덱스
+        /// </summary>
+        public int frameIndex { get; set; } = 0;
+
+        /// <summary>
         /// Enemy 객체를 초기화합니다.
         /// </summary>
         protected Enemy(PointF startPosition, SizeF size, int maxHealth, float speed)
@@ -64,7 +85,32 @@ namespace Project_SSAAC.GameObjects
         public override void Draw(Graphics g)
         {
             if (!IsAlive) return;
-            g.FillRectangle(Brushes.DarkRed, Bounds); // 기본 적은 어두운 빨간 사각형
+            //g.FillRectangle(Brushes.DarkRed, Bounds); // 기본 적은 어두운 빨간 사각형
+
+            // 잘라올 위치 (가로 방향으로 index번째)
+            RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
+
+            // 적이 오른쪽을 바라보는 경우, 이미지를 좌우 반전합니다.
+            if (this.facingLeft)
+            {
+                // 도화지에 그릴 위치 (Position 위치에, 50*50 크기로 그림)
+                RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 50, 50);
+
+
+                //g.DrawImage(playerAppearance, destRect, srcRect, GraphicsUnit.Pixel);
+                g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
+            }
+            else
+            {
+                g.TranslateTransform(Bounds.X + Bounds.Width, Bounds.Y); // X축 기준으로 이동
+                g.ScaleTransform(-1, 1); // 좌우 반전
+
+                RectangleF destRect = new RectangleF(0, 0, 50, 50); // 좌표계가 바뀌었으므로 (0,0)에서 시작
+                g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
+
+                g.ResetTransform(); // 변환을 초기화하여 다른 요소에 영향 주지 않도록 합니다.
+            }
+
         }
 
         /// <summary>
@@ -110,6 +156,16 @@ namespace Project_SSAAC.GameObjects
                 float moveX = (dx / distance) * Speed * deltaTime;
                 float moveY = (dy / distance) * Speed * deltaTime;
                 Position = new PointF(Position.X + moveX, Position.Y + moveY);
+            }
+
+            // 적이 플레이어를 바라보는 방향을 업데이트합니다.
+            if (dx < 0)
+            {
+                facingLeft = true; // 왼쪽을 바라봄
+            }
+            else if (dx > 0)
+            {
+                facingLeft = false; // 오른쪽을 바라봄
             }
         }
     }

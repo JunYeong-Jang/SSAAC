@@ -197,6 +197,45 @@
     <None Include="Resources\Customizing\Character\pink_Run.png" />
   </ItemGroup>
   <ItemGroup>
+
+    <None Include="Resources\Objects\enemy_slime_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_blue_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_blue_invincible.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_blue_run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_frog_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_frog_invincible.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_frog_run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_mask_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_mask_invincible.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_mask_run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_pink_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_pink_invincible.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\player_pink_run.png" />
+
     <None Include="Resources\settings.png" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\gameplay_background_1024x576.png" />
+
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
