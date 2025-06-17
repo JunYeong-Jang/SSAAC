@@ -31,6 +31,7 @@ namespace Project_SSAAC
         private bool isInPuzzleInputMode = false;
         private Room activePuzzleRoom = null;
         private float currentSurvivalTimeLeft = 0f;
+        private float currentSurvivalTimeLimit = 30.0f;
         private Room activeSurvivalRoom = null;
         private Keys moveUpKey = Keys.W;
         private Keys moveDownKey = Keys.S;
@@ -150,7 +151,7 @@ namespace Project_SSAAC
             else if (newCurrentRoom.Type == RoomType.Survival && !newCurrentRoom.IsSurvivalCompleted && !newCurrentRoom.IsCleared)
             {
                 newCurrentRoom.IsSurvivalActive = true;
-                currentSurvivalTimeLeft = newCurrentRoom.SurvivalTimeDuration;
+                currentSurvivalTimeLeft = currentSurvivalTimeLimit;
                 activeSurvivalRoom = newCurrentRoom;
                 Debug.WriteLine($"[Form1] SurvivalRoom {newCurrentRoom.GridPosition} - Survival Activated. Duration: {currentSurvivalTimeLeft}s");
             }
@@ -192,6 +193,7 @@ namespace Project_SSAAC
                 lastFrameTime = currentTime;
                 deltaTime = Math.Min(deltaTime, 0.1f);
                 if (shootCooldownTimer > 0f) shootCooldownTimer -= deltaTime;
+                // 플레이어의 시선방향 체크
                 if (player.Velocity.X == 0 && player.Velocity.Y == 0) player.IsRun = false;
                 else
                 {
@@ -199,8 +201,9 @@ namespace Project_SSAAC
                     if (player.Velocity.X > 0) { player.facingRight = true; player.IsRun = true; }
                     else if (player.Velocity.X < 0) { player.facingRight = false; player.IsRun = true; }
                 }
-                animationTimerCounter += 16;
-                if (animationTimerCounter >= 100)
+                // 10fps의 애니메이션 프레임 업데이트
+                animationTimerCounter ++;
+                if (animationTimerCounter >= 6)
                 {
                     player.frameIndex = (player.frameIndex + 1) % 11;
                     enemies.ForEach(enemy => enemy.frameIndex = (enemy.frameIndex + 1) % 10);
@@ -384,7 +387,7 @@ namespace Project_SSAAC
                     if (currentLevel.CurrentRoom.Type == RoomType.Survival)
                     {
                         // 초당 0.3의 속도를 더해줍니다 (프레임에 독립적).
-                        enemy.IncreaseSpeed(0.3f * deltaTime);
+                        enemy.IncreaseSpeed(3.0f * deltaTime);
                     }
                     // ====[ 여기까지 수정 및 추가된 코드 ]====
 

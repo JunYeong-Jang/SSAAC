@@ -57,7 +57,7 @@ namespace Project_SSAAC
             this.Dock = DockStyle.Fill;
 
             // 유저컨트롤 배경 이미지
-            this.BackgroundImage = Properties.Resources.background_customizing;
+            this.BackgroundImage = Properties.Resources.gameplay_background_1024x576;
 
             // 캐릭터 외형 이미지
             picBoxCharacter.BackColor = Color.Transparent;
@@ -81,6 +81,8 @@ namespace Project_SSAAC
             // 인덱스 이미지
             picBox_index.Image = Properties.Resources.text_1;
             picBox_index.Size = new Size(30, 30);
+
+
 
             this.Resize += CustomizingControl_Resize;   // 창 크기변화에 따라 재정렬하는 함수
             // 컨트롤 최초 정렬
@@ -135,14 +137,19 @@ namespace Project_SSAAC
             picBox_btnPrev.Location = new Point(20, (panel_selectMenu.Height - picBox_btnPrev.Height) / 2);
             picBox_btnNext.Location = new Point(panel_selectMenu.Width - picBox_btnNext.Width - 20, (panel_selectMenu.Height - picBox_btnNext.Height) / 2);
             picBox_index.Location = new Point((panel_selectMenu.Width - picBox_index.Width) / 2, (panel_selectMenu.Height - picBox_index.Height) / 2);
-            btnBackToHome.Location = new Point(10, this.Bottom - btnBackToHome.Height - 10);
+
+            int pb2Width = (int)(this.Width * 0.06);
+            int pb2Height = pb2Width;          // 정사각형으로 가정
+
+            int pb2X = (int)(this.Width * 0.02); // 오른쪽 여백 약 2%
+            int pb2Y = this.Height - pb2Height - (int)(this.Height * 0.02); // 아래쪽 여백 약 2%
+
+            btnSaveToHome.SetBounds(pb2X, pb2Y, pb2Width, pb2Height);
+            btnSaveToHome.BackColor = Color.Gray;
+            btnSaveToHome.BringToFront();
         }
 
-        private void btnBackToHome_Click(object sender, EventArgs e)
-        {
-            _player.SetAppearance(selectedAppearance); // 플레이어 객체에 현재 선택된 외형 저장
-            _main.LoadControl(new HomeControl(_main, _player));
-        }
+
 
        
         private void UpdateCharacterImage()
@@ -220,6 +227,12 @@ namespace Project_SSAAC
         {
             currentAppearanceIndex = (currentAppearanceIndex + 1) % appearanceOptions.Count;
             UpdateCharacterImage();
+        }
+
+        private void btnSaveToHome_Click(object sender, EventArgs e)
+        {
+            _player.SetAppearance(selectedAppearance); // 플레이어 객체에 현재 선택된 외형 저장
+            _main.LoadControl(new HomeControl(_main, _player));
         }
     }
 }

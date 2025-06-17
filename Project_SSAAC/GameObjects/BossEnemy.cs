@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Project_SSAAC.GameObjects
 {
@@ -19,6 +20,16 @@ namespace Project_SSAAC.GameObjects
 
         private PointF chargeTarget;
         private float chargeSpeed = 400f;
+
+        public Dictionary<string, Bitmap> enemyAppearances { get; set; } = new Dictionary<string, Bitmap>()
+        {
+            { "idle", Properties.Resources.enemy_boss_idle },
+            { "enraged", Properties.Resources.enemy_boss_enraged },
+            { "attack", Properties.Resources.enemy_boss_attack }
+        };
+
+        private const int frameWidth = 52;
+        private const int frameHeight = 54;
 
         public BossEnemy(PointF startPosition)
             : base(startPosition, BOSS_SIZE, BOSS_HEALTH, BOSS_SPEED)
@@ -118,6 +129,26 @@ namespace Project_SSAAC.GameObjects
             else
             {
                 stateTimer = 0; // 목표 도달 시 즉시 다음 상태로
+            }
+        }
+        public override void Draw(Graphics g)
+        {
+            Bitmap sheetToDraw = enemyAppearances[isEnraged ? "enraged" : "idle"];
+            if (!IsAlive) return;
+            
+            RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
+            if (this.facingLeft)
+            {
+                RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 60, 60);
+                g.DrawImage(sheetToDraw, destRect, srcRect, GraphicsUnit.Pixel);
+            }
+            else
+            {
+                g.TranslateTransform(Bounds.X + Bounds.Width, Bounds.Y);
+                g.ScaleTransform(-1, 1);
+                RectangleF destRect = new RectangleF(0, 0, 60, 60);
+                g.DrawImage(sheetToDraw, destRect, srcRect, GraphicsUnit.Pixel);
+                g.ResetTransform();
             }
         }
     }

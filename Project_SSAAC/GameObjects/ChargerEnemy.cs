@@ -1,6 +1,8 @@
 ﻿// 파일 위치: Project_SSAAC/GameObjects/ChargerEnemy.cs
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Project_SSAAC.GameObjects
 {
@@ -10,12 +12,21 @@ namespace Project_SSAAC.GameObjects
 
         private const int ENEMY_HEALTH = 12;
         private const float ENEMY_SPEED = 60f;
-        private static readonly SizeF ENEMY_SIZE = new SizeF(35, 35);
+        private static readonly SizeF ENEMY_SIZE = new SizeF(50, 40);
 
         private ChargerState currentState = ChargerState.Idling;
         private float stateTimer = 0f;
         private PointF chargeTarget;
         private float chargeSpeed = 350f;
+
+        public Dictionary<string, Bitmap> enemyAppearances { get; set; } = new Dictionary<string, Bitmap>()
+        {
+            { "idle", Properties.Resources.enemy_charger_idle },
+            { "run", Properties.Resources.enemy_charger_run },
+        };
+
+        private const int frameWidth = 52;
+        private const int frameHeight = 34;
 
         public ChargerEnemy(PointF startPosition)
             : base(startPosition, ENEMY_SIZE, ENEMY_HEALTH, ENEMY_SPEED)
@@ -81,6 +92,27 @@ namespace Project_SSAAC.GameObjects
             else
             {
                 stateTimer = 0;
+            }
+        }
+        public override void Draw(Graphics g)
+        {
+            Bitmap sheetToDraw = enemyAppearances["idle"];
+            if (!IsAlive) return;
+            else if (currentState == ChargerState.Charging) sheetToDraw = enemyAppearances["run"];
+
+            RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
+            if (this.facingLeft)
+            {
+                RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 50, 40);
+                g.DrawImage(sheetToDraw, destRect, srcRect, GraphicsUnit.Pixel);
+            }
+            else
+            {
+                g.TranslateTransform(Bounds.X + Bounds.Width, Bounds.Y);
+                g.ScaleTransform(-1, 1);
+                RectangleF destRect = new RectangleF(0, 0, 50, 40);
+                g.DrawImage(sheetToDraw, destRect, srcRect, GraphicsUnit.Pixel);
+                g.ResetTransform();
             }
         }
     }
