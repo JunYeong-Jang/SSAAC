@@ -89,5 +89,14 @@ namespace Project_SSAAC.GameObjects
         {
             this.Position = newPosition;
         }
+
+        /// <summary>
+        /// 적의 이동 속도를 지정된 만큼 증가시킵니다.
+        /// </summary>
+        /// <param name="amount">증가시킬 속도 값입니다.</param>
+        public virtual void IncreaseSpeed(float amount)
+        {
+            Speed += amount;
+        }
     }
 }

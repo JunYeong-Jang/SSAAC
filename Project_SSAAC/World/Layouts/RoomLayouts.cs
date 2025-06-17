@@ -1,7 +1,7 @@
 ﻿// 파일 위치: Project_SSAAC/World/Layouts/RoomLayouts.cs
 using System;
 using System.Collections.Generic;
-using Project_SSAAC.World; // RoomType을 사용하기 위해 추가
+using Project_SSAAC.World;
 
 namespace Project_SSAAC.World.Layouts
 {
@@ -16,24 +16,24 @@ namespace Project_SSAAC.World.Layouts
         // P : 구덩이 (Pit) - 이동 불가, 공격 통과
         // E : 적 생성 위치 (Enemy)
 
-        #region 일반 방(Normal, MiniBoss) 설계도
+        #region 일반 방(Normal, MiniBoss) 설계도 (문 통로 확보됨)
         private static List<string[]> normalRoomTemplates = new List<string[]>
         {
-            // --- 감옥 모양 (적 개수 증가) ---
+            // --- 감옥 모양 ---
             new string[]
             {
-                "R..............R",
+                "R............R",
                 "R.R.R.R.R.R.R.RR",
                 "R...E........E.R",
-                "R..............R",
-                "R......E.......R",
-                "R..............R",
+                "...............R", // 좌측 문 통로 확보
+                ".......E.......R", // 좌측 문 통로 확보
+                "...............R", // 좌측 문 통로 확보
                 "RR.R.R.R.R.R.R.R",
                 "R...E........E.R",
-                "R..............R"
+                "R............R"
             },
 
-            // --- 네 개의 기둥 (적 개수 증가) ---
+            // --- 네 개의 기둥 ---
             new string[]
             {
                 "................",
@@ -47,37 +47,37 @@ namespace Project_SSAAC.World.Layouts
                 "................"
             },
 
-            // --- 중앙 십자 벽 (적 개수 증가) ---
+            // --- 중앙 십자 벽 ---
             new string[]
             {
-                "...E............",
+                "...E... .. ......", // 상단 문 통로 확보
                 ".......RR.......",
                 ".......RR.......",
-                "RR...RRRR...RR..",
-                "RR.E.RRRR.E.RR..",
-                ".......RR.......",
+                ".. ...RRRR...RR..", // 좌측 문 통로 확보
+                "..E.RRRR.E.RR..", // 좌측 문 통로 확보
+                ".....RRRR...RR..", // 좌측 문 통로 확보
                 ".......RR.......",
                 "............E...",
-                "................"
+                "....... .. ......"  // 하단 문 통로 확보
             },
 
-            // --- 외곽 순찰로 (적 개수 증가) ---
+            // --- 외곽 순찰로 ---
             new string[]
             {
-                "RRRRRRRRRRRRRRRR",
+                "RRRRRR. ..RRRRRRR", // 상단 문 통로 확보
                 "R.E............R",
                 "R.RRRRRRRRRRRR.R",
-                "P.P..........P.P",
-                "P.P.E....E...P.P",
-                "P.P..........P.P",
+                ". P..........P.P", // 좌측 문 통로 확보
+                ". P.E....E...P. ", // 좌우 문 통로 확보
+                ". P..........P.P", // 좌측 문 통로 확보
                 "R.RRRRRRRRRRRR.R",
                 "R............E.R",
-                "RRRRRRRRRRRRRRRR"
+                "RRRRRR. ..RRRRRRR"  // 하단 문 통로 확보
             },
         };
         #endregion
 
-        #region 퍼즐(Puzzle) 방 설계도 (적 없음)
+        #region 퍼즐(Puzzle) 방 설계도 (문 통로 확보됨)
         private static List<string[]> puzzleRoomTemplates = new List<string[]>
         {
             // --- 중앙 구덩이 ---
@@ -101,7 +101,7 @@ namespace Project_SSAAC.World.Layouts
                 ".S.S.S.S.S.S.S.S",
                 ".S.S.S.S.S.S.S.S",
                 ".S.S.S.S.S.S.S.S",
-                ".S.S.S.S.S.S.S.S",
+                " S.S.S.S.S.S.S.S", // 좌측 문 통로 확보
                 ".S.S.S.S.S.S.S.S",
                 ".S.S.S.S.S.S.S.S",
                 "................",
@@ -111,54 +111,54 @@ namespace Project_SSAAC.World.Layouts
             // --- 구덩이 미로 ---
             new string[]
             {
-                "PPPPPPPPPPPPPP.P",
+                "PPPPPP. ..PPPPPP", // 상단 문 통로 확보
                 "P............P.P",
                 "P.PPPPPPPPPP.P.P",
-                "P.P........P.P.P",
-                "P.P.PPPPPP.P.P.P",
-                "P.P.P......P.P.P",
+                ". P........P.P.P", // 좌측 문 통로 확보
+                ". .PPPPPP.P.P.P", // 좌측 문 통로 확보
+                ". P.P......P.P.P", // 좌측 문 통로 확보
                 "P.P.PPPPPP.P.P.P",
                 "P...P........P.P",
-                "PPPPPPPPPPPPPP.P"
+                "PPPPPP. ..PPPPPP"  // 하단 문 통로 확보
             },
         };
         #endregion
 
-        #region 생존(Survival) 방 설계도
+        #region 생존(Survival) 방 설계도 (문 통로 확보됨)
         private static List<string[]> survivalRoomTemplates = new List<string[]>
         {
-            // --- 개방형 (적 개수 대폭 증가) ---
+            // --- 개방형 ---
             new string[]
             {
-                "E..............E",
+                "E...... .. ....E", // 상단 문 통로 확보
                 ".R....E.......R.",
                 "................",
-                "................",
-                "E..............E",
-                "................",
+                "...............E", // 우측 문 통로 확보
+                "E..............E", // 우측 문 통로 확보
+                "...............E", // 우측 문 통로 확보
                 "................",
                 ".R....E.......R.",
-                "E..............E"
+                "E...... .. ....E"  // 하단 문 통로 확보
             },
 
-            // --- 중앙 아레나 (적 개수 대폭 증가) ---
+            // --- 중앙 아레나 ---
             new string[]
             {
-                "E...............",
+                "E...... .. ......", // 상단 문 통로 확보
                 "......E.........",
                 "......RRRR......",
                 "E....RRRR....E..",
-                ".....RRRR.......",
+                " ....RRRR.......", // 좌측 문 통로 확보
                 "E....RRRR....E..",
                 "......RRRR......",
                 "........E.......",
-                "...............E"
+                "....... .. ......"  // 하단 문 통로 확보
             },
 
-            // --- 흐르는 강물 (적 개수 대폭 증가) ---
+            // --- 흐르는 강물 ---
             new string[]
             {
-                "E...E...........",
+                "E...E.. .. ......", // 상단 문 통로 확보
                 "..........E...E.",
                 "PPPPPPPPPPPPPPPP",
                 "................",
@@ -166,33 +166,30 @@ namespace Project_SSAAC.World.Layouts
                 "................",
                 "PPPPPPPPPPPPPPPP",
                 "E...E...........",
-                "..........E...E."
+                "....... .. ..E.E"  // 하단 문 통로 확보
             }
         };
         #endregion
 
-        #region 보스(Boss) 방 설계도
+        #region 보스(Boss) 방 설계도 (문 통로 확보됨)
         private static List<string[]> bossRoomTemplates = new List<string[]>
         {
-            // --- 보스 설계도: 원형 경기장 (보스 + 부하 소환 느낌으로 적 추가) ---
-             new string[]
+            // --- 보스 설계도: 원형 경기장 ---
+            new string[]
             {
-                ".....RRRRRR.....",
+                ".....R. ..RR.....", // 상단 문 통로 확보
                 "...R........R...",
                 "..R..........R..",
                 ".R............R.",
-                ".R......E.....R.", // 중앙 보스 위치만 남김
+                " R......E.....R ", // 좌우 문 통로 확보
                 ".R............R.",
                 "..R..........R..",
                 "...R........R...",
-                ".....RRRRRR....."
+                ".....R. ..RR....."  // 하단 문 통로 확보
             }
         };
         #endregion
 
-        /// <summary>
-        /// 방 타입에 맞는 무작위 설계도를 반환하는 메서드
-        /// </summary>
         public static string[] GetLayoutForRoomType(RoomType type)
         {
             List<string[]> selectedTemplateList = null;

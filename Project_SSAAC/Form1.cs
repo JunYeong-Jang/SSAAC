@@ -379,6 +379,15 @@ namespace Project_SSAAC
                 var enemy = enemies[i];
                 if (enemy.IsAlive)
                 {
+                    // ====[ 여기부터 수정 및 추가된 코드 ]====
+                    // 서바이벌 룸인 경우, 시간이 지날수록 적의 속도를 점진적으로 증가시킵니다.
+                    if (currentLevel.CurrentRoom.Type == RoomType.Survival)
+                    {
+                        // 초당 0.3의 속도를 더해줍니다 (프레임에 독립적).
+                        enemy.IncreaseSpeed(0.3f * deltaTime);
+                    }
+                    // ====[ 여기까지 수정 및 추가된 코드 ]====
+
                     EnemyAction action = enemy.UpdateEnemy(deltaTime, player.Position);
                     if (action != null && action.NewProjectiles.Count > 0)
                     {
