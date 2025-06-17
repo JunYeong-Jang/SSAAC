@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿// 파일 위치: Project_SSAAC/GameObjects/GameObject.cs
+using System.Drawing;
 
 namespace Project_SSAAC.GameObjects
 {

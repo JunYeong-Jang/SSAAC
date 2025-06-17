@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_SSAAC.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,44 +13,40 @@ namespace Project_SSAAC
 {
     public partial class HomeControl : UserControl
     {
-
         private Form1 _main;
+        private Player _player;
+        
+        public HomeControl(Form1 main, Player player)
 
-        public HomeControl(Form1 main)
         {
             InitializeComponent();
             _main = main;
+            _player = player;
             this.Resize += resize_Controls;
             resize_Controls(null, null);
-            
-           
         }
 
         private void btnCm_Click(object sender, EventArgs e)
         {
             //  커스터마이징 버튼 클릭시
-
-            _main.LoadControl(new CustomizingControl(_main));
+            
+            _main.LoadControl(new CustomizingControl(_main, _player));
             //_main.LoadControl(new Control_CharacterCustom(_main));
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            //  창 종료
-
             _main.Close();
         }
 
         private void resize_Controls(object sender, EventArgs e)
         {
-            //  창 리사이즈시 마다 버튼 컨트롤도 같이 리사이징
-
             int pw = pictureBox1.ClientSize.Width;
             int ph = pictureBox1.ClientSize.Height;
 
-            int btnWidth = (int)(pw * 0.293);     // 300 / 1024
-            int btnHeight = (int)(ph * 0.104);    // 60 / 576
-            int spacing = (int)(ph * 0.02);       // 약 11.5~20px (기존 유지)
+            int btnWidth = (int)(pw * 0.293);
+            int btnHeight = (int)(ph * 0.104);
+            int spacing = (int)(ph * 0.02);
 
             int totalHeight = btnHeight * 3 + spacing * 2;
             int startY = (ph - totalHeight) / 2 + (int)(ph * 0.1);
@@ -59,10 +56,36 @@ namespace Project_SSAAC
             btnCm.SetBounds(startX, startY + btnHeight + spacing, btnWidth, btnHeight);
             btnExit.SetBounds(startX, startY + (btnHeight + spacing) * 2, btnWidth, btnHeight);
 
-            // 앞으로 보내기
             btnStart.BringToFront();
             btnCm.BringToFront();
             btnExit.BringToFront();
+
+            int pb2Width = (int)(pw * 0.06);
+            int pb2Height = pb2Width;
+
+            int pb2X = pw - pb2Width - (int)(pw * 0.02);
+            int pb2Y = ph - pb2Height - (int)(ph * 0.02);
+
+            btnSettings.SetBounds(pb2X, pb2Y, pb2Width, pb2Height);
+            btnSettings.BackColor = Color.Gray;
+
+            btnSettings.BringToFront();
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            // Form1에 있는 StartGame 메서드를 호출하여 게임 시작을 알립니다.
+            _main.StartGame();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            _main.LoadControl(new SettingsControl(_main, _player));
         }
     }
 }
