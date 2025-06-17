@@ -244,9 +244,6 @@
   <data name="player_pink_run" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Objects\player_pink_run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="background_customizing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Customizing\background_customizing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="playerGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Customizing\Character\playerGreen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -255,5 +252,14 @@
   </data>
   <data name="gameplay_background_1024x576" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gameplay_background_1024x576.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\rock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spikes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Spikes_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

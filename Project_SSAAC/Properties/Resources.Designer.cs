@@ -273,6 +273,16 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap pit {
+            get {
+                object obj = ResourceManager.GetObject("pit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap player_blue_idle {
             get {
                 object obj = ResourceManager.GetObject("player_blue_idle", resourceCulture);
@@ -443,6 +453,16 @@ namespace Project_SSAAC.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap rock {
+            get {
+                object obj = ResourceManager.GetObject("rock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap settings {
             get {
                 object obj = ResourceManager.GetObject("settings", resourceCulture);
@@ -466,6 +486,16 @@ namespace Project_SSAAC.Properties {
         internal static System.Drawing.Bitmap settings3 {
             get {
                 object obj = ResourceManager.GetObject("settings3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap spikes {
+            get {
+                object obj = ResourceManager.GetObject("spikes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

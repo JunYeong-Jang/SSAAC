@@ -1,4 +1,5 @@
-﻿using System;
+﻿// 파일 위치: Project_SSAAC/World/Room.cs
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Project_SSAAC.GameObjects; // EnemyType 저장 시 필요
@@ -40,6 +41,7 @@ namespace Project_SSAAC.World
 
         public List<PointF> EnemySpawnPositions { get; private set; }
         public List<Type> EnemyTypesToSpawn { get; private set; } // 스폰될 적의 Type 정보
+        public List<Obstacle> Obstacles { get; private set; } // **[수정됨] 장애물 리스트 추가**
 
         public RectangleF Bounds { get; private set; } // 방의 로컬 경계 (0,0 에서 roomPixelSize 만큼)
         private SizeF _roomLocalPixelSize; // 이 방 객체가 생성될 때의 기준 크기 (주로 Form.ClientSize)
@@ -89,6 +91,7 @@ namespace Project_SSAAC.World
             HasTopDoor = false; HasBottomDoor = false; HasLeftDoor = false; HasRightDoor = false;
             EnemySpawnPositions = new List<PointF>();
             EnemyTypesToSpawn = new List<Type>();
+            Obstacles = new List<Obstacle>(); // **[수정됨] 장애물 리스트 초기화**
 
             // 퍼즐방/생존방 관련 초기화
             IsPuzzleSolved = false;

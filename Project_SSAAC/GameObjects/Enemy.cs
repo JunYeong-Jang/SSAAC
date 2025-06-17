@@ -1,4 +1,5 @@
-﻿using System;
+﻿// 파일 위치: Project_SSAAC/GameObjects/Enemy.cs
+using System;
 using System.Drawing;
 using System.Diagnostics;
 
@@ -85,30 +86,23 @@ namespace Project_SSAAC.GameObjects
         public override void Draw(Graphics g)
         {
             if (!IsAlive) return;
-            //g.FillRectangle(Brushes.DarkRed, Bounds); // 기본 적은 어두운 빨간 사각형
 
-            // 잘라올 위치 (가로 방향으로 index번째)
             RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
 
-            // 적이 오른쪽을 바라보는 경우, 이미지를 좌우 반전합니다.
             if (this.facingLeft)
             {
-                // 도화지에 그릴 위치 (Position 위치에, 50*50 크기로 그림)
                 RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 50, 50);
-
-
-                //g.DrawImage(playerAppearance, destRect, srcRect, GraphicsUnit.Pixel);
                 g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
             }
             else
             {
-                g.TranslateTransform(Bounds.X + Bounds.Width, Bounds.Y); // X축 기준으로 이동
-                g.ScaleTransform(-1, 1); // 좌우 반전
+                g.TranslateTransform(Bounds.X + Bounds.Width, Bounds.Y);
+                g.ScaleTransform(-1, 1);
 
-                RectangleF destRect = new RectangleF(0, 0, 50, 50); // 좌표계가 바뀌었으므로 (0,0)에서 시작
+                RectangleF destRect = new RectangleF(0, 0, 50, 50);
                 g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
 
-                g.ResetTransform(); // 변환을 초기화하여 다른 요소에 영향 주지 않도록 합니다.
+                g.ResetTransform();
             }
 
         }
@@ -135,7 +129,6 @@ namespace Project_SSAAC.GameObjects
         protected virtual void Die()
         {
             Debug.WriteLine($"[Enemy:{this.GetType().Name}] Died at {Position}");
-            // 아이템 드랍, 점수 처리 등 로직 추가 가능
         }
 
         /// <summary>
@@ -150,7 +143,6 @@ namespace Project_SSAAC.GameObjects
             float dy = target.Y - Position.Y;
             float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
-            // 목표에 매우 가까우면 이동을 멈춰 떨림 현상을 방지
             if (distance > 1.0f)
             {
                 float moveX = (dx / distance) * Speed * deltaTime;
@@ -158,15 +150,24 @@ namespace Project_SSAAC.GameObjects
                 Position = new PointF(Position.X + moveX, Position.Y + moveY);
             }
 
-            // 적이 플레이어를 바라보는 방향을 업데이트합니다.
             if (dx < 0)
             {
-                facingLeft = true; // 왼쪽을 바라봄
+                facingLeft = true;
             }
             else if (dx > 0)
             {
-                facingLeft = false; // 오른쪽을 바라봄
+                facingLeft = false;
             }
+        }
+
+        // **[수정됨] 위치 강제 설정 메서드 추가**
+        /// <summary>
+        /// 적의 위치를 강제로 설정합니다. (예: 장애물 충돌 보정 시)
+        /// </summary>
+        /// <param name="newPosition">새로운 위치입니다.</param>
+        public void SetPosition(PointF newPosition)
+        {
+            this.Position = newPosition;
         }
     }
 }
