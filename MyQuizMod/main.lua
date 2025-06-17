@@ -28,12 +28,15 @@ end
 
 local function startMaze()
     mazeRunning, quizRunning, zombieRunning = true, false, false
-    mazeTimer = 60  -- 1분
+    mazeTimer = 60
     game:GetHUD():ShowItemText("Maze Started! Find the door in 60s")
     print("[MyQuizMod] → MazeRoom started")
 end
 
--- 방 이름 변경 감지 및 모드 토글
+-- 빈 콜백: 모드 로드 보장
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function() end)
+
+-- 방 이름 변경 감지 및 모드 토글, 진행 로직
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
     local level = game:GetLevel()
     local desc  = level:GetCurrentRoomDesc()
@@ -60,6 +63,8 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
     -- 퀴즈 진행
     if quizRunning then
         quizTimer = quizTimer - 1/30
+
+        -- 숫자 입력
         for k = Keyboard.KEY_0, Keyboard.KEY_9 do
             if Input.IsButtonTriggered(k, 0) then
                 quizInput = quizInput .. tostring(k - Keyboard.KEY_0)
@@ -68,18 +73,23 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
         if Input.IsButtonTriggered(Keyboard.KEY_BACKSPACE, 0) then
             quizInput = quizInput:sub(1, -2)
         end
+
+        -- 엔터 제출
         if Input.IsButtonTriggered(Keyboard.KEY_ENTER, 0) then
             if quizInput == quizAnswer then
                 game:GetHUD():ShowItemText("Correct! Clearing enemies…")
                 for _, e in ipairs(Isaac.GetRoomEntities()) do
                     if e:IsVulnerableEnemy() then e:Remove() end
                 end
-                (room:GetDoor(0) or { Open=function() end }):Open(false)
+                local d = room:GetDoor(0)
+                if d then d:Open(false) end
+                quizRunning = false
             else
+                -- 오답: 모드는 유지, 입력만 초기화
                 game:GetHUD():ShowItemText("Wrong! You lose -0.5 heart.")
                 player:TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
+                quizInput = ""
             end
-            quizRunning = false
         elseif quizTimer <= 0 then
             game:GetHUD():ShowItemText("Time's up! You died.")
             player:TakeDamage(9999, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
@@ -95,15 +105,16 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
             for _, e in ipairs(Isaac.GetRoomEntities()) do
                 if e:IsVulnerableEnemy() then e:Remove() end
             end
-            (room:GetDoor(0) or { Open=function() end }):Open(false)
+            local d = room:GetDoor(0)
+            if d then d:Open(false) end
             zombieRunning, noShoot = false, false
         end
     end
 
-    -- 미로 진행: 문 열림 감지 및 타임아웃
+    -- 미로 진행
     if mazeRunning then
         mazeTimer = mazeTimer - 1/30
-        -- 문이 열리면 성공
+        -- 문 열림 성공
         for slot = 0, 3 do
             local d = room:GetDoor(slot)
             if d and d:IsOpen() then
@@ -112,7 +123,7 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
                 break
             end
         end
-        -- 시간이 다 되면 죽음
+        -- 시간초과
         if mazeRunning and mazeTimer <= 0 then
             game:GetHUD():ShowItemText("Maze Failed! You died.")
             player:TakeDamage(9999, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
