@@ -193,6 +193,7 @@ namespace Project_SSAAC.World
                         if (_random.NextDouble() < spawnChance)
                         {
                             room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Rock));
+                            continue;
                         }
                         else
                         {
