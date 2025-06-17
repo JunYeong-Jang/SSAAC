@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_SSAAC.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,25 +15,23 @@ namespace Project_SSAAC
     {
 
         private Form1 _main;
+        private Player _player;
+        
+        public HomeControl(Form1 main, Player player)
 
-
-        public HomeControl(Form1 main)
         {
             InitializeComponent();
             _main = main;
+            _player = player;
             this.Resize += resize_Controls;
             resize_Controls(null, null);
-
-            
-            
-           
         }
 
         private void btnCm_Click(object sender, EventArgs e)
         {
             //  커스터마이징 버튼 클릭시
-
-            _main.LoadControl(new CustomizingControl(_main));
+            
+            _main.LoadControl(new CustomizingControl(_main, _player));
             //_main.LoadControl(new Control_CharacterCustom(_main));
         }
 

@@ -66,6 +66,9 @@ namespace Project_SSAAC
             Debug.WriteLine("[Form1] Constructor - InitializeGame finished");
             InitializeTimer();
             Debug.WriteLine("[Form1] Constructor - InitializeTimer finished. Constructor End.");
+
+            // 홈 컨트롤 로드 (게임 시작 화면)
+            LoadControl(new HomeControl(this, player));
         }
 
         public void LoadControl(UserControl control)
