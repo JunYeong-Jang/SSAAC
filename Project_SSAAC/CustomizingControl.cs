@@ -18,6 +18,12 @@ namespace Project_SSAAC
 
         private Form1 _main;
 
+        private Player _player; // 플레이어 객체를 저장할 변수
+        string selectedAppearance; // 유저가 선택한 외형을 저장할 변수
+
+        private List<string> appearanceOptions = new List<string> { "blue", "frog", "mask", "pink" }; // 외형 선택 옵션 리스트
+        int currentAppearanceIndex; // 현재 선택된 외형의 인덱스
+
         // 캐릭터 이미지의 프레임 인덱스
         int currentFrame = 0;
 
@@ -29,13 +35,15 @@ namespace Project_SSAAC
         // 유저가 고른 캐릭터의 이미지 sheet를 저장할 bitmap
         Bitmap currentSheet;
 
-        public CustomizingControl(Form1 main)
+        public CustomizingControl(Form1 main, Player player)
         {
             InitializeComponent();
             _main = main;
 
-            // 기본 캐릭터는 blue
-            Bitmap currentSheet = blueSheet;
+            //  메인 폼에서 플레이어 객체를 가져옴
+            _player = player;
+
+            currentAppearanceIndex = _player.GetPlayerAppearanceType(); // 현재 플레이어의 외형 인덱스
 
             // 캐릭터 애니메이션을 활성화할 타이머
             Timer animationTimer = new Timer();
@@ -108,26 +116,9 @@ namespace Project_SSAAC
 
         private void AnimationTimer_Tick(object sender, EventArgs e)
         {
-            //// 상태변경은 나중에
-            //if (currentState == "idle")
-            //{
-            //}
-            //else if (currentState == "run")
-            //{
-            //}
             picBoxCharacter.Image = GetCharacterFrame(currentFrame);
             currentFrame = (currentFrame + 1) % 11; // 다음 프레임으로 순환
         }
-
-        //// 상태변경 함수
-        //private void SetState(string newState)
-        //{
-        //    if (currentState != newState)
-        //    {
-        //        currentState = newState;
-        //        currentFrame = 0; // 상태 바뀔 때 첫 프레임부터 다시
-        //    }
-        //}
 
         private void CustomizingControl_Resize(object sender, EventArgs e)
         {
@@ -149,46 +140,37 @@ namespace Project_SSAAC
 
         private void btnBackToHome_Click(object sender, EventArgs e)
         {
-            //  홈으로 돌아가기 버튼을 누르면 선택된 픽쳐박스 데이터 저장됨
-            PictureBox pic = new PictureBox();
-            pic.Image = picBoxCharacter.Image;
-
-            // 임시 주석
-            //_main.RegisterCharacter(pic);
-            _main.LoadControl(new HomeControl(_main));
+            _player.SetAppearance(selectedAppearance); // 플레이어 객체에 현재 선택된 외형 저장
+            _main.LoadControl(new HomeControl(_main, _player));
         }
 
-        // 요청
-        public Player customizedPlayer { get; private set; } = new Player(new PointF(10,10)); // (PointF(10,10))임시 생성 --> Player() 기본생성자 필요
-        private List<string> appearanceOptions = new List<string> { "blue", "green", "mask", "pink" };
-        private int currentAppearanceIndex = 0;
+       
         private void UpdateCharacterImage()
         {
             string appearance = appearanceOptions[currentAppearanceIndex];
-            
-            // 요청
-            // Player 클래스에 유저가 선택한 외형을 저장할 public string 타입의 SelectedAppearance 변수 필요
-            // customizedPlayer.SelectedAppearance = appearance;
 
 
             switch (appearance)
             {
                 case "blue":
-                    //picBoxCharacter.Image = Properties.Resources.playerBlue;
+                    selectedAppearance = "blue";
                     currentSheet = blueSheet;
                     picBox_index.Image = Properties.Resources.text_1;
                     break;
-                case "green":
+                case "frog":
+                    selectedAppearance = "frog";
                     currentSheet = greenSheet;
                     //picBoxCharacter.Image = Properties.Resources.playerGreen;
                     picBox_index.Image= Properties.Resources.text_2;
                     break;
                 case "mask":
+                    selectedAppearance = "mask";
                     currentSheet = maskedSheet;
                     //picBoxCharacter.Image = Properties.Resources.playerMasked;
                     picBox_index.Image = Properties.Resources.text_3;
                     break;
                 case "pink":
+                    selectedAppearance = "pink";
                     currentSheet = pinkSheet;
                     //picBoxCharacter.Image = Properties.Resources.playerPink;
                     picBox_index.Image = Properties.Resources.text_4;
@@ -200,23 +182,7 @@ namespace Project_SSAAC
 
         private void CustomizingControl_Load(object sender, EventArgs e)
         {
-            // resize로 인한 불필요한 호출이 되었음
-            // 오버헤드 발생
-            //panel_menu.Location = new Point(
-            //    (this.Width - panel_menu.Width) / 2, (this.Height - panel_menu.Height) / 2);
-
-            //picBoxCharacter.Location = new Point(
-            //    (panel_menu.Width - picBoxCharacter.Width) / 2, panel_menu.Height / 4);
-
-            //panel_selectMenu.Location = new Point(
-            //    (panel_menu.Width - panel_selectMenu.Width) / 2,
-            //    (panel_menu.Height - panel_selectMenu.Height) * 3 / 4);
-            
-            //picBox_btnPrev.Location = new Point(20, (panel_selectMenu.Height - picBox_btnPrev.Height) / 2);
-            //picBox_btnNext.Location = new Point(panel_selectMenu.Width - picBox_btnNext.Width - 20, (panel_selectMenu.Height - picBox_btnNext.Height) / 2);
-            //picBox_index.Location = new Point((panel_selectMenu.Width - picBox_index.Width) / 2, (panel_selectMenu.Height - picBox_index.Height) / 2);
-
-            //btnBackToHome.Location = new Point(10, this.Bottom - btnBackToHome.Height - 10);
+        
         }
 
         private void picBox_btnPrev_MouseEnter(object sender, EventArgs e)

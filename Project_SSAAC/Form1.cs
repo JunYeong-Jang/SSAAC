@@ -37,13 +37,6 @@ namespace Project_SSAAC
             Debug.WriteLine("[Form1] Constructor - Start");
             InitializeComponent();
 
-            // 임시 주석
-            // HomeControl을 스킵하고 바로 게임화면으로
-            // LoadControl(new HomeControl(this)); // from character branch
-
-            // 임시 코드
-            panelMain.Visible = false; // 패널 숨김
-
             this.DoubleBuffered = true;
 
             Debug.WriteLine("[Form1] Constructor - DoubleBuffered set");
@@ -52,6 +45,9 @@ namespace Project_SSAAC
             Debug.WriteLine("[Form1] Constructor - InitializeGame finished");
             InitializeTimer();
             Debug.WriteLine("[Form1] Constructor - InitializeTimer finished. Constructor End.");
+
+            // 홈 컨트롤 로드 (게임 시작 화면)
+            LoadControl(new HomeControl(this, player));
         }
 
         public void LoadControl(UserControl control)
