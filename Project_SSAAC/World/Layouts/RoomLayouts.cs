@@ -175,13 +175,13 @@ namespace Project_SSAAC.World.Layouts
         private static List<string[]> bossRoomTemplates = new List<string[]>
         {
             // --- 보스 설계도: 원형 경기장 (보스 + 부하 소환 느낌으로 적 추가) ---
-            new string[]
+             new string[]
             {
                 ".....RRRRRR.....",
                 "...R........R...",
-                "..R...E....E.R..",
+                "..R..........R..",
                 ".R............R.",
-                ".R......E.....R.",
+                ".R......E.....R.", // 중앙 보스 위치만 남김
                 ".R............R.",
                 "..R..........R..",
                 "...R........R...",

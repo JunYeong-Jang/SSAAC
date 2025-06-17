@@ -8,7 +8,6 @@ using Project_SSAAC.World;
 using System.Diagnostics;
 using System.Linq;
 
-
 namespace Project_SSAAC
 {
     public enum Direction { Up, Down, Left, Right }
@@ -22,24 +21,21 @@ namespace Project_SSAAC
         private Timer gameTimer;
         private Stopwatch gameStopwatch;
         private float lastFrameTime = 0f;
+        private bool isGameCleared = false;
         private float shootCooldownTimer = 0f;
-        private const float SHOOT_COOLDOWN = 0.3f; // 초 단위
+        private const float SHOOT_COOLDOWN = 0.3f;
         private Level currentLevel;
         private LevelGenerator levelGenerator;
-
         private string currentPlayerPuzzleInput = "";
         private float currentPuzzleTimeLeft = 0f;
         private bool isInPuzzleInputMode = false;
         private Room activePuzzleRoom = null;
-
         private float currentSurvivalTimeLeft = 0f;
         private Room activeSurvivalRoom = null;
-
         private Keys moveUpKey = Keys.W;
         private Keys moveDownKey = Keys.S;
         private Keys moveLeftKey = Keys.A;
         private Keys moveRightKey = Keys.D;
-
         private Keys shootUpKey = Keys.Up;
         private Keys shootDownKey = Keys.Down;
         private Keys shootLeftKey = Keys.Left;
@@ -49,17 +45,12 @@ namespace Project_SSAAC
         {
             Debug.WriteLine("[Form1] Constructor - Start");
             InitializeComponent();
-
-
             this.DoubleBuffered = true;
-
             Debug.WriteLine("[Form1] Constructor - DoubleBuffered set");
-
             InitializeGame();
             Debug.WriteLine("[Form1] Constructor - InitializeGame finished");
             InitializeTimer();
             Debug.WriteLine("[Form1] Constructor - InitializeTimer finished. Constructor End.");
-
             LoadControl(new HomeControl(this, player));
         }
 
@@ -82,29 +73,24 @@ namespace Project_SSAAC
             Debug.WriteLine("[Form1] InitializeGame - Start");
             this.ClientSize = new Size(1024, 576);
             this.Text = "Project SSAAC (1024x576)";
-
             try
             {
                 levelGenerator = new LevelGenerator(this.ClientSize);
                 Debug.WriteLine("[Form1] InitializeGame - LevelGenerator created with ClientSize: " + this.ClientSize);
                 currentLevel = levelGenerator.GenerateLevel(numberOfRooms: 7);
                 Debug.WriteLine($"[Form1] InitializeGame - Level generated. Rooms: {currentLevel?.Rooms?.Count}, CurrentRoom: {currentLevel?.CurrentRoom?.GridPosition}");
-
-
                 if (currentLevel == null || currentLevel.Rooms.Count == 0 || currentLevel.CurrentRoom == null)
                 {
                     string errorDetail = $"Level: {(currentLevel == null ? "null" : "OK")}, Rooms.Count: {(currentLevel?.Rooms == null ? "N/A" : currentLevel.Rooms.Count.ToString())}, CurrentRoom: {(currentLevel?.CurrentRoom == null ? "null" : "OK")}";
                     MessageBox.Show($"레벨 생성 실패 또는 유효하지 않은 레벨 상태.\n{errorDetail}\n게임을 종료합니다.", "초기화 오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     SafeApplicationExit(); return;
                 }
-
                 SizeF playerSize = new SizeF(32, 32);
                 player = new Player(new PointF(
                     this.ClientSize.Width / 2f - playerSize.Width / 2f,
                     this.ClientSize.Height / 2f - playerSize.Height / 2f
                 ));
                 Debug.WriteLine("[Form1] InitializeGame - Player created");
-
                 LoadCurrentRoomObjects();
             }
             catch (Exception ex)
@@ -112,7 +98,6 @@ namespace Project_SSAAC
                 MessageBox.Show($"게임 초기화 중 예외 발생: {ex.Message}\n{ex.StackTrace}\n게임을 종료합니다.", "초기화 심각한 오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SafeApplicationExit(); return;
             }
-
             this.KeyDown += Form1_KeyDown;
             this.KeyUp += Form1_KeyUp;
             Debug.WriteLine("[Form1] InitializeGame - End");
@@ -136,10 +121,8 @@ namespace Project_SSAAC
                 Debug.WriteLine("[Form1] LoadCurrentRoomObjects - CRITICAL: currentLevel or CurrentRoom is null. Cannot load objects.");
                 enemies.Clear(); projectiles.Clear(); return;
             }
-
             Room newCurrentRoom = currentLevel.CurrentRoom;
             Debug.WriteLine($"[Form1] LoadCurrentRoomObjects - Entering Room: {newCurrentRoom.GridPosition} ({newCurrentRoom.Type}), IsCleared: {newCurrentRoom.IsCleared}, PuzzleSolved: {newCurrentRoom.IsPuzzleSolved}, SurvivalCompleted: {newCurrentRoom.IsSurvivalCompleted}");
-
             if (activePuzzleRoom != null && activePuzzleRoom.IsPuzzleActive && activePuzzleRoom != newCurrentRoom)
             {
                 activePuzzleRoom.IsPuzzleActive = false;
@@ -150,15 +133,12 @@ namespace Project_SSAAC
                 activeSurvivalRoom.IsSurvivalActive = false;
                 Debug.WriteLine($"[Form1] Deactivated survival in previous room {activeSurvivalRoom.GridPosition} upon leaving.");
             }
-
             activePuzzleRoom = null;
             activeSurvivalRoom = null;
             isInPuzzleInputMode = false;
-
             enemies.Clear();
             projectiles.Clear();
             currentPlayerPuzzleInput = "";
-
             if (newCurrentRoom.Type == RoomType.Puzzle && !newCurrentRoom.IsPuzzleSolved)
             {
                 newCurrentRoom.IsPuzzleActive = true;
@@ -174,24 +154,21 @@ namespace Project_SSAAC
                 activeSurvivalRoom = newCurrentRoom;
                 Debug.WriteLine($"[Form1] SurvivalRoom {newCurrentRoom.GridPosition} - Survival Activated. Duration: {currentSurvivalTimeLeft}s");
             }
-
             if (!newCurrentRoom.IsCleared)
             {
                 bool shouldSpawnEnemies = true;
                 if (newCurrentRoom.Type == RoomType.Puzzle && newCurrentRoom.IsPuzzleSolved) shouldSpawnEnemies = false;
                 if (newCurrentRoom.Type == RoomType.Survival && newCurrentRoom.IsSurvivalCompleted) shouldSpawnEnemies = false;
-
                 if (shouldSpawnEnemies)
                 {
                     for (int i = 0; i < newCurrentRoom.EnemyTypesToSpawn.Count; i++)
                     {
                         Type enemyType = newCurrentRoom.EnemyTypesToSpawn[i];
                         PointF spawnPos = newCurrentRoom.EnemySpawnPositions[i];
-
-                        // enemyType을 직접 비교하여 적절한 적 생성
                         if (enemyType == typeof(BasicEnemy)) enemies.Add(new BasicEnemy(spawnPos));
                         else if (enemyType == typeof(RangedEnemy)) enemies.Add(new RangedEnemy(spawnPos));
                         else if (enemyType == typeof(ChargerEnemy)) enemies.Add(new ChargerEnemy(spawnPos));
+                        else if (enemyType == typeof(BossEnemy)) enemies.Add(new BossEnemy(spawnPos));
                     }
                 }
             }
@@ -204,26 +181,24 @@ namespace Project_SSAAC
         {
             try
             {
+                if (isGameCleared || (player != null && player.CurrentHealth <= 0))
+                {
+                    gameTimer.Stop();
+                    this.Invalidate();
+                    return;
+                }
                 float currentTime = (float)gameStopwatch.Elapsed.TotalSeconds;
                 float deltaTime = currentTime - lastFrameTime;
                 lastFrameTime = currentTime;
-
                 deltaTime = Math.Min(deltaTime, 0.1f);
-
                 if (shootCooldownTimer > 0f) shootCooldownTimer -= deltaTime;
-
-                if (player.Velocity.X == 0 && player.Velocity.Y == 0)
-                {
-                    player.IsRun = false;
-                }
+                if (player.Velocity.X == 0 && player.Velocity.Y == 0) player.IsRun = false;
                 else
                 {
                     player.IsRun = true;
-
                     if (player.Velocity.X > 0) { player.facingRight = true; player.IsRun = true; }
                     else if (player.Velocity.X < 0) { player.facingRight = false; player.IsRun = true; }
                 }
-
                 animationTimerCounter += 16;
                 if (animationTimerCounter >= 100)
                 {
@@ -231,13 +206,11 @@ namespace Project_SSAAC
                     enemies.ForEach(enemy => enemy.frameIndex = (enemy.frameIndex + 1) % 10);
                     animationTimerCounter = 0;
                 }
-
                 HandleInput(deltaTime);
                 UpdateGameObjects(deltaTime);
                 CheckPlayerRoomTransition();
                 CheckCollisions();
                 CleanupObjects();
-
                 this.Invalidate();
             }
             catch (Exception ex)
@@ -249,24 +222,59 @@ namespace Project_SSAAC
             }
         }
 
+        private void ReturnToHome()
+        {
+            // Reset game state flags
+            isGameCleared = false;
+
+            // Unsubscribe from events to prevent duplicates when InitializeGame is called again.
+            this.KeyDown -= Form1_KeyDown;
+            this.KeyUp -= Form1_KeyUp;
+
+            // Stop and dispose the current game timer and stopwatch
+            if (gameTimer != null)
+            {
+                gameTimer.Stop();
+                gameTimer.Dispose();
+                gameTimer = null;
+            }
+            if (gameStopwatch != null)
+            {
+                gameStopwatch.Stop();
+                gameStopwatch = null;
+            }
+
+            // Re-initialize the game to create a new level, player, etc.
+            InitializeGame();
+
+            // Re-initialize the timer for the new game session.
+            InitializeTimer();
+
+            // Finally, load the home screen UserControl.
+            LoadControl(new HomeControl(this, player));
+        }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            // If the game is won or lost, any key press should return to the main menu.
+            if (isGameCleared || (player != null && player.CurrentHealth <= 0))
+            {
+                ReturnToHome();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
             if (isInPuzzleInputMode && activePuzzleRoom != null && activePuzzleRoom.IsPuzzleActive &&
                 !activePuzzleRoom.IsPuzzleSolved && player != null && player.CurrentHealth > 0)
             {
                 bool inputProcessedThisKey = true;
                 if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
-                {
                     currentPlayerPuzzleInput += (e.KeyCode - Keys.D0).ToString();
-                }
                 else if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
-                {
                     currentPlayerPuzzleInput += (e.KeyCode - Keys.NumPad0).ToString();
-                }
                 else if (e.KeyCode == Keys.Back && currentPlayerPuzzleInput.Length > 0)
-                {
                     currentPlayerPuzzleInput = currentPlayerPuzzleInput.Substring(0, currentPlayerPuzzleInput.Length - 1);
-                }
                 else if (e.KeyCode == Keys.Enter)
                 {
                     Debug.WriteLine($"[Form1] Puzzle Answer Submitted: '{currentPlayerPuzzleInput}' for Q: '{activePuzzleRoom.PuzzleQuestion}' (Expected: '{activePuzzleRoom.PuzzleAnswer}')");
@@ -276,7 +284,6 @@ namespace Project_SSAAC
                         activePuzzleRoom.IsPuzzleActive = false;
                         isInPuzzleInputMode = false;
                         Debug.WriteLine($"[Form1] Puzzle SOLVED for room {activePuzzleRoom.GridPosition}!");
-
                         if (enemies.Any())
                         {
                             Debug.WriteLine($"[Form1] Killing all {enemies.Count} enemies due to puzzle solve.");
@@ -292,11 +299,7 @@ namespace Project_SSAAC
                         currentPlayerPuzzleInput = "";
                     }
                 }
-                else
-                {
-                    inputProcessedThisKey = false;
-                }
-
+                else inputProcessedThisKey = false;
                 if (inputProcessedThisKey)
                 {
                     this.Invalidate();
@@ -305,17 +308,10 @@ namespace Project_SSAAC
                     return;
                 }
             }
-
-            if (!pressedKeys.Contains(e.KeyCode))
-            {
-                pressedKeys.Add(e.KeyCode);
-            }
+            if (!pressedKeys.Contains(e.KeyCode)) pressedKeys.Add(e.KeyCode);
         }
 
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            pressedKeys.Remove(e.KeyCode);
-        }
+        private void Form1_KeyUp(object sender, KeyEventArgs e) { pressedKeys.Remove(e.KeyCode); }
 
         private void HandleInput(float deltaTime)
         {
@@ -324,28 +320,20 @@ namespace Project_SSAAC
                 if (player != null) player.Velocity = PointF.Empty;
                 return;
             }
-
             if (isInPuzzleInputMode)
             {
                 player.Velocity = PointF.Empty;
                 return;
             }
-
             PointF moveDirection = PointF.Empty;
             if (pressedKeys.Contains(moveUpKey)) moveDirection.Y -= 1;
             if (pressedKeys.Contains(moveDownKey)) moveDirection.Y += 1;
             if (pressedKeys.Contains(moveLeftKey)) moveDirection.X -= 1;
             if (pressedKeys.Contains(moveRightKey)) moveDirection.X += 1;
-
             player.Velocity = !moveDirection.IsEmpty ? Normalize(moveDirection, player.Speed) : PointF.Empty;
-
             bool canAttack = true;
-            if (activeSurvivalRoom != null && activeSurvivalRoom.IsSurvivalActive &&
-                !activeSurvivalRoom.IsSurvivalCompleted)
-            {
+            if (activeSurvivalRoom != null && activeSurvivalRoom.IsSurvivalActive && !activeSurvivalRoom.IsSurvivalCompleted)
                 canAttack = false;
-            }
-
             if (canAttack)
             {
                 PointF shootDirection = PointF.Empty;
@@ -353,7 +341,6 @@ namespace Project_SSAAC
                 if (pressedKeys.Contains(shootDownKey)) shootDirection.Y += 1;
                 if (pressedKeys.Contains(shootLeftKey)) shootDirection.X -= 1;
                 if (pressedKeys.Contains(shootRightKey)) shootDirection.X += 1;
-
                 if (!shootDirection.IsEmpty && shootCooldownTimer <= 0f)
                 {
                     Projectile p = player.Shoot(shootDirection);
@@ -369,7 +356,6 @@ namespace Project_SSAAC
         private void UpdateGameObjects(float deltaTime)
         {
             player?.Update(deltaTime);
-
             if (player != null && currentLevel?.CurrentRoom != null)
             {
                 foreach (var obstacle in currentLevel.CurrentRoom.Obstacles)
@@ -379,36 +365,25 @@ namespace Project_SSAAC
                         RectangleF intersection = RectangleF.Intersect(player.Bounds, obstacle.Bounds);
                         PointF playerCenter = new PointF(player.Bounds.Left + player.Bounds.Width / 2, player.Bounds.Top + player.Bounds.Height / 2);
                         PointF obstacleCenter = new PointF(obstacle.Bounds.Left + obstacle.Bounds.Width / 2, obstacle.Bounds.Top + obstacle.Bounds.Height / 2);
-
-                        float pushX = 0;
-                        float pushY = 0;
-
+                        float pushX = 0, pushY = 0;
                         if (intersection.Width < intersection.Height)
-                        {
                             pushX = (playerCenter.X < obstacleCenter.X) ? -intersection.Width : intersection.Width;
-                        }
                         else
-                        {
                             pushY = (playerCenter.Y < obstacleCenter.Y) ? -intersection.Height : intersection.Height;
-                        }
-
                         player.SetPosition(new PointF(player.Position.X + pushX, player.Position.Y + pushY));
                     }
                 }
             }
-
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
-                if (enemies[i].IsAlive)
+                var enemy = enemies[i];
+                if (enemy.IsAlive)
                 {
-                    var enemy = enemies[i];
-                    // <<-- 수정: 적 업데이트 후 반환된 투사체 처리 -->>
-                    Projectile newProjectile = enemy.UpdateEnemy(deltaTime, player.Position);
-                    if (newProjectile != null)
+                    EnemyAction action = enemy.UpdateEnemy(deltaTime, player.Position);
+                    if (action != null && action.NewProjectiles.Count > 0)
                     {
-                        projectiles.Add(newProjectile);
+                        projectiles.AddRange(action.NewProjectiles);
                     }
-
                     if (currentLevel?.CurrentRoom != null)
                     {
                         foreach (var obstacle in currentLevel.CurrentRoom.Obstacles)
@@ -418,19 +393,11 @@ namespace Project_SSAAC
                                 RectangleF intersection = RectangleF.Intersect(enemy.Bounds, obstacle.Bounds);
                                 PointF enemyCenter = new PointF(enemy.Bounds.Left + enemy.Bounds.Width / 2, enemy.Bounds.Top + enemy.Bounds.Height / 2);
                                 PointF obstacleCenter = new PointF(obstacle.Bounds.Left + obstacle.Bounds.Width / 2, obstacle.Bounds.Top + obstacle.Bounds.Height / 2);
-
-                                float pushX = 0;
-                                float pushY = 0;
-
+                                float pushX = 0, pushY = 0;
                                 if (intersection.Width < intersection.Height)
-                                {
                                     pushX = (enemyCenter.X < obstacleCenter.X) ? -intersection.Width : intersection.Width;
-                                }
                                 else
-                                {
                                     pushY = (enemyCenter.Y < obstacleCenter.Y) ? -intersection.Height : intersection.Height;
-                                }
-
                                 enemy.SetPosition(new PointF(enemy.Position.X + pushX, enemy.Position.Y + pushY));
                             }
                         }
@@ -438,47 +405,39 @@ namespace Project_SSAAC
                 }
                 else
                 {
+                    if (enemy is BossEnemy)
+                    {
+                        if (currentLevel?.CurrentRoom?.Type == RoomType.Boss)
+                        {
+                            isGameCleared = true;
+                            Debug.WriteLine("[Form1] Boss has been defeated. Game Cleared!");
+                        }
+                    }
                     enemies.RemoveAt(i);
                 }
             }
-
-            for (int i = projectiles.Count - 1; i >= 0; i--)
-            {
-                projectiles[i].Update(deltaTime);
-            }
-
-            if (activePuzzleRoom != null &&
-                activePuzzleRoom.IsPuzzleActive &&
-                !activePuzzleRoom.IsPuzzleSolved &&
-                player != null && player.CurrentHealth > 0)
+            for (int i = projectiles.Count - 1; i >= 0; i--) projectiles[i].Update(deltaTime);
+            if (activePuzzleRoom != null && activePuzzleRoom.IsPuzzleActive && !activePuzzleRoom.IsPuzzleSolved && player != null && player.CurrentHealth > 0)
             {
                 currentPuzzleTimeLeft -= deltaTime;
-
                 if (currentPuzzleTimeLeft <= 0)
                 {
                     currentPuzzleTimeLeft = 0;
                     Debug.WriteLine($"[Form1] Puzzle TIMEOUT for room {activePuzzleRoom.GridPosition}! Player instant death.");
-
                     player?.InstantKill();
-
                     activePuzzleRoom.IsPuzzleActive = false;
                     isInPuzzleInputMode = false;
                 }
             }
-
-            if (activeSurvivalRoom != null && activeSurvivalRoom.IsSurvivalActive
-                && !activeSurvivalRoom.IsSurvivalCompleted && player != null && player.CurrentHealth > 0)
+            if (activeSurvivalRoom != null && activeSurvivalRoom.IsSurvivalActive && !activeSurvivalRoom.IsSurvivalCompleted && player != null && player.CurrentHealth > 0)
             {
                 currentSurvivalTimeLeft -= deltaTime;
                 if (currentSurvivalTimeLeft <= 0)
                 {
                     currentSurvivalTimeLeft = 0;
-                    Debug.WriteLine($"[Form1] Survival COMPLETED for room {activeSurvivalRoom.GridPosition}!" +
-                        $" All enemies (if any) die.");
-
+                    Debug.WriteLine($"[Form1] Survival COMPLETED for room {activeSurvivalRoom.GridPosition}! All enemies (if any) die.");
                     activeSurvivalRoom.IsSurvivalCompleted = true;
                     activeSurvivalRoom.IsSurvivalActive = false;
-
                     if (enemies.Any())
                     {
                         Debug.WriteLine($"[Form1] Killing all {enemies.Count} enemies after survival.");
@@ -488,13 +447,11 @@ namespace Project_SSAAC
                     activeSurvivalRoom = null;
                 }
             }
-
             if (currentLevel?.CurrentRoom != null && !currentLevel.CurrentRoom.IsCleared && player?.CurrentHealth > 0)
             {
                 bool combatRoomNeedsClearing = currentLevel.CurrentRoom.Type == RoomType.Normal ||
                                                currentLevel.CurrentRoom.Type == RoomType.Boss ||
                                                currentLevel.CurrentRoom.Type == RoomType.MiniBoss;
-
                 if (combatRoomNeedsClearing && enemies.Count == 0)
                 {
                     currentLevel.CurrentRoom.ClearRoom();
@@ -505,19 +462,12 @@ namespace Project_SSAAC
 
         private void CheckPlayerRoomTransition()
         {
-            if (player == null || currentLevel == null || currentLevel.CurrentRoom == null || player.CurrentHealth <= 0)
-            {
-                return;
-            }
-
+            if (player == null || currentLevel == null || currentLevel.CurrentRoom == null || player.CurrentHealth <= 0) return;
             RectangleF playerBounds = player.Bounds;
             Room currentRoomLogic = currentLevel.CurrentRoom;
             bool moved = false;
-
             float doorInteractionThreshold = player.Size.Width / 2f;
-
             string attemptedDirection = "NONE";
-
             if (playerBounds.Top < doorInteractionThreshold)
             {
                 attemptedDirection = "TOP";
@@ -538,7 +488,6 @@ namespace Project_SSAAC
                 attemptedDirection = "RIGHT";
                 if (currentRoomLogic.HasRightDoor && currentLevel.TryMoveToRoom(currentRoomLogic.GridPosition, 1, 0, player)) moved = true;
             }
-
             if (moved)
             {
                 Debug.WriteLine($"[Form1] Successfully moved via {attemptedDirection} door from {currentRoomLogic.GridPosition}. Loading new room objects.");
@@ -547,41 +496,32 @@ namespace Project_SSAAC
             else
             {
                 PointF currentPosition = player.Position;
-                float newX = Math.Max(0, Math.Min(currentPosition.X, ClientRectangle.Width - player.Size.Width));
-                float newY = Math.Max(0, Math.Min(currentPosition.Y, ClientRectangle.Height - player.Size.Height));
-
+                float newX = Math.Max(0, Math.Min(currentPosition.X, ClientSize.Width - player.Size.Width));
+                float newY = Math.Max(0, Math.Min(currentPosition.Y, ClientSize.Height - player.Size.Height));
                 if (attemptedDirection != "NONE" && !moved)
                 {
                     switch (attemptedDirection)
                     {
                         case "TOP": newY = Math.Max(newY, doorInteractionThreshold); break;
-                        case "BOTTOM": newY = Math.Min(newY, ClientRectangle.Height - player.Size.Height - doorInteractionThreshold); break;
+                        case "BOTTOM": newY = Math.Min(newY, ClientSize.Height - player.Size.Height - doorInteractionThreshold); break;
                         case "LEFT": newX = Math.Max(newX, doorInteractionThreshold); break;
-                        case "RIGHT": newX = Math.Min(newX, ClientRectangle.Width - player.Size.Width - doorInteractionThreshold); break;
+                        case "RIGHT": newX = Math.Min(newX, ClientSize.Width - player.Size.Width - doorInteractionThreshold); break;
                     }
                 }
-
                 if (Math.Abs(newX - currentPosition.X) > 0.001f || Math.Abs(newY - currentPosition.Y) > 0.001f)
-                {
                     player.SetPosition(new PointF(newX, newY));
-                }
             }
         }
 
         private void CheckCollisions()
         {
             if (player == null || player.CurrentHealth <= 0 || currentLevel == null || currentLevel.CurrentRoom == null) return;
-
             var obstacles = currentLevel.CurrentRoom.Obstacles;
-
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
                 var p = projectiles[i];
-
-                // <<-- 수정: 투사체 주체에 따라 충돌 로직 분리 -->>
                 if (p.IsPlayerProjectile)
                 {
-                    // 플레이어 투사체는 적과 충돌
                     bool projectileHit = false;
                     foreach (var obstacle in obstacles)
                     {
@@ -593,7 +533,6 @@ namespace Project_SSAAC
                         }
                     }
                     if (projectileHit) continue;
-
                     for (int j = enemies.Count - 1; j >= 0; j--)
                     {
                         var e = enemies[j];
@@ -607,7 +546,6 @@ namespace Project_SSAAC
                 }
                 else
                 {
-                    // 적 투사체는 플레이어와 충돌
                     if (p.Bounds.IntersectsWith(player.Bounds))
                     {
                         player.TakeDamage(p.Damage);
@@ -615,51 +553,36 @@ namespace Project_SSAAC
                     }
                 }
             }
-
             foreach (var e in enemies)
             {
                 if (e.IsAlive && e.Bounds.IntersectsWith(player.Bounds))
-                {
                     player.TakeDamage(e.CollisionDamage);
-                }
             }
-
             foreach (var obstacle in obstacles)
             {
                 if (obstacle.CollisionDamage > 0 && player.Bounds.IntersectsWith(obstacle.Bounds))
-                {
                     player.TakeDamage(obstacle.CollisionDamage);
-                }
             }
         }
 
-        private void CleanupObjects()
-        {
-            projectiles.RemoveAll(p => p.ShouldBeRemoved(this.ClientRectangle));
-        }
+        private void CleanupObjects() { projectiles.RemoveAll(p => p.ShouldBeRemoved(this.ClientRectangle)); }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             g.Clear(Color.FromArgb(30, 30, 30));
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
             try
             {
                 currentLevel?.DrawCurrentRoom(g, this.ClientRectangle);
-
                 if (currentLevel?.CurrentRoom != null)
                 {
                     foreach (var obstacle in currentLevel.CurrentRoom.Obstacles)
-                    {
                         obstacle.Draw(g);
-                    }
                 }
-
                 foreach (var enemy in enemies) enemy.Draw(g);
                 foreach (var projectile in projectiles) projectile.Draw(g);
                 player?.Draw(g);
-
                 DrawUI(g);
             }
             catch (Exception ex)
@@ -671,11 +594,9 @@ namespace Project_SSAAC
         private void DrawUI(Graphics g)
         {
             Font uiFont = new Font("Arial", Math.Max(8f, ClientSize.Height / 50f), FontStyle.Bold);
-
             if (player != null)
             {
                 g.DrawString($"Health: {player.CurrentHealth} / {player.MaxHealth}", uiFont, Brushes.White, 10, 10);
-
                 if (currentLevel?.CurrentRoom != null)
                 {
                     string roomDebugInfo = $"Room: {currentLevel.CurrentRoom.GridPosition} ({currentLevel.CurrentRoom.Type})";
@@ -683,46 +604,36 @@ namespace Project_SSAAC
                     if (currentLevel.CurrentRoom.Type == RoomType.Puzzle) roomDebugInfo += $" (PuzS: {currentLevel.CurrentRoom.IsPuzzleSolved}, Active: {currentLevel.CurrentRoom.IsPuzzleActive})";
                     if (currentLevel.CurrentRoom.Type == RoomType.Survival) roomDebugInfo += $" (SurvC: {currentLevel.CurrentRoom.IsSurvivalCompleted}, Active: {currentLevel.CurrentRoom.IsSurvivalActive})";
                     if (player.IsInvincible) roomDebugInfo += " [INV]";
-
                     g.DrawString(roomDebugInfo, uiFont, Brushes.LightYellow, 10, ClientSize.Height - uiFont.GetHeight() * 2 - 10);
                 }
             }
-
             if (isInPuzzleInputMode && activePuzzleRoom != null && !activePuzzleRoom.IsPuzzleSolved && player != null && player.CurrentHealth > 0)
             {
                 Font puzzleFont = new Font("Consolas", Math.Max(10f, ClientSize.Height / 30f), FontStyle.Bold);
                 Font inputFont = new Font("Consolas", Math.Max(10f, ClientSize.Height / 28f), FontStyle.Bold);
                 Font timerFont = new Font("Arial", Math.Max(9f, ClientSize.Height / 35f), FontStyle.Italic | FontStyle.Bold);
-
                 string question = activePuzzleRoom.PuzzleQuestion;
                 string cursor = (gameStopwatch.ElapsedMilliseconds / 400 % 2 == 0) ? "_" : " ";
                 string currentAnswerDisplay = $"Input: {currentPlayerPuzzleInput}{cursor}";
                 string timerDisplay = $"Time: {Math.Max(0, currentPuzzleTimeLeft):F1} s";
                 if (currentPuzzleTimeLeft <= 0 && activePuzzleRoom.IsPuzzleActive) timerDisplay = "TIME OVER!";
-
                 float boxPadding = ClientSize.Width * 0.015f;
                 float textVMargin = ClientSize.Height * 0.01f;
-
                 SizeF qSize = g.MeasureString(question, puzzleFont);
                 SizeF iSize = g.MeasureString($"Input: {new string('0', Math.Max(currentPlayerPuzzleInput.Length, activePuzzleRoom.PuzzleAnswer?.Length ?? 0) + 2)}", inputFont);
                 SizeF tSize = g.MeasureString(timerDisplay, timerFont);
-
                 float boxWidth = Math.Max(Math.Max(qSize.Width, iSize.Width), tSize.Width) + boxPadding * 2;
                 boxWidth = Math.Min(boxWidth, ClientSize.Width * 0.9f);
                 float boxHeight = qSize.Height + iSize.Height + tSize.Height + textVMargin * 2 + boxPadding * 2;
-
                 float boxX = ClientSize.Width / 2f - boxWidth / 2f;
                 float boxY = ClientSize.Height / 3.5f - boxHeight / 2f;
-
                 g.FillRectangle(new SolidBrush(Color.FromArgb(220, 10, 25, 55)), boxX, boxY, boxWidth, boxHeight);
                 g.DrawRectangle(Pens.LightSkyBlue, boxX, boxY, boxWidth, boxHeight);
-
                 float currentYDraw = boxY + boxPadding;
                 g.DrawString(question, puzzleFont, Brushes.White, boxX + boxPadding, currentYDraw);
                 currentYDraw += qSize.Height + textVMargin;
                 g.DrawString(currentAnswerDisplay, inputFont, Brushes.LimeGreen, boxX + boxPadding, currentYDraw);
                 currentYDraw += iSize.Height + textVMargin;
-
                 Brush timerBrush = (currentPuzzleTimeLeft <= 0) ? Brushes.DarkRed : (currentPuzzleTimeLeft < 10.0f && (int)(gameStopwatch.Elapsed.TotalSeconds * 2) % 2 == 0) ? Brushes.Red : Brushes.OrangeRed;
                 g.DrawString(timerDisplay, timerFont, timerBrush, boxX + boxPadding, currentYDraw);
             }
@@ -730,28 +641,20 @@ namespace Project_SSAAC
             {
                 Font survivalFont = new Font("Impact", Math.Max(12f, ClientSize.Height / 15f), FontStyle.Regular);
                 Font survivalTimerFont = new Font("Consolas", Math.Max(11f, ClientSize.Height / 20f), FontStyle.Bold);
-
                 string surviveText = "SURVIVE!";
                 string survivalTimerDisplay = $"{Math.Max(0, currentSurvivalTimeLeft):F1}";
-
                 SizeF surviveTextSize = g.MeasureString(surviveText, survivalFont);
-
                 float surviveX = ClientSize.Width / 2f - surviveTextSize.Width / 2f;
                 float surviveY = ClientSize.Height * 0.1f;
-
                 float timerX = ClientSize.Width / 2f;
                 float timerY = surviveY + surviveTextSize.Height + ClientSize.Height * 0.01f;
-
                 TextRenderer.DrawText(g, surviveText, survivalFont, new Point((int)surviveX + 2, (int)surviveY + 2), Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPadding);
                 TextRenderer.DrawText(g, surviveText, survivalFont, new Point((int)surviveX, (int)surviveY), Color.OrangeRed, TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPadding);
-
                 Color survivalTimerColor;
                 if (currentSurvivalTimeLeft <= 0) survivalTimerColor = Color.Yellow;
                 else if (currentSurvivalTimeLeft < 5.0f && (int)(gameStopwatch.Elapsed.TotalSeconds * 2.5) % 2 == 0) survivalTimerColor = Color.Red;
                 else survivalTimerColor = Color.White;
-
                 TextRenderer.DrawText(g, survivalTimerDisplay, survivalTimerFont, new Point((int)timerX, (int)timerY), survivalTimerColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPadding);
-
                 if (player.CurrentHealth > 0 && currentSurvivalTimeLeft > 0)
                 {
                     string noAttackMsg = "공격 불가!";
@@ -760,81 +663,108 @@ namespace Project_SSAAC
                 }
             }
 
-            DrawMinimap(g);
+            // <<-- 수정: DrawUI 메서드에 보스 체력바 그리기 로직 추가 -->>
+            if (currentLevel?.CurrentRoom?.Type == RoomType.Boss)
+            {
+                // LINQ를 사용해 enemies 리스트에서 BossEnemy 인스턴스를 찾습니다.
+                Enemy boss = enemies.FirstOrDefault(e => e is BossEnemy);
 
+                if (boss != null && boss.IsAlive)
+                {
+                    // 체력바의 크기와 위치 설정
+                    float barMaxWidth = ClientSize.Width * 0.7f; // 화면 너비의 70%
+                    float barHeight = 25f;
+                    float barX = (ClientSize.Width - barMaxWidth) / 2f;
+                    float barY = ClientSize.Height * 0.05f; // 화면 상단에서 5% 아래
+
+                    // 체력 비율 계산
+                    float healthPercentage = (float)boss.CurrentHealth / boss.MaxHealth;
+                    float currentHealthBarWidth = barMaxWidth * healthPercentage;
+
+                    // 체력바 배경 그리기 (어두운 빨강)
+                    g.FillRectangle(Brushes.DarkRed, barX, barY, barMaxWidth, barHeight);
+
+                    // 현재 체력바 그리기 (밝은 빨강)
+                    g.FillRectangle(Brushes.Red, barX, barY, currentHealthBarWidth, barHeight);
+
+                    // 체력바 테두리 그리기
+                    g.DrawRectangle(Pens.White, barX, barY, barMaxWidth, barHeight);
+
+                    // "BOSS" 텍스트 그리기
+                    string bossText = "BOSS";
+                    Font bossFont = new Font("Arial", 12, FontStyle.Bold);
+                    SizeF text_size = g.MeasureString(bossText, bossFont);
+                    g.DrawString(bossText, bossFont, Brushes.White, barX - text_size.Width - 5, barY + (barHeight - text_size.Height) / 2);
+                }
+            }
+
+            DrawMinimap(g);
             if (player != null && player.CurrentHealth <= 0)
             {
                 Font gameOverFont = new Font("Impact", Math.Max(20f, (float)ClientSize.Height / 7f), FontStyle.Bold);
                 string gameOverText = "GAME OVER";
                 SizeF gameOverSize = g.MeasureString(gameOverText, gameOverFont);
-
                 g.FillRectangle(new SolidBrush(Color.FromArgb(200, 0, 0, 0)), 0, 0, ClientSize.Width, ClientSize.Height);
                 g.DrawString(gameOverText, gameOverFont, Brushes.Black, ClientSize.Width / 2f - gameOverSize.Width / 2f + 5, ClientSize.Height / 2f - gameOverSize.Height / 2f + 5);
                 g.DrawString(gameOverText, gameOverFont, Brushes.Firebrick, ClientSize.Width / 2f - gameOverSize.Width / 2f, ClientSize.Height / 2f - gameOverSize.Height / 2f);
+            }
+            else if (isGameCleared)
+            {
+                Font victoryFont = new Font("Impact", Math.Max(20f, (float)ClientSize.Height / 7f), FontStyle.Bold);
+                string victoryText = "YOU WIN!";
+                SizeF victorySize = g.MeasureString(victoryText, victoryFont);
+                g.FillRectangle(new SolidBrush(Color.FromArgb(200, 30, 30, 80)), 0, 0, ClientSize.Width, ClientSize.Height);
+                g.DrawString(victoryText, victoryFont, Brushes.Black, ClientSize.Width / 2f - victorySize.Width / 2f + 5, ClientSize.Height / 2f - victorySize.Height / 2f + 5);
+                g.DrawString(victoryText, victoryFont, Brushes.Gold, ClientSize.Width / 2f - victorySize.Width / 2f, ClientSize.Height / 2f - victorySize.Height / 2f);
             }
         }
 
         private void DrawMinimap(Graphics g)
         {
             if (currentLevel == null || currentLevel.Rooms.Count == 0 || currentLevel.CurrentRoom == null) return;
-
             int minimapMargin = 15;
             int roomCellSize = (int)(Math.Min(ClientSize.Width, ClientSize.Height) / 55.0);
             roomCellSize = Math.Max(5, Math.Min(12, roomCellSize));
             int roomCellPadding = 2;
-
             HashSet<Room> roomsToDisplay = new HashSet<Room>();
             List<Room> discoveredRooms = currentLevel.Rooms.Values.Where(r => r.IsDiscovered).ToList();
-
             if (currentLevel.CurrentRoom.IsDiscovered) roomsToDisplay.Add(currentLevel.CurrentRoom);
-
             foreach (var discRoom in discoveredRooms)
             {
                 roomsToDisplay.Add(discRoom);
                 Point currentGridPos = discRoom.GridPosition;
                 Point[] neighborOffsets = { new Point(0, -1), new Point(0, 1), new Point(-1, 0), new Point(1, 0) };
                 bool[] doorsExist = { discRoom.HasTopDoor, discRoom.HasBottomDoor, discRoom.HasLeftDoor, discRoom.HasRightDoor };
-
                 for (int i = 0; i < neighborOffsets.Length; i++)
                 {
                     if (doorsExist[i])
                     {
                         Point adjGridPos = new Point(currentGridPos.X + neighborOffsets[i].X, currentGridPos.Y + neighborOffsets[i].Y);
                         if (currentLevel.Rooms.TryGetValue(adjGridPos, out Room adjacentRoom))
-                        {
                             roomsToDisplay.Add(adjacentRoom);
-                        }
                     }
                 }
             }
-
             if (!roomsToDisplay.Any()) return;
-
             int minX = roomsToDisplay.Min(r => r.GridPosition.X);
             int maxX = roomsToDisplay.Max(r => r.GridPosition.X);
             int minY = roomsToDisplay.Min(r => r.GridPosition.Y);
             int maxY = roomsToDisplay.Max(r => r.GridPosition.Y);
-
             int mapGridWidth = (maxX - minX + 1);
             int mapGridHeight = (maxY - minY + 1);
-
             int mapPixelWidth = mapGridWidth * (roomCellSize + roomCellPadding) - roomCellPadding;
             int mapPixelHeight = mapGridHeight * (roomCellSize + roomCellPadding) - roomCellPadding;
             mapPixelWidth = Math.Max(mapPixelWidth, roomCellSize);
             mapPixelHeight = Math.Max(mapPixelHeight, roomCellSize);
-
             float mapAreaX = ClientSize.Width - mapPixelWidth - minimapMargin;
             float mapAreaY = minimapMargin;
-
             g.FillRectangle(new SolidBrush(Color.FromArgb(160, 10, 15, 35)), mapAreaX - roomCellPadding, mapAreaY - roomCellPadding, mapPixelWidth + roomCellPadding * 2, mapPixelHeight + roomCellPadding * 2);
-
             foreach (var room in roomsToDisplay)
             {
                 float cellX = mapAreaX + (room.GridPosition.X - minX) * (roomCellSize + roomCellPadding);
                 float cellY = mapAreaY + (room.GridPosition.Y - minY) * (roomCellSize + roomCellPadding);
                 Brush roomBrush;
                 Pen borderPen = Pens.DarkSlateGray;
-
                 if (room.IsDiscovered)
                 {
                     if (room.GridPosition == currentLevel.CurrentRoom.GridPosition)
@@ -863,30 +793,14 @@ namespace Project_SSAAC
                     borderPen = Pens.SlateGray;
                     switch (room.Type)
                     {
-                        case RoomType.Boss:
-                            roomBrush = new SolidBrush(Color.FromArgb(100, Color.IndianRed));
-                            break;
-                        case RoomType.Treasure:
-                            roomBrush = new SolidBrush(Color.FromArgb(100, Color.Gold));
-                            break;
-                        case RoomType.Shop:
-                            roomBrush = new SolidBrush(Color.FromArgb(100, Color.MediumPurple));
-                            break;
-                        case RoomType.Secret:
-                            roomBrush = new SolidBrush(Color.FromArgb(50, Color.DarkSlateGray));
-                            break;
-                        case RoomType.MiniBoss:
-                            roomBrush = new SolidBrush(Color.FromArgb(100, Color.OrangeRed));
-                            break;
-                        case RoomType.Puzzle:
-                            roomBrush = new SolidBrush(Color.FromArgb(100, Color.Turquoise));
-                            break;
-                        case RoomType.Survival:
-                            roomBrush = new SolidBrush(Color.FromArgb(100, Color.Coral));
-                            break;
-                        default:
-                            roomBrush = new SolidBrush(Color.FromArgb(100, Color.DimGray));
-                            break;
+                        case RoomType.Boss: roomBrush = new SolidBrush(Color.FromArgb(100, Color.IndianRed)); break;
+                        case RoomType.Treasure: roomBrush = new SolidBrush(Color.FromArgb(100, Color.Gold)); break;
+                        case RoomType.Shop: roomBrush = new SolidBrush(Color.FromArgb(100, Color.MediumPurple)); break;
+                        case RoomType.Secret: roomBrush = new SolidBrush(Color.FromArgb(50, Color.DarkSlateGray)); break;
+                        case RoomType.MiniBoss: roomBrush = new SolidBrush(Color.FromArgb(100, Color.OrangeRed)); break;
+                        case RoomType.Puzzle: roomBrush = new SolidBrush(Color.FromArgb(100, Color.Turquoise)); break;
+                        case RoomType.Survival: roomBrush = new SolidBrush(Color.FromArgb(100, Color.Coral)); break;
+                        default: roomBrush = new SolidBrush(Color.FromArgb(100, Color.DimGray)); break;
                     }
                 }
                 g.FillRectangle(roomBrush, cellX, cellY, roomCellSize, roomCellSize);
@@ -907,38 +821,22 @@ namespace Project_SSAAC
                 gameStopwatch.Stop();
                 gameStopwatch = null;
             }
-
             if (this.IsHandleCreated && !this.IsDisposed)
             {
-                if (Application.MessageLoop)
-                {
-                    Application.Exit();
-                }
-                else
-                {
-                    Environment.Exit(1);
-                }
+                if (Application.MessageLoop) Application.Exit();
+                else Environment.Exit(1);
             }
-            else
-            {
-                Environment.Exit(1);
-            }
+            else Environment.Exit(1);
         }
 
         private PointF Normalize(PointF vec, float magnitude)
         {
             float length = (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
-            if (length > 0)
-            {
-                return new PointF((vec.X / length) * magnitude, (vec.Y / length) * magnitude);
-            }
+            if (length > 0) return new PointF((vec.X / length) * magnitude, (vec.Y / length) * magnitude);
             return PointF.Empty;
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void btnExit_Click(object sender, EventArgs e) { this.Close(); }
 
         public void SetMoveKey(Direction dir, Keys key)
         {
@@ -966,14 +864,8 @@ namespace Project_SSAAC
         {
             switch (keyData)
             {
-                case Keys.Up:
-                case Keys.Down:
-                case Keys.Left:
-                case Keys.Right:
-                case Keys.Enter:
-                    return true;
-                default:
-                    return base.IsInputKey(keyData);
+                case Keys.Up: case Keys.Down: case Keys.Left: case Keys.Right: case Keys.Enter: return true;
+                default: return base.IsInputKey(keyData);
             }
         }
     }

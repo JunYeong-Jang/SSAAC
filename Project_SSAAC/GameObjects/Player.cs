@@ -12,7 +12,7 @@ namespace Project_SSAAC.GameObjects
     /// </summary>
     public class Player : GameObject
     {
-        public float Speed { get; set; } = 150f;
+        public float Speed { get; set; } = 200f;
         public PointF Velocity { get; set; } = PointF.Empty;
         public int Damage { get; private set; } = 3;
         public float TearSpeed { get; private set; } = 300f;
