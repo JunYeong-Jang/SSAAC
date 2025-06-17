@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <name>MyQuizMod</name>
+  <description>퀴즈방 &amp; 좀비방 템플릿</description>
+  <version>1.0</version>
+  <author>익명</author>
+  <directory>MyQuizMod</directory>
+  <id>1000000003</id>
+  <script>main.lua</script>
+<dependencies>
+  <dependency>stageapi15_1348031964</dependency>
+</dependencies>
+</metadata>
