@@ -93,7 +93,7 @@ namespace Project_SSAAC
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            _main.LoadControl(new SettingsControl(_main));
+            _main.LoadControl(new SettingsControl(_main, _player));
         }
     }
 }
