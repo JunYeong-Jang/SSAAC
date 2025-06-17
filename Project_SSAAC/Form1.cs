@@ -488,12 +488,10 @@ namespace Project_SSAAC
                                                currentLevel.CurrentRoom.Type == RoomType.Boss ||
                                                currentLevel.CurrentRoom.Type == RoomType.MiniBoss;
 
-                if (combatRoomNeedsClearing &&
-                    currentLevel.CurrentRoom.EnemyTypesToSpawn.Count > 0 &&
-                    enemies.Count == 0)
+                if (combatRoomNeedsClearing && enemies.Count == 0)
                 {
                     currentLevel.CurrentRoom.ClearRoom();
-                    Debug.WriteLine($"[Form1] Combat Room {currentLevel.CurrentRoom.GridPosition} ({currentLevel.CurrentRoom.Type}) cleared by defeating all enemies.");
+                    Debug.WriteLine($"[Form1] Combat Room {currentLevel.CurrentRoom.GridPosition} ({currentLevel.CurrentRoom.Type}) cleared because no enemies are present.");
                 }
             }
         }
@@ -504,9 +502,6 @@ namespace Project_SSAAC
             {
                 return;
             }
-
-            if (isInPuzzleInputMode) return;
-            if (activeSurvivalRoom != null && activeSurvivalRoom.IsSurvivalActive && !activeSurvivalRoom.IsSurvivalCompleted) return;
 
             RectangleF playerBounds = player.Bounds;
             Room currentRoomLogic = currentLevel.CurrentRoom;
@@ -945,6 +940,27 @@ namespace Project_SSAAC
                 case Direction.Down: shootDownKey = key; break;
                 case Direction.Left: shootLeftKey = key; break;
                 case Direction.Right: shootRightKey = key; break;
+            }
+        }
+
+        // <<-- 새로 추가된 메서드 -->>
+        /// <summary>
+        /// 특정 키(화살표, 엔터)가 눌렸을 때, 폼의 기본 동작 대신 KeyDown 이벤트를 우선적으로 발생시킵니다.
+        /// </summary>
+        /// <param name="keyData">눌린 키의 데이터입니다.</param>
+        /// <returns>입력으로 처리해야 할 키이면 true, 아니면 false를 반환합니다.</returns>
+        protected override bool IsInputKey(Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                case Keys.Enter: // 엔터 키를 일반 입력으로 처리하도록 추가
+                    return true;
+                default:
+                    return base.IsInputKey(keyData);
             }
         }
     }

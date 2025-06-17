@@ -5,6 +5,8 @@ using System.Drawing;
 using Project_SSAAC.GameObjects;
 using System.Diagnostics;
 using System.Linq;
+// RoomLayouts를 사용하기 위해 네임스페이스 추가
+using Project_SSAAC.World.Layouts;
 
 namespace Project_SSAAC.World
 {
@@ -66,7 +68,7 @@ namespace Project_SSAAC.World
                         RoomType newRoomType = RoomType.Normal;
                         if (roomsSuccessfullyCreated == numberOfRooms - 1) newRoomType = RoomType.Boss;
                         else if (_random.NextDouble() < 0.08 && roomsSuccessfullyCreated > 2 && numberOfRooms > 5) newRoomType = RoomType.Survival;
-                        else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
+                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
                         else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 2) newRoomType = RoomType.Treasure;
                         else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 3) newRoomType = RoomType.Shop;
                         else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 2 && numberOfRooms > 6) newRoomType = RoomType.MiniBoss;
@@ -104,37 +106,19 @@ namespace Project_SSAAC.World
 
             foreach (var room in level.Rooms.Values)
             {
-                bool needsEnemies = room.Type == RoomType.Normal ||
-                                    room.Type == RoomType.MiniBoss ||
-                                    room.Type == RoomType.Boss ||
-                                   (room.Type == RoomType.Puzzle && !room.IsPuzzleSolved) ||
-                                   (room.Type == RoomType.Survival && !room.IsSurvivalCompleted);
+                string[] layoutToApply = RoomLayouts.GetLayoutForRoomType(room.Type);
 
-                if (needsEnemies)
+                if (layoutToApply != null)
                 {
-                    int enemyCount = 1;
-                    if (room.Type == RoomType.Normal) enemyCount = _random.Next(1, 4);
-                    else if (room.Type == RoomType.MiniBoss) enemyCount = _random.Next(2, 4);
-                    else if (room.Type == RoomType.Puzzle) enemyCount = _random.Next(1, 3);
-                    else if (room.Type == RoomType.Survival) enemyCount = _random.Next(3, 6);
-                    else if (room.Type == RoomType.Boss) enemyCount = 1;
-
-                    for (int k = 0; k < enemyCount; k++)
-                    {
-                        float spawnMarginX = _roomPixelSizeToUse.Width * 0.2f;
-                        float spawnMarginY = _roomPixelSizeToUse.Height * 0.2f;
-                        float spawnX = (float)(_random.NextDouble() * (_roomPixelSizeToUse.Width - 2 * spawnMarginX) + spawnMarginX);
-                        float spawnY = (float)(_random.NextDouble() * (_roomPixelSizeToUse.Height - 2 * spawnMarginY) + spawnMarginY);
-
-                        room.AddEnemySpawn(typeof(BasicEnemy), new PointF(spawnX, spawnY));
-                    }
+                    ApplyLayoutToRoom(room, layoutToApply);
                 }
 
-                if (room.Type == RoomType.Normal || room.Type == RoomType.Start || room.Type == RoomType.Treasure)
+                if (room.Type == RoomType.Boss && room.EnemyTypesToSpawn.Count == 0)
                 {
-                    PopulateRoomWithObstacles(room);
+                    // 보스룸 예외 처리 로직 (필요시)
                 }
             }
+
             Debug.WriteLine($"[LevelGenerator] Generation finished. Total rooms in level: {level.Rooms.Count} (Target: {numberOfRooms}). CurrentRoom set to: {level.CurrentRoom?.GridPosition}");
             return level;
         }
@@ -147,66 +131,83 @@ namespace Project_SSAAC.World
             else if (directionOffset.Y == -1) { room1.HasTopDoor = true; room2.HasBottomDoor = true; }
         }
 
-        // **[수정됨] 바위, 가시, 구덩이를 모두 생성하도록 변경**
-        private void PopulateRoomWithObstacles(Room room)
+        private void ApplyLayoutToRoom(Room room, string[] layout)
         {
-            int obstacleCount = _random.Next(4, 10); // 장애물 개수 조정
-            SizeF obstacleSize = new SizeF(40, 40);
+            if (layout == null || layout.Length == 0) return;
 
-            float marginX = _roomPixelSizeToUse.Width * 0.15f;
-            float marginY = _roomPixelSizeToUse.Height * 0.15f;
+            room.Obstacles.Clear();
+            room.EnemySpawnPositions.Clear();
+            room.EnemyTypesToSpawn.Clear();
 
-            RectangleF spawnArea = new RectangleF(
-                marginX, marginY,
-                _roomPixelSizeToUse.Width - marginX * 2,
-                _roomPixelSizeToUse.Height - marginY * 2
-            );
+            int layoutHeight = layout.Length;
 
-            for (int i = 0; i < obstacleCount; i++)
+            int layoutMaxWidth = 0;
+            foreach (string row in layout)
             {
-                PointF position;
-                bool positionIsSafe;
-                int attempts = 0;
-
-                do
+                if (row.Length > layoutMaxWidth)
                 {
-                    float x = (float)(spawnArea.X + _random.NextDouble() * spawnArea.Width);
-                    float y = (float)(spawnArea.Y + _random.NextDouble() * spawnArea.Height);
-                    position = new PointF(x, y);
+                    layoutMaxWidth = row.Length;
+                }
+            }
+            if (layoutMaxWidth == 0) return;
 
-                    positionIsSafe = true;
-                    RectangleF newObstacleBounds = new RectangleF(position, obstacleSize);
+            float cellWidth = _roomPixelSizeToUse.Width / layoutMaxWidth;
+            float cellHeight = _roomPixelSizeToUse.Height / layoutHeight;
 
-                    foreach (var existingObstacle in room.Obstacles)
+            for (int y = 0; y < layoutHeight; y++)
+            {
+                string currentRow = layout[y];
+                if (string.IsNullOrEmpty(currentRow))
+                {
+                    continue;
+                }
+
+                for (int x = 0; x < currentRow.Length; x++)
+                {
+                    // <<-- 새로 추가된 부분: 문 위치를 확인하고 비워두는 로직 -->>
+                    bool isDoorway = false;
+                    int midX1 = layoutMaxWidth / 2 - 1; // 위/아래 문의 왼쪽 칸
+                    int midX2 = layoutMaxWidth / 2;     // 위/아래 문의 오른쪽 칸
+                    int midY = layoutHeight / 2;        // 좌/우 문의 중앙 칸
+
+                    // 위쪽 문 확인
+                    if (room.HasTopDoor && y == 0 && (x == midX1 || x == midX2)) isDoorway = true;
+                    // 아래쪽 문 확인
+                    if (room.HasBottomDoor && y == layoutHeight - 1 && (x == midX1 || x == midX2)) isDoorway = true;
+                    // 왼쪽 문 확인
+                    if (room.HasLeftDoor && x == 0 && y == midY) isDoorway = true;
+                    // 오른쪽 문 확인
+                    if (room.HasRightDoor && x == layoutMaxWidth - 1 && y == midY) isDoorway = true;
+
+                    // 현재 위치가 문 입구라면, 아무것도 배치하지 않고 건너뜀
+                    if (isDoorway)
                     {
-                        if (newObstacleBounds.IntersectsWith(existingObstacle.Bounds))
-                        {
-                            positionIsSafe = false;
+                        continue;
+                    }
+                    // -- 추가된 부분 끝 --
+
+                    char symbol = currentRow[x];
+                    if (symbol == '.') continue;
+
+                    PointF position = new PointF(x * cellWidth, y * cellHeight);
+                    SizeF objectSize = new SizeF(cellWidth, cellHeight);
+
+                    switch (symbol)
+                    {
+                        case 'R':
+                            room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Rock));
                             break;
-                        }
+                        case 'S':
+                            room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Spikes));
+                            break;
+                        case 'P':
+                            room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Pit));
+                            break;
+                        case 'E':
+                            PointF enemySpawnPos = new PointF(position.X + (cellWidth / 2) - 15, position.Y + (cellHeight / 2) - 15);
+                            room.AddEnemySpawn(typeof(BasicEnemy), enemySpawnPos);
+                            break;
                     }
-                    attempts++;
-                } while (!positionIsSafe && attempts < 10);
-
-                if (positionIsSafe)
-                {
-                    // 50% 바위, 25% 가시, 25% 구덩이 확률로 생성
-                    double chance = _random.NextDouble();
-                    ObstacleType typeToSpawn;
-                    if (chance < 0.5)
-                    {
-                        typeToSpawn = ObstacleType.Rock;
-                    }
-                    else if (chance < 0.75)
-                    {
-                        typeToSpawn = ObstacleType.Spikes;
-                    }
-                    else
-                    {
-                        typeToSpawn = ObstacleType.Pit;
-                    }
-
-                    room.Obstacles.Add(new Obstacle(position, obstacleSize, typeToSpawn));
                 }
             }
         }
