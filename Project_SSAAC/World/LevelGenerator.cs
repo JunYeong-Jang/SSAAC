@@ -74,11 +74,11 @@ namespace Project_SSAAC.World
                     {
                         RoomType newRoomType = RoomType.Normal;
                         if (roomsSuccessfullyCreated == numberOfRooms - 1) newRoomType = RoomType.Boss;
-                        else if (_random.NextDouble() < 0.08 && roomsSuccessfullyCreated > 2 && numberOfRooms > 5) newRoomType = RoomType.Survival;
-                        else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
-                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 2) newRoomType = RoomType.Treasure;
-                        else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 3) newRoomType = RoomType.Shop;
-                        else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 2 && numberOfRooms > 6) newRoomType = RoomType.MiniBoss;
+                        else if (_random.NextDouble() < 1.00 && roomsSuccessfullyCreated > 2 && numberOfRooms > 5) newRoomType = RoomType.Survival;
+                        else if (_random.NextDouble() < 0.00 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
+                        else if (_random.NextDouble() < 0.00 && roomsSuccessfullyCreated > 2) newRoomType = RoomType.Treasure;
+                        else if (_random.NextDouble() < 0.00 && roomsSuccessfullyCreated > 3) newRoomType = RoomType.Shop;
+                        else if (_random.NextDouble() < 0.00 && roomsSuccessfullyCreated > 2 && numberOfRooms > 6) newRoomType = RoomType.MiniBoss;
 
                         Room newRoom = new Room(nextGridPos, newRoomType, _roomPixelSizeToUse);
 
@@ -181,11 +181,31 @@ namespace Project_SSAAC.World
                         continue;
                     }
 
-                    char symbol = currentRow[x];
-                    if (symbol == '.') continue;
-
                     PointF position = new PointF(x * cellWidth, y * cellHeight);
                     SizeF objectSize = new SizeF(cellWidth, cellHeight);
+
+                    char symbol = currentRow[x];
+
+                    // 생존방에 한해서 빈 칸에도 확률적으로 장애물 배치
+                    if (symbol == '.' && room.Type == RoomType.Survival)
+                    {
+                        double spawnChance = 0.15; // 생존방 장애물 생성 확률 (15%)
+                        if (_random.NextDouble() < spawnChance)
+                        {
+                            room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Rock));
+                        }
+                        else
+                        {
+                            continue; // 장애물 생성 안 하면 넘어감
+                        }
+                    }
+                    else if (symbol == '.')
+                    {
+                        continue;
+                    }
+
+
+
 
                     switch (symbol)
                     {

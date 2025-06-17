@@ -9,7 +9,7 @@ namespace Project_SSAAC.GameObjects
     {
         public int MaxHealth { get; protected set; }
         public int CurrentHealth { get; protected set; }
-        public float Speed { get; protected set; }
+        public float Speed { get; set; }
         public int CollisionDamage { get; protected set; } = 1;
         public bool IsAlive => CurrentHealth > 0;
         public Bitmap enemyAppearance { get; set; } = Properties.Resources.enemy_slime_idle;

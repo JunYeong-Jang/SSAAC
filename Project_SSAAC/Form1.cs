@@ -403,7 +403,14 @@ namespace Project_SSAAC
                 {
                     var enemy = enemies[i];
                     // <<-- 수정: 적 업데이트 후 반환된 투사체 처리 -->>
+
+                    if (currentLevel.CurrentRoom.Type == RoomType.Survival)
+                    {
+                        enemy.Speed += 0.3f;
+                    }
+
                     Projectile newProjectile = enemy.UpdateEnemy(deltaTime, player.Position);
+                   
                     if (newProjectile != null)
                     {
                         projectiles.Add(newProjectile);
