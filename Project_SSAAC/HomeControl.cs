@@ -16,16 +16,15 @@ namespace Project_SSAAC
 
         private Form1 _main;
         private Player _player;
-
+        
         public HomeControl(Form1 main, Player player)
+
         {
             InitializeComponent();
             _main = main;
             _player = player;
             this.Resize += resize_Controls;
             resize_Controls(null, null);
-
-
         }
 
         private void btnCm_Click(object sender, EventArgs e)
@@ -66,11 +65,35 @@ namespace Project_SSAAC
             btnStart.BringToFront();
             btnCm.BringToFront();
             btnExit.BringToFront();
+
+            //  설정 아이콘 추가
+            int pb2Width = (int)(pw * 0.06);   
+            int pb2Height = pb2Width;          // 정사각형으로 가정
+
+            int pb2X = pw - pb2Width - (int)(pw * 0.02); // 오른쪽 여백 약 2%
+            int pb2Y = ph - pb2Height - (int)(ph * 0.02); // 아래쪽 여백 약 2%
+
+            btnSettings.SetBounds(pb2X, pb2Y, pb2Width, pb2Height);
+            btnSettings.BackColor = Color.Gray;
+
+
+
+            btnSettings.BringToFront();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            _main.LoadControl(new testroom(_main));
+            _main.LoadControl(new ZombieRoom(_main));
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            _main.LoadControl(new SettingsControl(_main));
         }
     }
 }
