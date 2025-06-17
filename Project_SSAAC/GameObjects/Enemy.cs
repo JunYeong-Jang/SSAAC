@@ -28,22 +28,13 @@ namespace Project_SSAAC.GameObjects
 
         public override void Update(float deltaTime) { }
 
-        // <<-- 수정: 반환 타입을 Projectile로 변경 -->>
-        /// <summary>
-        /// 각 적 타입의 고유한 AI 및 행동 패턴을 업데이트합니다.
-        /// 투사체를 발사하는 경우 Projectile 객체를 반환할 수 있습니다.
-        /// </summary>
-        /// <param name="deltaTime">프레임 간 경과 시간입니다.</param>
-        /// <param name="playerPosition">플레이어의 현재 위치입니다 (추적 등에 사용).</param>
-        /// <returns>발사된 투사체. 발사하지 않으면 null을 반환합니다.</returns>
-        public abstract Projectile UpdateEnemy(float deltaTime, PointF playerPosition);
+        // <<-- 수정: 반환 타입을 EnemyAction으로 변경 -->>
+        public abstract EnemyAction UpdateEnemy(float deltaTime, PointF playerPosition);
 
         public override void Draw(Graphics g)
         {
             if (!IsAlive) return;
-
             RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
-
             if (this.facingLeft)
             {
                 RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 50, 50);
@@ -53,10 +44,8 @@ namespace Project_SSAAC.GameObjects
             {
                 g.TranslateTransform(Bounds.X + Bounds.Width, Bounds.Y);
                 g.ScaleTransform(-1, 1);
-
                 RectangleF destRect = new RectangleF(0, 0, 50, 50);
                 g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
-
                 g.ResetTransform();
             }
         }
@@ -92,14 +81,8 @@ namespace Project_SSAAC.GameObjects
                 Position = new PointF(Position.X + moveX, Position.Y + moveY);
             }
 
-            if (dx < 0)
-            {
-                facingLeft = true;
-            }
-            else if (dx > 0)
-            {
-                facingLeft = false;
-            }
+            if (dx < 0) facingLeft = true;
+            else if (dx > 0) facingLeft = false;
         }
 
         public void SetPosition(PointF newPosition)

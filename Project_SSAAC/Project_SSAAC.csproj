@@ -59,8 +59,10 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GameObjects\BasicEnemy.cs" />
+    <Compile Include="GameObjects\BossEnemy.cs" />
     <Compile Include="GameObjects\ChargerEnemy.cs" />
     <Compile Include="GameObjects\Enemy.cs" />
+    <Compile Include="GameObjects\EnemyAction.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Obstacle.cs" />
     <Compile Include="GameObjects\Player.cs" />

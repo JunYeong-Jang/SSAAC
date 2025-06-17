@@ -14,7 +14,6 @@ namespace Project_SSAAC.World
         private Random _random = new Random();
         private SizeF _roomPixelSizeToUse;
 
-        // <<-- 추가: 스폰 가능한 모든 적 타입 리스트 -->>
         private List<Type> availableEnemyTypes = new List<Type>
         {
             typeof(BasicEnemy),
@@ -91,7 +90,7 @@ namespace Project_SSAAC.World
                         }
                         else if (newRoom.Type == RoomType.Survival)
                         {
-                            newRoom.SurvivalTimeDuration = 30.0f;
+                            newRoom.SurvivalTimeDuration = 10.0f;
                         }
 
                         level.AddRoom(newRoom);
@@ -220,9 +219,18 @@ namespace Project_SSAAC.World
                             room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Pit));
                             break;
                         case 'E':
-                            // <<-- 수정: 무작위 적 타입을 선택하여 스폰 정보 추가 -->>
-                            Type enemyToSpawn = availableEnemyTypes[_random.Next(availableEnemyTypes.Count)];
                             PointF enemySpawnPos = new PointF(position.X + (cellWidth / 2) - 15, position.Y + (cellHeight / 2) - 15);
+                            Type enemyToSpawn;
+
+                            // <<-- 수정: 보스방에서는 BossEnemy를, 그 외에는 무작위 적을 스폰 -->>
+                            if (room.Type == RoomType.Boss)
+                            {
+                                enemyToSpawn = typeof(BossEnemy);
+                            }
+                            else
+                            {
+                                enemyToSpawn = availableEnemyTypes[_random.Next(availableEnemyTypes.Count)];
+                            }
                             room.AddEnemySpawn(enemyToSpawn, enemySpawnPos);
                             break;
                     }
