@@ -272,5 +272,29 @@
   <ItemGroup>
     <None Include="Resources\resized_dungeon_1024x576.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\enemy_boss_attack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\enemy_boss_enraged.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\enemy_boss_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\enemy_charger_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\enemy_charger_run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\enemy_ranged_attack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\enemy_ranged_idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Objects\enemy_ranged_run.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

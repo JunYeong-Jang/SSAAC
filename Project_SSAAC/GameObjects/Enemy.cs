@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Project_SSAAC.GameObjects
 {
@@ -12,7 +13,7 @@ namespace Project_SSAAC.GameObjects
         public float Speed { get; set; }
         public int CollisionDamage { get; protected set; } = 1;
         public bool IsAlive => CurrentHealth > 0;
-        public Bitmap enemyAppearance { get; set; } = Properties.Resources.enemy_slime_idle;
+
         public bool facingLeft { get; set; } = true;
         private const int frameWidth = 44;
         private const int frameHeight = 30;
@@ -31,24 +32,24 @@ namespace Project_SSAAC.GameObjects
         // <<-- 수정: 반환 타입을 EnemyAction으로 변경 -->>
         public abstract EnemyAction UpdateEnemy(float deltaTime, PointF playerPosition);
 
-        public override void Draw(Graphics g)
-        {
-            if (!IsAlive) return;
-            RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
-            if (this.facingLeft)
-            {
-                RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 50, 50);
-                g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
-            }
-            else
-            {
-                g.TranslateTransform(Bounds.X + Bounds.Width, Bounds.Y);
-                g.ScaleTransform(-1, 1);
-                RectangleF destRect = new RectangleF(0, 0, 50, 50);
-                g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
-                g.ResetTransform();
-            }
-        }
+        //public override void Draw(Graphics g)
+        //{
+        //    if (!IsAlive) return;
+        //    RectangleF srcRect = new RectangleF(frameIndex * frameWidth, 0, frameWidth, frameHeight);
+        //    if (this.facingLeft)
+        //    {
+        //        RectangleF destRect = new RectangleF(Bounds.X, Bounds.Y, 30, 30);
+        //        g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
+        //    }
+        //    else
+        //    {
+        //        g.TranslateTransform(Bounds.X + Bounds.Width, Bounds.Y);
+        //        g.ScaleTransform(-1, 1);
+        //        RectangleF destRect = new RectangleF(0, 0, 30, 30);
+        //        g.DrawImage(enemyAppearance, destRect, srcRect, GraphicsUnit.Pixel);
+        //        g.ResetTransform();
+        //    }
+        //}
 
         public virtual void TakeDamage(int amount)
         {
