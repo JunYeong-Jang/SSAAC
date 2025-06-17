@@ -59,11 +59,13 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GameObjects\BasicEnemy.cs" />
+    <Compile Include="GameObjects\ChargerEnemy.cs" />
     <Compile Include="GameObjects\Enemy.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Obstacle.cs" />
     <Compile Include="GameObjects\Player.cs" />
     <Compile Include="GameObjects\Projectile.cs" />
+    <Compile Include="GameObjects\RangedEnemy.cs" />
     <Compile Include="HomeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

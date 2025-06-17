@@ -5,7 +5,6 @@ using System.Drawing;
 using Project_SSAAC.GameObjects;
 using System.Diagnostics;
 using System.Linq;
-// RoomLayouts를 사용하기 위해 네임스페이스 추가
 using Project_SSAAC.World.Layouts;
 
 namespace Project_SSAAC.World
@@ -14,6 +13,14 @@ namespace Project_SSAAC.World
     {
         private Random _random = new Random();
         private SizeF _roomPixelSizeToUse;
+
+        // <<-- 추가: 스폰 가능한 모든 적 타입 리스트 -->>
+        private List<Type> availableEnemyTypes = new List<Type>
+        {
+            typeof(BasicEnemy),
+            typeof(RangedEnemy),
+            typeof(ChargerEnemy)
+        };
 
         public LevelGenerator(SizeF roomActualPixelSize)
         {
@@ -68,7 +75,7 @@ namespace Project_SSAAC.World
                         RoomType newRoomType = RoomType.Normal;
                         if (roomsSuccessfullyCreated == numberOfRooms - 1) newRoomType = RoomType.Boss;
                         else if (_random.NextDouble() < 0.08 && roomsSuccessfullyCreated > 2 && numberOfRooms > 5) newRoomType = RoomType.Survival;
-                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
+                        else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
                         else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 2) newRoomType = RoomType.Treasure;
                         else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 3) newRoomType = RoomType.Shop;
                         else if (_random.NextDouble() < 0.10 && roomsSuccessfullyCreated > 2 && numberOfRooms > 6) newRoomType = RoomType.MiniBoss;
@@ -111,11 +118,6 @@ namespace Project_SSAAC.World
                 if (layoutToApply != null)
                 {
                     ApplyLayoutToRoom(room, layoutToApply);
-                }
-
-                if (room.Type == RoomType.Boss && room.EnemyTypesToSpawn.Count == 0)
-                {
-                    // 보스룸 예외 처리 로직 (필요시)
                 }
             }
 
@@ -164,27 +166,20 @@ namespace Project_SSAAC.World
 
                 for (int x = 0; x < currentRow.Length; x++)
                 {
-                    // <<-- 새로 추가된 부분: 문 위치를 확인하고 비워두는 로직 -->>
                     bool isDoorway = false;
-                    int midX1 = layoutMaxWidth / 2 - 1; // 위/아래 문의 왼쪽 칸
-                    int midX2 = layoutMaxWidth / 2;     // 위/아래 문의 오른쪽 칸
-                    int midY = layoutHeight / 2;        // 좌/우 문의 중앙 칸
+                    int midX1 = layoutMaxWidth / 2 - 1;
+                    int midX2 = layoutMaxWidth / 2;
+                    int midY = layoutHeight / 2;
 
-                    // 위쪽 문 확인
                     if (room.HasTopDoor && y == 0 && (x == midX1 || x == midX2)) isDoorway = true;
-                    // 아래쪽 문 확인
                     if (room.HasBottomDoor && y == layoutHeight - 1 && (x == midX1 || x == midX2)) isDoorway = true;
-                    // 왼쪽 문 확인
                     if (room.HasLeftDoor && x == 0 && y == midY) isDoorway = true;
-                    // 오른쪽 문 확인
                     if (room.HasRightDoor && x == layoutMaxWidth - 1 && y == midY) isDoorway = true;
 
-                    // 현재 위치가 문 입구라면, 아무것도 배치하지 않고 건너뜀
                     if (isDoorway)
                     {
                         continue;
                     }
-                    // -- 추가된 부분 끝 --
 
                     char symbol = currentRow[x];
                     if (symbol == '.') continue;
@@ -204,8 +199,10 @@ namespace Project_SSAAC.World
                             room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Pit));
                             break;
                         case 'E':
+                            // <<-- 수정: 무작위 적 타입을 선택하여 스폰 정보 추가 -->>
+                            Type enemyToSpawn = availableEnemyTypes[_random.Next(availableEnemyTypes.Count)];
                             PointF enemySpawnPos = new PointF(position.X + (cellWidth / 2) - 15, position.Y + (cellHeight / 2) - 15);
-                            room.AddEnemySpawn(typeof(BasicEnemy), enemySpawnPos);
+                            room.AddEnemySpawn(enemyToSpawn, enemySpawnPos);
                             break;
                     }
                 }

@@ -60,7 +60,6 @@ namespace Project_SSAAC
             InitializeTimer();
             Debug.WriteLine("[Form1] Constructor - InitializeTimer finished. Constructor End.");
 
-            // 홈 컨트롤 로드 (게임 시작 화면)
             LoadControl(new HomeControl(this, player));
         }
 
@@ -189,7 +188,10 @@ namespace Project_SSAAC
                         Type enemyType = newCurrentRoom.EnemyTypesToSpawn[i];
                         PointF spawnPos = newCurrentRoom.EnemySpawnPositions[i];
 
+                        // enemyType을 직접 비교하여 적절한 적 생성
                         if (enemyType == typeof(BasicEnemy)) enemies.Add(new BasicEnemy(spawnPos));
+                        else if (enemyType == typeof(RangedEnemy)) enemies.Add(new RangedEnemy(spawnPos));
+                        else if (enemyType == typeof(ChargerEnemy)) enemies.Add(new ChargerEnemy(spawnPos));
                     }
                 }
             }
@@ -400,7 +402,12 @@ namespace Project_SSAAC
                 if (enemies[i].IsAlive)
                 {
                     var enemy = enemies[i];
-                    enemy.UpdateEnemy(deltaTime, player.Position);
+                    // <<-- 수정: 적 업데이트 후 반환된 투사체 처리 -->>
+                    Projectile newProjectile = enemy.UpdateEnemy(deltaTime, player.Position);
+                    if (newProjectile != null)
+                    {
+                        projectiles.Add(newProjectile);
+                    }
 
                     if (currentLevel?.CurrentRoom != null)
                     {
@@ -570,28 +577,41 @@ namespace Project_SSAAC
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
                 var p = projectiles[i];
-                if (!p.IsPlayerProjectile) continue;
 
-                bool projectileHit = false;
-                foreach (var obstacle in obstacles)
+                // <<-- 수정: 투사체 주체에 따라 충돌 로직 분리 -->>
+                if (p.IsPlayerProjectile)
                 {
-                    if (obstacle.BlocksProjectiles && p.Bounds.IntersectsWith(obstacle.Bounds))
+                    // 플레이어 투사체는 적과 충돌
+                    bool projectileHit = false;
+                    foreach (var obstacle in obstacles)
                     {
-                        projectiles.RemoveAt(i);
-                        projectileHit = true;
-                        break;
+                        if (obstacle.BlocksProjectiles && p.Bounds.IntersectsWith(obstacle.Bounds))
+                        {
+                            projectiles.RemoveAt(i);
+                            projectileHit = true;
+                            break;
+                        }
+                    }
+                    if (projectileHit) continue;
+
+                    for (int j = enemies.Count - 1; j >= 0; j--)
+                    {
+                        var e = enemies[j];
+                        if (e.IsAlive && p.Bounds.IntersectsWith(e.Bounds))
+                        {
+                            e.TakeDamage(p.Damage);
+                            projectiles.RemoveAt(i);
+                            break;
+                        }
                     }
                 }
-                if (projectileHit) continue;
-
-                for (int j = enemies.Count - 1; j >= 0; j--)
+                else
                 {
-                    var e = enemies[j];
-                    if (e.IsAlive && p.Bounds.IntersectsWith(e.Bounds))
+                    // 적 투사체는 플레이어와 충돌
+                    if (p.Bounds.IntersectsWith(player.Bounds))
                     {
-                        e.TakeDamage(p.Damage);
+                        player.TakeDamage(p.Damage);
                         projectiles.RemoveAt(i);
-                        break;
                     }
                 }
             }
@@ -730,7 +750,6 @@ namespace Project_SSAAC
                 else if (currentSurvivalTimeLeft < 5.0f && (int)(gameStopwatch.Elapsed.TotalSeconds * 2.5) % 2 == 0) survivalTimerColor = Color.Red;
                 else survivalTimerColor = Color.White;
 
-                TextRenderer.DrawText(g, survivalTimerDisplay, survivalTimerFont, new Point((int)timerX + 2, (int)timerY + 2), Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPadding);
                 TextRenderer.DrawText(g, survivalTimerDisplay, survivalTimerFont, new Point((int)timerX, (int)timerY), survivalTimerColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPadding);
 
                 if (player.CurrentHealth > 0 && currentSurvivalTimeLeft > 0)
@@ -943,12 +962,6 @@ namespace Project_SSAAC
             }
         }
 
-        // <<-- 새로 추가된 메서드 -->>
-        /// <summary>
-        /// 특정 키(화살표, 엔터)가 눌렸을 때, 폼의 기본 동작 대신 KeyDown 이벤트를 우선적으로 발생시킵니다.
-        /// </summary>
-        /// <param name="keyData">눌린 키의 데이터입니다.</param>
-        /// <returns>입력으로 처리해야 할 키이면 true, 아니면 false를 반환합니다.</returns>
         protected override bool IsInputKey(Keys keyData)
         {
             switch (keyData)
@@ -957,7 +970,7 @@ namespace Project_SSAAC
                 case Keys.Down:
                 case Keys.Left:
                 case Keys.Right:
-                case Keys.Enter: // 엔터 키를 일반 입력으로 처리하도록 추가
+                case Keys.Enter:
                     return true;
                 default:
                     return base.IsInputKey(keyData);
