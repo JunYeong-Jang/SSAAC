@@ -31,7 +31,7 @@ namespace Project_SSAAC
         private bool isInPuzzleInputMode = false;
         private Room activePuzzleRoom = null;
         private float currentSurvivalTimeLeft = 0f;
-        private float currentSurvivalTimeLimit = 30.0f;
+        private float currentSurvivalTimeLimit = 10.0f;
         private Room activeSurvivalRoom = null;
         private Keys moveUpKey = Keys.W;
         private Keys moveDownKey = Keys.S;

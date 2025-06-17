@@ -73,11 +73,11 @@ namespace Project_SSAAC.World
                     {
                         RoomType newRoomType = RoomType.Normal;
                         if (roomsSuccessfullyCreated == numberOfRooms - 1) newRoomType = RoomType.Boss;
-                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 1 && numberOfRooms > 1) newRoomType = RoomType.Survival;
-                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
-                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 2) newRoomType = RoomType.Treasure;
-                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 3) newRoomType = RoomType.Shop;
-                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 2 && numberOfRooms > 6) newRoomType = RoomType.MiniBoss;
+                        else if (_random.NextDouble() < 1.0 && roomsSuccessfullyCreated > 1 && numberOfRooms > 1) newRoomType = RoomType.Survival;
+                        else if (_random.NextDouble() < 1.0 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
+                        else if (_random.NextDouble() < 0.001 && roomsSuccessfullyCreated > 2) newRoomType = RoomType.Treasure;
+                        else if (_random.NextDouble() < 0.001 && roomsSuccessfullyCreated > 3) newRoomType = RoomType.Shop;
+                        else if (_random.NextDouble() < 0.001 && roomsSuccessfullyCreated > 2 && numberOfRooms > 6) newRoomType = RoomType.MiniBoss;
 
                         Room newRoom = new Room(nextGridPos, newRoomType, _roomPixelSizeToUse);
 
