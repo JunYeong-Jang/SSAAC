@@ -25,7 +25,7 @@ namespace Project_SSAAC
 
         private Label lblMusic, lblSFX;
         private TrackBar tbMusic, tbSFX;
-        private CheckBox cbFullscreen, cbCRT;
+        private CheckBox cbFullscreen;
 
         private Button activeKeyButton = null;
 
@@ -152,7 +152,7 @@ namespace Project_SSAAC
 
             // 체크박스 옵션
             cbFullscreen = new CheckBox { Text = "전체화면", ForeColor = Color.White, Location = new Point(100, 270), AutoSize = true };
-            cbCRT = new CheckBox { Text = "CRT 필터", ForeColor = Color.White, Location = new Point(250, 270), AutoSize = true };
+            
 
             // 컨트롤 추가
             this.Controls.Add(lblMoveKey);
@@ -170,7 +170,7 @@ namespace Project_SSAAC
             this.Controls.Add(lblSFX);
             this.Controls.Add(tbSFX);
             this.Controls.Add(cbFullscreen);
-            this.Controls.Add(cbCRT);
+            
 
 
             //  컨트롤들을 맨앞으로 보이게 함
@@ -189,7 +189,7 @@ namespace Project_SSAAC
             lblSFX.BringToFront();
             tbSFX.BringToFront();
             cbFullscreen.BringToFront();
-            cbCRT.BringToFront();
+            
 
 
             
@@ -239,7 +239,7 @@ namespace Project_SSAAC
 
             // 체크박스
             cbFullscreen.Location = new Point(marginX, currentY);
-            cbCRT.Location = new Point(cbFullscreen.Right + 30, currentY);
+            
 
 
             //  체크박스 핸들러 등록

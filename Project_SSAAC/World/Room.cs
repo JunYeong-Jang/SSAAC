@@ -133,8 +133,9 @@ namespace Project_SSAAC.World
 
         public void Draw(Graphics g, Rectangle clientBounds)
         {
-            Brush backgroundBrush;
-            switch (Type)
+            //Brush backgroundBrush;
+            TextureBrush backgroundBrush2 = new TextureBrush(Properties.Resources.resized_dungeon_1024x576);
+            /*switch (Type)
             {
                 case RoomType.Boss: backgroundBrush = Brushes.DarkSlateGray; break;
                 case RoomType.Treasure: backgroundBrush = Brushes.LightGoldenrodYellow; break;
@@ -144,8 +145,9 @@ namespace Project_SSAAC.World
                 case RoomType.Puzzle: backgroundBrush = Brushes.LightSeaGreen; break;
                 case RoomType.Survival: backgroundBrush = Brushes.IndianRed; break;
                 default: backgroundBrush = Brushes.DimGray; break;
-            }
-            g.FillRectangle(backgroundBrush, clientBounds);
+            }*/
+
+            g.FillRectangle(backgroundBrush2, clientBounds);
 
             // <<-- 수정된 부분: 문 개폐 여부를 IsSealed 속성으로 판단 -->>
             bool doorsShouldBeOpen = !this.IsSealed;

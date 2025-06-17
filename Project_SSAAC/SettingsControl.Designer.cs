@@ -28,20 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnToHome = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnToHome = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnToHome
-            // 
-            this.btnToHome.Image = global::Project_SSAAC.Properties.Resources.home_icon_60x60;
-            this.btnToHome.Location = new System.Drawing.Point(360, 188);
-            this.btnToHome.Name = "btnToHome";
-            this.btnToHome.Size = new System.Drawing.Size(60, 60);
-            this.btnToHome.TabIndex = 0;
-            this.btnToHome.UseVisualStyleBackColor = true;
-            this.btnToHome.Click += new System.EventHandler(this.button1_Click);
             // 
             // pictureBox1
             // 
@@ -53,6 +43,16 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            // 
+            // btnToHome
+            // 
+            this.btnToHome.Image = global::Project_SSAAC.Properties.Resources.home_icon_60x60;
+            this.btnToHome.Location = new System.Drawing.Point(360, 188);
+            this.btnToHome.Name = "btnToHome";
+            this.btnToHome.Size = new System.Drawing.Size(60, 60);
+            this.btnToHome.TabIndex = 0;
+            this.btnToHome.UseVisualStyleBackColor = true;
+            this.btnToHome.Click += new System.EventHandler(this.button1_Click);
             // 
             // SettingsControl
             // 

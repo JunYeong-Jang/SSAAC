@@ -1,4 +1,4 @@
-﻿// 파일 위치: Project_SSAAC/Form1.cs
+// 파일 위치: Project_SSAAC/Form1.cs
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -663,34 +663,26 @@ namespace Project_SSAAC
                 }
             }
 
-            // <<-- 수정: DrawUI 메서드에 보스 체력바 그리기 로직 추가 -->>
             if (currentLevel?.CurrentRoom?.Type == RoomType.Boss)
             {
-                // LINQ를 사용해 enemies 리스트에서 BossEnemy 인스턴스를 찾습니다.
                 Enemy boss = enemies.FirstOrDefault(e => e is BossEnemy);
 
                 if (boss != null && boss.IsAlive)
                 {
-                    // 체력바의 크기와 위치 설정
-                    float barMaxWidth = ClientSize.Width * 0.7f; // 화면 너비의 70%
+                    float barMaxWidth = ClientSize.Width * 0.7f;
                     float barHeight = 25f;
                     float barX = (ClientSize.Width - barMaxWidth) / 2f;
-                    float barY = ClientSize.Height * 0.05f; // 화면 상단에서 5% 아래
+                    float barY = ClientSize.Height * 0.05f;
 
-                    // 체력 비율 계산
                     float healthPercentage = (float)boss.CurrentHealth / boss.MaxHealth;
                     float currentHealthBarWidth = barMaxWidth * healthPercentage;
 
-                    // 체력바 배경 그리기 (어두운 빨강)
                     g.FillRectangle(Brushes.DarkRed, barX, barY, barMaxWidth, barHeight);
 
-                    // 현재 체력바 그리기 (밝은 빨강)
                     g.FillRectangle(Brushes.Red, barX, barY, currentHealthBarWidth, barHeight);
 
-                    // 체력바 테두리 그리기
                     g.DrawRectangle(Pens.White, barX, barY, barMaxWidth, barHeight);
 
-                    // "BOSS" 텍스트 그리기
                     string bossText = "BOSS";
                     Font bossFont = new Font("Arial", 12, FontStyle.Bold);
                     SizeF text_size = g.MeasureString(bossText, bossFont);

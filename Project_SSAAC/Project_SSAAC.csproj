@@ -263,5 +263,14 @@
   <ItemGroup>
     <None Include="Resources\gameplay_background_1024x576.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\projectBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\projectBackground2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\resized_dungeon_1024x576.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
