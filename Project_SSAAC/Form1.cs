@@ -7,6 +7,7 @@ using Project_SSAAC.GameObjects;
 using Project_SSAAC.World;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace Project_SSAAC
@@ -675,7 +676,7 @@ namespace Project_SSAAC
             }
         }
 
-        private void DrawUI(Graphics g)
+        private async void DrawUI(Graphics g)
         {
             Font uiFont = new Font("Arial", Math.Max(8f, ClientSize.Height / 50f), FontStyle.Bold);
 
@@ -778,6 +779,9 @@ namespace Project_SSAAC
                 g.FillRectangle(new SolidBrush(Color.FromArgb(200, 0, 0, 0)), 0, 0, ClientSize.Width, ClientSize.Height);
                 g.DrawString(gameOverText, gameOverFont, Brushes.Black, ClientSize.Width / 2f - gameOverSize.Width / 2f + 5, ClientSize.Height / 2f - gameOverSize.Height / 2f + 5);
                 g.DrawString(gameOverText, gameOverFont, Brushes.Firebrick, ClientSize.Width / 2f - gameOverSize.Width / 2f, ClientSize.Height / 2f - gameOverSize.Height / 2f);
+
+                await Task.Delay(10000);
+                this.Close();
             }
         }
 
