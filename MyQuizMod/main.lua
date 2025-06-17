@@ -2,37 +2,38 @@
 local mod      = RegisterMod("MyQuizMod", 1)
 local game     = Game()
 
--- 이전 방 이름 저장용
+-- 이전 방 이름 저장
 local lastRoomName = nil
 
--- 퀴즈/좀비 상태 변수
-local quizRunning, zombieRunning = false, false
+-- 모드 상태 변수
+local quizRunning, zombieRunning, mazeRunning = false, false, false
 local quizTimer, quizQuestion, quizAnswer, quizInput = 0, "", "", ""
 local zombieTimer, noShoot = 0, false
+local mazeTimer = 0
 
--- 퀴즈 시작 함수
+-- 시작 함수들
 local function startQuiz()
-    quizRunning    = true
-    zombieRunning  = false
-    quizTimer      = 10
-    quizQuestion   = "2 + 3 = ?"
-    quizAnswer     = "5"
-    quizInput      = ""
+    quizRunning, zombieRunning, mazeRunning = true, false, false
+    quizTimer, quizQuestion, quizAnswer, quizInput = 10, "2 + 3 = ?", "5", ""
     game:GetHUD():ShowItemText("Quiz Started!")
     print("[MyQuizMod] → QuizRoom started")
 end
 
--- 좀비 시작 함수
 local function startZombie()
-    zombieRunning  = true
-    quizRunning    = false
-    zombieTimer    = 10
-    noShoot        = true
+    zombieRunning, quizRunning, mazeRunning = true, false, false
+    zombieTimer, noShoot = 10, true
     game:GetHUD():ShowItemText("Zombie Started!")
     print("[MyQuizMod] → ZombieRoom started")
 end
 
--- 방 이름 변경 감지 및 모드 토글, 진행 로직
+local function startMaze()
+    mazeRunning, quizRunning, zombieRunning = true, false, false
+    mazeTimer = 60  -- 1분
+    game:GetHUD():ShowItemText("Maze Started! Find the door in 60s")
+    print("[MyQuizMod] → MazeRoom started")
+end
+
+-- 방 이름 변경 감지 및 모드 토글
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
     local level = game:GetLevel()
     local desc  = level:GetCurrentRoomDesc()
@@ -45,8 +46,10 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
                 startQuiz()
             elseif name == "ZombieRoom" then
                 startZombie()
+            elseif name == "MazeRoom" then
+                startMaze()
             else
-                quizRunning, zombieRunning, noShoot = false, false, false
+                quizRunning, zombieRunning, mazeRunning, noShoot = false, false, false, false
             end
         end
     end
@@ -71,8 +74,7 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
                 for _, e in ipairs(Isaac.GetRoomEntities()) do
                     if e:IsVulnerableEnemy() then e:Remove() end
                 end
-                local d = room:GetDoor(0)
-                if d then d:Open(false) end
+                (room:GetDoor(0) or { Open=function() end }):Open(false)
             else
                 game:GetHUD():ShowItemText("Wrong! You lose -0.5 heart.")
                 player:TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
@@ -93,9 +95,28 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
             for _, e in ipairs(Isaac.GetRoomEntities()) do
                 if e:IsVulnerableEnemy() then e:Remove() end
             end
-            local d = room:GetDoor(0)
-            if d then d:Open(false) end
+            (room:GetDoor(0) or { Open=function() end }):Open(false)
             zombieRunning, noShoot = false, false
+        end
+    end
+
+    -- 미로 진행: 문 열림 감지 및 타임아웃
+    if mazeRunning then
+        mazeTimer = mazeTimer - 1/30
+        -- 문이 열리면 성공
+        for slot = 0, 3 do
+            local d = room:GetDoor(slot)
+            if d and d:IsOpen() then
+                game:GetHUD():ShowItemText("Maze Cleared!")
+                mazeRunning = false
+                break
+            end
+        end
+        -- 시간이 다 되면 죽음
+        if mazeRunning and mazeTimer <= 0 then
+            game:GetHUD():ShowItemText("Maze Failed! You died.")
+            player:TakeDamage(9999, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
+            mazeRunning = false
         end
     end
 end)
@@ -111,18 +132,21 @@ mod:AddCallback(ModCallbacks.MC_POST_RENDER, function()
     local margin = 10
 
     if quizRunning then
-        local text1 = quizQuestion .. " (" .. math.ceil(quizTimer) .. "s)"
-        local text2 = "Answer: " .. quizInput
-        local x1 = screenWidth - #text1 * 6 - margin
-        local x2 = screenWidth - #text2 * 6 - margin
-
-        Isaac.RenderText(text1, x1, 20, 1, 1, 1, 255)
-        Isaac.RenderText(text2, x2, 40, 1, 1, 1, 255)
+        local txt1 = quizQuestion .. " (" .. math.ceil(quizTimer) .. "s)"
+        local txt2 = "Answer: " .. quizInput
+        local x1 = screenWidth - #txt1 * 6 - margin
+        local x2 = screenWidth - #txt2 * 6 - margin
+        Isaac.RenderText(txt1, x1, 20, 1,1,1,255)
+        Isaac.RenderText(txt2, x2, 40, 1,1,1,255)
 
     elseif zombieRunning then
-        local text = "Survive: " .. math.ceil(zombieTimer) .. "s"
-        local x = screenWidth - #text * 6 - margin
+        local txt = "Survive: " .. math.ceil(zombieTimer) .. "s"
+        local x = screenWidth - #txt * 6 - margin
+        Isaac.RenderText(txt, x, 20, 1,1,1,255)
 
-        Isaac.RenderText(text, x, 20, 1, 1, 1, 255)
+    elseif mazeRunning then
+        local txt = "Maze: " .. math.ceil(mazeTimer) .. "s"
+        local x = screenWidth - #txt * 6 - margin
+        Isaac.RenderText(txt, x, 20, 1,1,1,255)
     end
 end)
