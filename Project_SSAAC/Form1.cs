@@ -193,6 +193,7 @@ namespace Project_SSAAC
                 lastFrameTime = currentTime;
                 deltaTime = Math.Min(deltaTime, 0.1f);
                 if (shootCooldownTimer > 0f) shootCooldownTimer -= deltaTime;
+                // 플레이어의 시선방향 체크
                 if (player.Velocity.X == 0 && player.Velocity.Y == 0) player.IsRun = false;
                 else
                 {
@@ -200,8 +201,9 @@ namespace Project_SSAAC
                     if (player.Velocity.X > 0) { player.facingRight = true; player.IsRun = true; }
                     else if (player.Velocity.X < 0) { player.facingRight = false; player.IsRun = true; }
                 }
-                animationTimerCounter += 16;
-                if (animationTimerCounter >= 100)
+                // 10fps의 애니메이션 프레임 업데이트
+                animationTimerCounter ++;
+                if (animationTimerCounter >= 6)
                 {
                     player.frameIndex = (player.frameIndex + 1) % 11;
                     enemies.ForEach(enemy => enemy.frameIndex = (enemy.frameIndex + 1) % 10);
