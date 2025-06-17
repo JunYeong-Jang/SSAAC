@@ -1,4 +1,4 @@
-﻿// 파일 위치: Project_SSAAC/HomeControl.cs
+﻿using Project_SSAAC.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,18 +14,24 @@ namespace Project_SSAAC
     public partial class HomeControl : UserControl
     {
         private Form1 _main;
+        private Player _player;
+        
+        public HomeControl(Form1 main, Player player)
 
-        public HomeControl(Form1 main)
         {
             InitializeComponent();
             _main = main;
+            _player = player;
             this.Resize += resize_Controls;
             resize_Controls(null, null);
         }
 
         private void btnCm_Click(object sender, EventArgs e)
         {
-            _main.LoadControl(new CustomizingControl(_main));
+            //  커스터마이징 버튼 클릭시
+            
+            _main.LoadControl(new CustomizingControl(_main, _player));
+            //_main.LoadControl(new Control_CharacterCustom(_main));
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -79,7 +85,7 @@ namespace Project_SSAAC
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            _main.LoadControl(new SettingsControl(_main));
+            _main.LoadControl(new SettingsControl(_main, _player));
         }
     }
 }

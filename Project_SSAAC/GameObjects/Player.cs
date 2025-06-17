@@ -19,6 +19,15 @@ namespace Project_SSAAC.GameObjects
         public SizeF TearSize { get; private set; } = new SizeF(10, 10);
         public int MaxHealth { get; private set; } = 6;
         public int CurrentHealth { get; private set; }
+
+        /// <summary>
+        /// 플레이어의 외형 타입. (기본 blue)
+        /// </summary>
+        private int playerAppearanceType { get; set; } = 0;
+
+        /// <summary>
+        /// 플레이어의 외형 시트를 상태별로 저장하는 Bitmap 딕셔너리입니다.
+        /// </summary>
         private Dictionary<string, Bitmap> playerAppearances { get; set; } = new Dictionary<string, Bitmap>()
         {
             { "idle", Properties.Resources.player_blue_idle },
@@ -42,6 +51,9 @@ namespace Project_SSAAC.GameObjects
             Debug.WriteLine($"[Player] Created at {startPos}. Health: {CurrentHealth}/{MaxHealth}");
         }
 
+        /// <summary>
+        /// CustomizingControl에서 호출되는 메소드로, 플레이어의 외형을 설정합니다.
+        /// </summary>
         public void SetAppearance(string appearance)
         {
             if (appearance == "blue")
@@ -49,30 +61,42 @@ namespace Project_SSAAC.GameObjects
                 this.playerAppearances["idle"] = Properties.Resources.player_blue_idle;
                 this.playerAppearances["run"] = Properties.Resources.player_blue_run;
                 this.playerAppearances["invincible"] = Properties.Resources.player_blue_invincible;
-            }
-            else if (appearance == "pink")
-            {
-                this.playerAppearances["idle"] = Properties.Resources.player_pink_idle;
-                this.playerAppearances["run"] = Properties.Resources.player_pink_run;
-                this.playerAppearances["invincible"] = Properties.Resources.player_pink_invincible;
+                this.playerAppearanceType = 0;
             }
             else if (appearance == "frog")
             {
                 this.playerAppearances["idle"] = Properties.Resources.player_frog_idle;
                 this.playerAppearances["run"] = Properties.Resources.player_frog_run;
                 this.playerAppearances["invincible"] = Properties.Resources.player_frog_invincible;
+                this.playerAppearanceType = 1;
             }
             else if (appearance == "mask")
             {
                 this.playerAppearances["idle"] = Properties.Resources.player_mask_idle;
                 this.playerAppearances["run"] = Properties.Resources.player_mask_run;
                 this.playerAppearances["invincible"] = Properties.Resources.player_mask_invincible;
+                this.playerAppearanceType = 2;
+            }
+            else if (appearance == "pink")
+            {
+                this.playerAppearances["idle"] = Properties.Resources.player_pink_idle;
+                this.playerAppearances["run"] = Properties.Resources.player_pink_run;
+                this.playerAppearances["invincible"] = Properties.Resources.player_pink_invincible;
+                this.playerAppearanceType = 3;
             }
             else
             {
                 Debug.WriteLine($"[Player] Unknown appearance: {appearance}");
                 return;
             }
+        }
+
+        /// <summary>
+        /// CustomizingControl에서 현재 플레이어의 외형 타입을 반환합니다.
+        /// </summary>
+        public int GetPlayerAppearanceType()
+        {
+            return this.playerAppearanceType;
         }
 
         public override void Update(float deltaTime)

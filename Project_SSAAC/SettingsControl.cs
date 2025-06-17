@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_SSAAC.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +17,7 @@ namespace Project_SSAAC
     {
 
         private Form1 _main;
+        private Player _player;
 
         private Label lblMoveKey, lblAttackKey;
         private Button btnMoveKey1, btnMoveKey2, btnMoveKey3, btnMoveKey4;
@@ -29,16 +31,17 @@ namespace Project_SSAAC
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _main.LoadControl(new HomeControl(_main));
+            _main.LoadControl(new HomeControl(_main, _player));
         }
 
        
 
-        public SettingsControl(Form1 main)
+        public SettingsControl(Form1 main, Player player)
 
         {
             InitializeComponent();
             _main = main;
+            _player = player;
             this.BackColor = Color.Gray;
             this.addButtons();
             this.Resize += resize_Controls;
