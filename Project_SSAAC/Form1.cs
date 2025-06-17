@@ -31,6 +31,7 @@ namespace Project_SSAAC
         private bool isInPuzzleInputMode = false;
         private Room activePuzzleRoom = null;
         private float currentSurvivalTimeLeft = 0f;
+        private float currentSurvivalTimeLimit = 30.0f;
         private Room activeSurvivalRoom = null;
         private Keys moveUpKey = Keys.W;
         private Keys moveDownKey = Keys.S;
@@ -150,7 +151,7 @@ namespace Project_SSAAC
             else if (newCurrentRoom.Type == RoomType.Survival && !newCurrentRoom.IsSurvivalCompleted && !newCurrentRoom.IsCleared)
             {
                 newCurrentRoom.IsSurvivalActive = true;
-                currentSurvivalTimeLeft = newCurrentRoom.SurvivalTimeDuration;
+                currentSurvivalTimeLeft = currentSurvivalTimeLimit;
                 activeSurvivalRoom = newCurrentRoom;
                 Debug.WriteLine($"[Form1] SurvivalRoom {newCurrentRoom.GridPosition} - Survival Activated. Duration: {currentSurvivalTimeLeft}s");
             }
@@ -384,7 +385,7 @@ namespace Project_SSAAC
                     if (currentLevel.CurrentRoom.Type == RoomType.Survival)
                     {
                         // 초당 0.3의 속도를 더해줍니다 (프레임에 독립적).
-                        enemy.IncreaseSpeed(0.3f * deltaTime);
+                        enemy.IncreaseSpeed(3.0f * deltaTime);
                     }
                     // ====[ 여기까지 수정 및 추가된 코드 ]====
 

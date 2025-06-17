@@ -73,11 +73,11 @@ namespace Project_SSAAC.World
                     {
                         RoomType newRoomType = RoomType.Normal;
                         if (roomsSuccessfullyCreated == numberOfRooms - 1) newRoomType = RoomType.Boss;
-                        else if (_random.NextDouble() < 1.00 && roomsSuccessfullyCreated > 2 && numberOfRooms > 5) newRoomType = RoomType.Survival;
-                        else if (_random.NextDouble() < 0.00 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
-                        else if (_random.NextDouble() < 0.00 && roomsSuccessfullyCreated > 2) newRoomType = RoomType.Treasure;
-                        else if (_random.NextDouble() < 0.00 && roomsSuccessfullyCreated > 3) newRoomType = RoomType.Shop;
-                        else if (_random.NextDouble() < 0.00 && roomsSuccessfullyCreated > 2 && numberOfRooms > 6) newRoomType = RoomType.MiniBoss;
+                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 1 && numberOfRooms > 1) newRoomType = RoomType.Survival;
+                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 1 && numberOfRooms > 4) newRoomType = RoomType.Puzzle;
+                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 2) newRoomType = RoomType.Treasure;
+                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 3) newRoomType = RoomType.Shop;
+                        else if (_random.NextDouble() < 0.15 && roomsSuccessfullyCreated > 2 && numberOfRooms > 6) newRoomType = RoomType.MiniBoss;
 
                         Room newRoom = new Room(nextGridPos, newRoomType, _roomPixelSizeToUse);
 
@@ -204,20 +204,45 @@ namespace Project_SSAAC.World
                         continue;
                     }
 
-
+                   
 
 
                     switch (symbol)
                     {
                         case 'R':
-                            room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Rock));
-                            break;
+                            {
+
+                                if (room.Type != RoomType.Survival)
+                                {
+                                    //  생존방의 경우 기존의 장애물 배치를 따르지 않도록 함
+                                    room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Rock));
+                                    
+                                }
+                                break;
+                                
+                                    
+
+                            }
                         case 'S':
-                            room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Spikes));
-                            break;
+                            {
+                                if (room.Type != RoomType.Survival)
+                                {
+
+                                    room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Spikes));
+                                    
+                                }
+                                break;
+                            }
                         case 'P':
-                            room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Pit));
-                            break;
+                            {
+                                if (room.Type != RoomType.Survival)
+                                {
+
+                                    room.Obstacles.Add(new Obstacle(position, objectSize, ObstacleType.Pit));
+                                    
+                                }
+                                break;
+                            }
                         case 'E':
                             PointF enemySpawnPos = new PointF(position.X + (cellWidth / 2) - 15, position.Y + (cellHeight / 2) - 15);
                             Type enemyToSpawn;
